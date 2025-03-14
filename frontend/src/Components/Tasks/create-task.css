@@ -1,0 +1,30 @@
+.task-form{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    border:1px solid white;
+    gap: 5px;
+    flex-direction: column;
+    background-color: inherit;
+    width: 400px;
+    width: 300px;
+
+    
+    .inputs{
+        width: 80%;
+        height: 1rem;
+        color: white;
+
+
+    }
+    .status-menu{
+        display: flex;
+        flex-direction: column;
+
+
+    }
+}

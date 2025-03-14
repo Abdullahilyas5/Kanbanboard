@@ -1,0 +1,35 @@
+.btn-in {
+    display: flex;
+    flex-wrap: wrap;
+    z-index: 0;
+    width: 14rem;
+    height: 2.5rem;
+    align-items: center;
+    flex-direction: start;
+    position: relative;
+    padding-left: 25px;
+    gap: 6px;
+    border-radius: 0px 17px 17px 0px;
+    i {
+      font-size: 1rem;
+      color: white;
+      z-index: 1;
+      background: transparent;
+    }
+    button.btn-2 {
+      outline: none;
+      font-size: 0.9rem;
+      border: none;
+      z-index: 1;
+      background: transparent;
+  
+    }
+  }
+  .btn-in:active{
+      background-color: #655EC7;
+  }
+  
+  .btn-in:focus-within{
+      background-color: #655EC7;
+  
+  }

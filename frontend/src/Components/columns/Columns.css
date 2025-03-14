@@ -1,0 +1,60 @@
+.columns{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    height: 35rem;
+    width: 15rem;
+    background-color: inherit;
+    margin: 10px 10px;
+    margin-left: 20px;
+    bottom: 10px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none; 
+    padding: 5px 15px;
+    .top{
+        display: flex;
+        background-color: inherit;
+        margin: 10px;
+        flex-direction: row;
+        gap: 5px;
+        i{
+        background-color: inherit;
+
+        }
+        p{
+            font-size: smaller;
+            background-color: inherit;
+        
+            font-weight: 100;
+        }
+
+       
+
+    }
+    i{
+        color: inherit;
+    }
+}
+
+.tasksqueue{
+    background-color: inherit;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+
+}
+
+.columns::-webkit-scrollbar{
+    display: none;
+}
+
+.hold{
+    cursor: pointer;
+    display: flex;
+    opacity: 1;
+}
+
+.hide{
+    display: none;
+}

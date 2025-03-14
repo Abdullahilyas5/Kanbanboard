@@ -1,0 +1,54 @@
+.container
+{
+    display: flex;
+    flex-direction: column;
+    overflow: none;
+    height: 65rem;
+    gap: 6px;
+    p{
+        position: relative;
+        left: 26px;
+        font-size: 10px;
+        opacity: 0.6;
+        width: 90%     ;
+        margin-top: 20px ;
+    }
+    .boardcontainer{
+        overflow-y: scroll;
+        overflow-x: none;
+        -ms-overflow-style: none;
+        scrollbar-width: none; 
+        left: 25px;
+        height: 73vh;
+        width: 15rem;
+
+    }
+        .btn{
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        left: 0px;
+        padding: 10px 25px;
+        border-radius: 17px;
+        outline: none;
+        gap: 5px;
+        align-items: center;
+        justify-content: space-between;
+        .fa{
+            font-size: 1rem;
+            color:#655EC7 ;
+            background-color: inherit;
+            color: rgb(255, 255, 255);
+
+        }
+        .btn-1{
+            outline: none;
+            border: none;
+            color:#655EC7 ;
+
+        }
+    
+    }
+    
+
+}

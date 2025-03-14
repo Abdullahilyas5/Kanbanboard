@@ -1,0 +1,17 @@
+.task-block{
+    width: 100%;
+    justify-items: center;
+    height: 10rem;
+    background-color:#2C2C38;
+    align-items: start;
+    position: relative;
+    transition: transform 0.2s ease;
+
+    h3{
+        background-color: inherit;
+    }
+    p{
+        background-color: inherit;
+        
+    }
+}
