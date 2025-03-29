@@ -1,6 +1,6 @@
 .parent{
     background-color: rgba(8, 8, 8, 0.514);
-
+    
 }
 .sign-form{
     position: absolute;
@@ -10,7 +10,6 @@
     z-index: 1000;
     column-gap: 22px;
     height: 370px;
-    border: 2px solid white;
     width: 350px;
     align-items: center;
     justify-content: center;

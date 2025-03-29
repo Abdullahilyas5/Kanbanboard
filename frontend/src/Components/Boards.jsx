@@ -49,7 +49,7 @@ const Boards = (props) => {
   useEffect(() => {
     fetchBoard();
   }, [refresh]);
-
+  
   function handleTitle(newTitle) {
     props.settitle(newTitle);
     console.log('Selected title:', newTitle);
