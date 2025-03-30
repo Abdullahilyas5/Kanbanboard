@@ -6,8 +6,12 @@ const { signupMiddleware, validateSignup } = require('./controllers/signup.js');
 const { loginMiddleware, validatelogin } = require('./controllers/login.js');
 const { logoutMiddleware } = require('./controllers/logout.js');
 const { displayBoard } = require('./controllers/dispalyboard.js');
+const {createTask , validateTask} = require('./controllers/createTask.js')
 const helmet = require('helmet');
 const cors = require("cors");
+
+require('dotenv').config();
+
 
 const app = express();
 
@@ -33,10 +37,15 @@ app.get('/signup', (req, res) => {
     res.send('hello world');
 });
 
+// create task
+
+app.post( '/createTask',validateTask,createTask );
+
 
 app.post('/signup', validateSignup, signupMiddleware);
 
-// login route
+// login route      
+
 app.get('/login', (req, res) => {
     res.send('hello login');
 });

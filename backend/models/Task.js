@@ -1,4 +1,19 @@
+require('dotenv').config();
+const { configDotenv } = require('dotenv');
 const mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGODB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(
+    () => {
+        console.log('Connected to the database');
+    }
+).catch(
+    (err)=>{
+        console.log('Failed to connect to the database', err);
+    }
+);
 
 const taskSchema = new mongoose.Schema(
   {
