@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./signup.css";
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from "../../context/Authcontext.jsx";
 
 const Signup = () => {
   const [user, setUser] = useState({
@@ -9,6 +10,8 @@ const Signup = () => {
     password: "",
   });
   const navigate = useNavigate();
+
+  const auth = useContext(AuthContext);
 
   const handlechange = (e) => {
     const { name, value } = e.target;
@@ -19,6 +22,11 @@ const Signup = () => {
       }
     });
   }
+
+
+  const handlecancle = () => {
+    navigate(-1);
+  };
 
   const handleUser = async (e) => {
     try {
@@ -36,51 +44,75 @@ const Signup = () => {
       console.log("after geting token",response.token);
 
       const data = await response.json();
-      
+      auth.setisauthorize(data.isauthorize);
       if (response.ok) {
         console.log(response.ok, "Signup successful!");
-        navigate('/');
       } else {
         console.log("Signup failed:", data.message);
       }
+
+      navigate('/');
+
     } catch (err) {
       console.error("register:", err.message);
     }
   }
 
   return (
-    <>
+    <div className="parent">
       <form action="/signup" method="post" className="sign-form" onSubmit={handleUser}>
-        <h2 className="inputs">Sign Up</h2>
-        <input
-          type="text"
-          name="name"
-          value={user.name}
-          onChange={handlechange}
-          placeholder="Name"
-        />
-        <input
-          type="email"
-          name="email"
-          value={user.email}
-          onChange={handlechange}
-          placeholder="Email"
-        />
-        <input
-          type="password"
-          name="password"
-          value={user.password}
-          onChange={handlechange}
-          placeholder="Password"
-        />
-        <p className="inputs">
-          Already have an account? <a href="/login">Log in</a>
+      <i className="ri-close-line cancle" onClick={handlecancle}></i>
+        
+        <h2 className="signin-title">Sign Up</h2>
+
+        <div className="input-box">
+          <label htmlFor="name-input">Name</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            value={user.name}
+            onChange={handlechange}
+            placeholder="Name"
+          />
+        </div>
+
+        <div  className="input-box">
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            value={user.email}
+            onChange={handlechange}
+            placeholder="Email"
+          />
+        </div>
+
+        <div className="input-box">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            value={user.password}
+            onChange={handlechange}
+            placeholder="Password"
+          />
+        </div>
+
+        <p className="navigate-links">
+          Already have an account? <a onClick={()=>{
+            navigate("/login")
+          }}>Log in</a>
         </p>
-        <button type="submit">
+        <button type="submit" className="signin-btn">
           Sign Up
         </button>
       </form>
-    </>
+      <div className="form-closer" onClick={handlecancle}></div>
+
+    </div>
   );
 }
 

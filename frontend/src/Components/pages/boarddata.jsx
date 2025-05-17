@@ -20,7 +20,7 @@ const boarddata = () => {
         navigate(-1);
     };
 
-    
+
     const handleboarddata = async (e) => {
         try {
             e.preventDefault();
@@ -39,12 +39,14 @@ const boarddata = () => {
 
             if (response.ok) {
                 console.log("Board is stored successfully!");
-                navigate('/', { state: { refresh: true } }); // Pass state to trigger re-fetch
-                
+
             } else {
                 setError(data.message);
                 console.log("Error:", data);
             }
+
+            navigate('/', { state: { refresh: true } }); // Pass state to trigger re-fetch
+
         } catch (error) {
             setError(error.message);
             console.error('create-board-front:', error.message);
@@ -58,11 +60,13 @@ const boarddata = () => {
             <form action="/create-board" method='post' className='board-details' onSubmit={handleboarddata}>
                 <i className="ri-close-line" onClick={handlecancle}></i>
                 <h1>Create Board</h1>
-                <input type="text" name="title" placeholder="title"
+                <input className='create-ip' type="text" name="title" placeholder="Title"
                     value={details.title}
                     onChange={handlechange} autoFocus required />
-                <button type="submit" disabled={loading}>Create Board</button>
+                <button type="submit" className='create-btn'>Create Board</button>
             </form>
+            <div className="form-closer" onClick={handlecancle}></div>
+
         </div>
     );
 };

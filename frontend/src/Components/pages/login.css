@@ -2,38 +2,93 @@
     background-color: rgba(8, 8, 8, 0.514);
     
 }
-.sign-form{
+
+.login-form{
     position: absolute;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    z-index: 1000;
-    column-gap: 22px;
-    height: 370px;
+    z-index: 99999;
+    height: 25rem;
     width: 350px;
-    align-items: center;
-    justify-content: center;
     top: 50%;
     left: 50%;
     bottom: 100px;
     transform: translate(-50%, -50%);
     background: #2C2C38;
-    padding: 30px;
     border-radius: 10px;
-    box-shadow: 10px 0 10px 0 rgba(0, 0, 0, 0.1);
-
-    .inputs{
-        color: white;
-        justify-content: center;
-        font-weight: bold;
-    }
-   
+    padding: 20px;
+    gap: 10px;
 }
 input{
     width: 100%;
     padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
     border-radius: 5px;
     outline: none;
 }
+
+.login-title {
+    font-size: 1rem;
+    font-weight: 700;
+    align-items: center;
+    display: flex;
+    margin: 1rem;
+    justify-content: center;
+  }
+
+  .input-box {
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0.5rem;
+}
+  
+  .input-box label {
+    font-size: 0.7rem;
+  }
+  
+ .input-box input {
+    border: 1px solid rgba(255, 255, 255, 0.215);
+    margin: 0px;
+    font-size: 0.7rem;
+    padding: .7rem .9rem;
+
+  }
+  
+  .input-box input::placeholder {
+    font-size: 0.6rem;
+  }
+
+  .navigate-links{
+    font-size: .8em;
+    padding: .7rem;
+  }
+
+
+
+  .navigate-links a{
+     
+    color: #655ec7;
+    text-decoration: none;
+    font-size: small;
+    transition: 0.3s ease;
+    padding: 5px;
+  }
+
+
+
+  .login-btn{
+    margin: .5rem;
+
+  }
+
+  .input-box input:focus {
+
+    border-color: #dadada;
+
+  }
+
+  .form-closer{
+    inset: 0;
+  }

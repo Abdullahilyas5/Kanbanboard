@@ -8,9 +8,15 @@ const boardSchema = new mongoose.Schema(
       minlength: 3,
       maxlength: 50,
     },
-    user : {type : mongoose.Schema.Types.ObjectId, ref : 'User',
-      required: [true, "User is required"],
-    }
+   user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+      tasks: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Task'
+    }]
   },
   {
     timestamps: true,

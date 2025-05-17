@@ -39,12 +39,12 @@ const signupMiddleware = async (req, res) => {
     });
 
 
-    res.status(201).json({ message: "User created successfully" });
+    res.status(201).json({isauthorize: true, token: token, message: "User created successfully"});
     res.end();
 
   } catch (err) {
 
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ message: err.message ,isauthorize: false});
   }
 };
 

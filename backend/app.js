@@ -5,11 +5,11 @@ const { createBoard, validateUser, authenticationuser } = require('./controllers
 const { signupMiddleware, validateSignup } = require('./controllers/signup.js');
 const { loginMiddleware, validatelogin } = require('./controllers/login.js');
 const { logoutMiddleware } = require('./controllers/logout.js');
-const { displayBoard } = require('./controllers/dispalyboard.js');
 const {createTask , validateTask} = require('./controllers/createTask.js')
 const helmet = require('helmet');
 const cors = require("cors");
-
+const { displayTask ,verification} = require('./controllers/displaytask.js');
+const { homeRoute ,checkUser } = require('./controllers/homeRoute.js');
 require('dotenv').config();
 
 
@@ -29,15 +29,17 @@ app.use(
 
 app.use(helmet());
 // -----------------------home route ---------------------
-app.get('/', (req, res) => {
-    res.send('hello world');
-});
+app.get('/', checkUser , homeRoute);
+
+
 //  signup route
 app.get('/signup', (req, res) => {
     res.send('hello world');
 });
 
 // create task
+
+app.get('/displayTask/:boardId', displayTask)
 
 app.post( '/createTask',validateTask,createTask );
 
@@ -54,7 +56,6 @@ app.post('/login', validatelogin, loginMiddleware);
 
 // boards routes
 
-app.get('/display-board', authenticationuser, displayBoard);
 
 app.post('/create-board', validateUser, authenticationuser, createBoard);
 

@@ -29,13 +29,18 @@ const Header = (props) => {
         <div className="menublock" >
           <button onClick={() => {
             navigate('/login')
+            showmenu();
           }}>Login</button>
           <button
             onClick={() => {
-              navigate('/signup')
+              navigate('/signup');
+            showmenu();
+
             }}>Signup</button>
           <button className='logout' onClick={() => {
-            navigate('/logout')
+            navigate('/logout');
+            showmenu();
+
           }}>logout</button>
         </div>
       </div>

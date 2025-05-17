@@ -54,6 +54,7 @@
         margin: 5px;
         width: 7rem;
         height: 8rem;
+        background-color: transparent;
 
         button{
             width: 100%;

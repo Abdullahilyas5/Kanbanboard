@@ -4,7 +4,7 @@ import "./Board.css";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-const Boards = (props) => {
+const Boards = ({settitle , Userboard ,Usersetboard,renderboard}) => {
   const navigate = useNavigate();
   const [board, setBoard] = useState([]);
   const [error, setError] = useState(null);
@@ -15,49 +15,18 @@ const Boards = (props) => {
 
   const { refresh } = location.state || {};
 
-
-
-  const fetchBoard = async () => {
-    try {
-
-
-
-      const response = await fetch('http://localhost:3000/display-board', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      });
-
-      const data = await response.json();
-
-
-      if (Array.isArray(data)) {
-        setBoard(data);
-      } else {
-        setBoard([]);
-      }
-    } catch (error) {
-      setError(error.message);
-      console.log('Error fetching data:', error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchBoard();
+    renderboard();
   }, [refresh]);
   
   function handleTitle(newTitle) {
-    props.settitle(newTitle);
+    settitle(newTitle);
     console.log('Selected title:', newTitle);
   }
 
   const handleBoard = () => {
     navigate('/create-board');
-    fetchBoard();
+    renderboard();
   };
 
   return (
@@ -65,10 +34,11 @@ const Boards = (props) => {
       <p>ALL BOARDS ({board.length})</p>
       <div className="boardcontainer">
         {
-          board.length > 0 ? (
-            board.map((item) => (
+          Userboard?.length > 0 ? (
+            Userboard.map((item) => (
               <BoardCard
                 key={item._id}
+                id ={item._id}
                 className="card"
                 handletitle={handleTitle}
                 title={item.title}
@@ -81,7 +51,6 @@ const Boards = (props) => {
       </div>
       <button className="btn" onClick={handleBoard}>
         <i className="ri-dashboard-line fa">  + Create new board</i>
-      
       </button>
     </div>
   );

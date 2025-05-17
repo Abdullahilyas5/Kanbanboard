@@ -9,12 +9,19 @@ const Login = () => {
   });
   const navigate = useNavigate();
 
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser((prev) => ({
       ...prev,
       [name]: value,
     }));
+  };
+
+
+  const handlecancle = () => {
+    navigate(-1);
   };
 
   const handleUser = async (e) => {
@@ -32,10 +39,10 @@ const Login = () => {
       const data = await response.json();
       if (response.ok) {
         console.log(response.ok, "login successful!");
-        navigate("/");
       } else {
         console.log("Login failed:", data.message);
       }
+      navigate("/");
     } catch (error) {
       console.error("login error:", error.message);
     }
@@ -46,29 +53,41 @@ const Login = () => {
       <form
         action="/login"
         method="post"
-        className="sign-form"
+        className="login-form"
         onSubmit={handleUser}
       >
-        <h2 className="inputs">Login</h2>
-        <input
-          type="email"
-          name="email"
-          value={user.email}
-          onChange={handleChange}
-          placeholder="Email"
-        />
-        <input
-          type="password"
-          name="password"
-          value={user.password}
-          onChange={handleChange}
-          placeholder="Password"
-        />
-        <p className="inputs">
-          Don't have an account? <a href="/signup">Sign up</a>
+        <i className="ri-close-line cancle" onClick={handlecancle}></i>
+        <h2 className="login-title">Login</h2>
+        <div className="input-box">
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            value={user.email}
+            onChange={handleChange}
+            placeholder="Email"
+          />
+        </div>
+
+
+        <div className="input-box">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={user.password}
+            onChange={handleChange}
+            placeholder="Password"
+          />
+        </div>
+        <p className="navigate-links">
+          Don't have an account ? <a href="/signup">Sign up</a>
         </p>
-        <button type="submit">Login</button>
+        <button type="submit" className="login-btn">Login</button>
       </form>
+      <div className="form-closer" onClick={handlecancle}></div>
     </div>
   );
 };

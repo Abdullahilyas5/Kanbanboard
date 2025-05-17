@@ -31,7 +31,9 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    Boards:[{type :mongoose.Schema.Types.ObjectId, ref  : 'Board',}]
+
+    Tasks : [{type : mongoose.Schema.Types.ObjectId ,ref : 'Tasks'}],
+    Boards:[{type : mongoose.Schema.Types.ObjectId, ref  : 'Board',}]
   },
   {
     timestamps: true,

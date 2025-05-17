@@ -1,17 +1,27 @@
 .task-block{
     width: 100%;
-    justify-items: center;
-    height: 10rem;
+    min-height: 4rem;
+    max-height: max-content;
     background-color:#2C2C38;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
     align-items: start;
-    position: relative;
-    transition: transform 0.2s ease;
+    padding: 1rem;
+    gap: .6rem;
+    text-wrap: nowrap;
+    
+}
 
-    h3{
-        background-color: inherit;
-    }
-    p{
-        background-color: inherit;
-        
-    }
+.task-block h3{
+    font-size: 1em;
+    text-transform: capitalize;
+    font-weight: 500;
+}
+
+.task-block p{
+    opacity: 0.7;
+    font-size: .7em;
+    font-weight: 100
+
 }

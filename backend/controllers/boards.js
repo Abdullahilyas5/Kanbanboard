@@ -3,7 +3,7 @@ const { check, validationResult } = require('express-validator');
 const User = require('../models/User.js');
 const jwt = require('jsonwebtoken');
 
-const authenticationuser = (req, res, next) => {
+const   authenticationuser = (req, res, next) => {
     try {
         const token = req.cookies.token;
 
@@ -15,6 +15,8 @@ const authenticationuser = (req, res, next) => {
             if (err) {
                 return res.status(401).json({ message: 'Invalid token' });
             }
+
+            console.log("auth user response :", decoded )
             req.user = decoded;
             next();
         });

@@ -29,18 +29,24 @@ const taskSchema = new mongoose.Schema(
       minlength: 3,
       maxlength: 500,
     },
-    subtask :[{
-        title : {
-            type : String,
-            required : true,
-        },
-        completed : {
-            type : Boolean,
-            default : false
-        }
-    }],
-    board : {type : mongoose.Schema.Types.ObjectId, ref : 'Board'},
-    user : {type : mongoose.Schema.Types.ObjectId, ref : 'User'}
+    subtasks: {
+      type: Array
+    },
+    // subtask :[{
+    //     title : {
+    //         type : String,
+    //         required : true,
+    //     },
+    //     completed : {
+    //         type : Boolean,
+    //         default : false
+    //     }
+    // }],
+    status: {
+      type: String
+    },
+    Boards : {type : mongoose.Schema.Types.ObjectId, ref : 'Board'},
+    Users : {type : mongoose.Schema.Types.ObjectId, ref : 'User'}
   },
   {
     timestamps: true,
