@@ -10,6 +10,7 @@ const helmet = require('helmet');
 const cors = require("cors");
 const { displayTask ,verification} = require('./controllers/displaytask.js');
 const { homeRoute ,checkUser } = require('./controllers/homeRoute.js');
+const { boardverification ,displayboard } = require('./controllers/displayboard.js');
 require('dotenv').config();
 
 
@@ -39,7 +40,7 @@ app.get('/signup', (req, res) => {
 
 // create task
 
-app.get('/displayTask/:boardId', displayTask)
+app.get('/displayTask', displayTask)
 
 app.post( '/createTask',validateTask,createTask );
 
@@ -55,6 +56,8 @@ app.get('/login', (req, res) => {
 app.post('/login', validatelogin, loginMiddleware);
 
 // boards routes
+
+app.get('/display-board/:user', boardverification ,displayboard);
 
 
 app.post('/create-board', validateUser, authenticationuser, createBoard);

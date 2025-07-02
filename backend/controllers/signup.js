@@ -17,6 +17,19 @@ const signupMiddleware = async (req, res) => {
 
     const { name, email, password } = req.body;
 
+    if (!email || !password) {
+      return res.status(404).json({
+        message: "please enter the value , empty field is not accepted"
+      })
+    }
+
+    const isuser = await User.findOne({ email });
+    if (isuser) {
+      return res.json({
+        message: "user is already exist"
+      })
+    }
+
     const salt = await bcrypt.genSalt(10);
 
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -30,21 +43,25 @@ const signupMiddleware = async (req, res) => {
     await createdUser.save();
 
 
-    const token = jwt.sign({ email: req.body.email }, "secret", {expiresIn: "7d"});
+    const token =  jwt.sign({ email: req.body.email }, "secret", { expiresIn: "7d" });
+  
+
 
     res.cookie('token', token, {
-      httpOnly: true,  // Protects against XSS
-      sameSite: "strict",  // CSRF protection
-      secure: process.env.COOKIES_FLAG==='production',  // Set to true for production (https)
+      httpOnly: true,
+      sameSite: 'Lax',
+      secure: false,
+      path: '/',
     });
 
 
-    res.status(201).json({isauthorize: true, token: token, message: "User created successfully"});
+
+    res.status(201).json({ token: token, message: "User created successfully" });
     res.end();
 
   } catch (err) {
 
-    res.status(400).json({ message: err.message ,isauthorize: false});
+    res.status(400).json({ message: err.message, token: null });
   }
 };
 

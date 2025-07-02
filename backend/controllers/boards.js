@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const   authenticationuser = (req, res, next) => {
     try {
         const token = req.cookies.token;
+        console.log("token in auth (board data)", token)
 
         if (!token) {
             return res.status(401).json({ message: 'Authentication token is missing' });
@@ -21,7 +22,7 @@ const   authenticationuser = (req, res, next) => {
             next();
         });
     } catch (error) {
-        return res.status(401).json({ msg: error.message });
+        return res.status(401).json({ msg: error.message + "from authentication user" });
     }
 };
 

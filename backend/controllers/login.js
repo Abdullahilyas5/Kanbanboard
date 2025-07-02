@@ -14,7 +14,8 @@ const loginMiddleware = async (req, res) => {
         }
 
         const result = await User.findOne({ email });
-        console.log("db query :" ,result)
+        console.log("db query :", result);
+
         if (!result) {
             return res.status(401).json({ message: 'Login failed' });
         }
@@ -24,23 +25,25 @@ const loginMiddleware = async (req, res) => {
             return res.status(401).json({ message: 'Login failed' });
         }
 
-        const token = jwt.sign({ email }, "secret");
+        const token = jwt.sign({ email }, "secret", {expiresIn :"7d"});
 
         res.cookie('token', token, {
-            httpOnly: true, // Protects against XSS
-            sameSite: "Strict", // CSRF protection
+            httpOnly: true,
+            sameSite: 'Lax',
             secure: false,
+            path: '/',
         });
 
-        res.status(200).json({ message: 'Login successful'}); // Include the token in the response body
+
+        res.status(200).json({ message: 'Login successful', token: token }); // Include the token in the response body
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400).json({ message: error.message, token: null });
     }
 }
 
 const validatelogin = [
     check("email").isEmail().withMessage("Invalid email"),
-    check("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters long"),
+    check("password").isLength({ min: 3 }).withMessage("Password must be at least 6 characters long"),
 ];
 
 module.exports = { loginMiddleware, validatelogin };
