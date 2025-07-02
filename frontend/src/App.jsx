@@ -10,20 +10,25 @@ import Columns from "./Components/columns/Columns.jsx";
 import CreateTask from "./Components/Tasks/create-task";
 import ViewTask from "./Components/pages/viewtask.jsx";
 import { AuthContext } from './context/Authcontext.jsx'
-import PrivateRoute from "./context/Privateroute.jsx";
+import PrivateRoute from './context/Privateroute.jsx'
+import {useLocation} from 'react-router-dom'
 
 const App = () => {
   const [title, settitle] = useState('');
-  const [board, setBoard] = useState([]);
+
   const UserAuthorize = useContext(AuthContext);
-
+  const { board, setBoard ,task,refresh ,setrefresh , settask ,user ,setuser } = useContext(AuthContext);
   const navigate = useNavigate();
+  
+// const location = useLocation();
+// const {refresh} = location?.state?.refresh || false;
 
-  console.log("current val: ", UserAuthorize.isauthorize);
 
-  useEffect(() => {
-    console.log("selected board id is : ", UserAuthorize.selectedBoard);
-  }, [UserAuthorize.selectedBoard]);
+
+  // useEffect(() => {
+  //   fetchonload();
+  //   console.log("selected board id is : ", UserAuthorize.selectedBoard);
+  // }, [UserAuthorize.selectedBoard , board]);
 
   const fetchonload = async () => {
 
@@ -35,61 +40,40 @@ const App = () => {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
+        // withCredentials: true
       });
 
-      if (response.status === 401 && userAuthorize.secureSetAuth === false) {
-        console.log("unauthorized user");
-        UserAuthorize.setisauthorize(false);
-        navigate('/signup');
-        return;
+      const fetchdata = await response.json()
+
+      if (fetchdata.error) {
+        UserAuthorize.Authref.current = false;
+        navigate('/signup')
+      }
+
+      
+
+      if (!fetchdata.token) {
+        console.log("token is not having at homeroute")
       }
 
 
-      const data = await response.json();
-      console.log("data from home route : ", data);
-      console.log("data from home route", board.tasks);
-
-      setBoard(data.boards)
-      UserAuthorize.setisauthorize(data.isauthorize)
-      UserAuthorize.secureSetAuth(data.isauthorize)
+      setuser(fetchdata.user);
+      UserAuthorize.Authref.current = true;
+      console.log("data from home route : ", fetchdata);
+      setBoard(fetchdata.boards)
+      
     } catch (error) {
-
       console.log(" content load error : ", error.message);
 
     }
   };
 
-  
-  
-
-
-
-
-
-
-
-
   useEffect(() => {
     fetchonload();
-  }, []);
+  }, [refresh]);
 
 
-  const [tasks, setTasks] = useState([
-    { id: 1, title: "db course", status: "todo" },
-    { id: 2, title: "react course", status: "todo" },
-    { id: 3, title: "db course", status: "doing" },
-    { id: 4, title: "react course", status: "doing" },
-    { id: 5, title: "db course", status: "done" },
-    { id: 6, title: "react course", status: "done" },
-    { id: 7, title: "db course", status: "todo" },
-    { id: 8, title: "react course", status: "todo" },
-    { id: 9, title: "db course", status: "doing" },
-    { id: 10, title: "react course", status: "doing" },
-    { id: 11, title: "db course", status: "done" },
-    { id: 12, title: "react course", status: "done" },
-    { id: 13, title: "db course", status: "todo" },
-    { id: 14, title: "react course", status: "done" }
-  ]);
+  const [tasks, setTasks] = useState(task);
 
 
   // const handleDragEnd = (event) => {
@@ -120,51 +104,50 @@ const App = () => {
   return (
     <div className="wrapper">
 
+      {/* <PrivateRoute> */}
 
-        <div className="Main">
-          <div className="title">
-            <i className="ri-align-justify fa"></i>
-            <h2 className="logo">Kanban</h2>
-          </div>
 
-          <div className="sideBoard">
-            <Boards settitle={settitle} Userboard={board} Usersetboard={setBoard} renderboard={fetchonload} />
-          </div>
+      <div className="Main">
+        <div className="title">
+          <i className="ri-align-justify fa"></i>
+          <h2 className="logo">Kanban</h2>
         </div>
 
-
-        <Routes>
-
-      
-          <Route path="/viewtask" element={
-            <PrivateRoute>
-              <ViewTask />
-            </PrivateRoute>
-          } />
-          <Route path="/create-tasks" element={
-
-            <PrivateRoute>
-              <CreateTask />
-            </PrivateRoute>
-
-          } />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/create-board" element={
-            <PrivateRoute>
-              <Boarddata />
-            </PrivateRoute>
-          } />
-        </Routes>
-        <Header title={title} />
-
-        <div className="Task-block">
-          <Columns title="Todo" tasks={tasks.filter(task => task.status === "todo")} iconcolor="#4CC1E5" />
-          <Columns title="Doing" tasks={tasks.filter(task => task.status === "doing")} iconcolor="#8370EE" />
-          <Columns title="Done" tasks={tasks.filter(task => task.status === "done")} iconcolor="#6CDDAC" />
+        <div className="sideBoard">
+          <Boards settitle={settitle}  Usersetboard={setBoard} />
         </div>
+      </div>
 
-    
+
+      <Routes>
+
+
+        <Route path="/viewtask" element={
+
+          <ViewTask />
+        } />
+        <Route path="/create-tasks" element={
+          <CreateTask />
+        } />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/create-board" element={
+
+          <Boarddata />
+
+        } />
+      </Routes>
+      <Header title={title} />
+
+      <div className="Task-block">
+        <Columns title="Todo" tasks={tasks.filter(task => task.status === "todo")} iconcolor="#4CC1E5" />
+        <Columns title="Doing" tasks={tasks.filter(task => task.status === "doing")} iconcolor="#8370EE" />
+        <Columns title="Done" tasks={tasks.filter(task => task.status === "done")} iconcolor="#6CDDAC" />
+      </div>
+
+      {/* </PrivateRoute> */}
+
+
     </div>
 
   );

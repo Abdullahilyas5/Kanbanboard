@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import "./boarddata.css";
 import { useNavigate } from 'react-router-dom';
-
+// import PrivateRoute  from '../../context/Privateroute'
+import { AuthContext } from '../../context/Authcontext'
 const boarddata = () => {
     const navigate = useNavigate();
     const [details, setdetails] = useState({ title: '' });
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    const { board, setBoard, refresh, setrefresh, task, settask } = useContext(AuthContext);
 
     const handlechange = (e) => {
         const { name, value } = e.target;
@@ -24,8 +27,6 @@ const boarddata = () => {
     const handleboarddata = async (e) => {
         try {
             e.preventDefault();
-            setLoading(true);
-
             const response = await fetch('http://localhost:3000/create-board', {
                 method: 'POST',
                 headers: {
@@ -45,7 +46,19 @@ const boarddata = () => {
                 console.log("Error:", data);
             }
 
-            navigate('/', { state: { refresh: true } }); // Pass state to trigger re-fetch
+            setBoard((prev) => [...(prev || []), data]);
+            if (refresh) {
+                setrefresh(false);
+            } else {
+                setrefresh(true);
+            }
+            settask((prev) => [...(prev || []), data.tasks]);
+
+
+
+
+
+            navigate('/'); // Pass state to trigger re-fetch
 
         } catch (error) {
             setError(error.message);
@@ -56,6 +69,7 @@ const boarddata = () => {
     };
 
     return (
+        // <PrivateRoute>
         <div className='parent'>
             <form action="/create-board" method='post' className='board-details' onSubmit={handleboarddata}>
                 <i className="ri-close-line" onClick={handlecancle}></i>
@@ -68,6 +82,10 @@ const boarddata = () => {
             <div className="form-closer" onClick={handlecancle}></div>
 
         </div>
+
+
+        // </PrivateRoute>
+
     );
 };
 

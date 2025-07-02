@@ -6,13 +6,16 @@ import { BrowserRouter } from "react-router-dom";
 
 
 import { AuthProvider } from './context/Authcontext.jsx'
+import PrivateRoute from "./context/Privateroute.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        {/* <PrivateRoute> */}
+          <App />
+        {/* </PrivateRoute> */}
       </AuthProvider>
     </BrowserRouter>
-  </StrictMode>
+  // </StrictMode>
 );

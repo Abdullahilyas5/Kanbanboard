@@ -20,7 +20,7 @@ const Header = (props) => {
     <div className="header">
       <h2>{props.title}</h2>
       <div className="blockmenu">
-        <i class="ri-more-2-fill" onClick={showmenu}></i>
+        <i className="ri-more-2-fill" onClick={showmenu}></i>
 
         <button className="add-btn"  onClick={()=>{
           navigate('/create-tasks');

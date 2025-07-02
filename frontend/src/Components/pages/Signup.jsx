@@ -11,7 +11,7 @@ const Signup = () => {
   });
   const navigate = useNavigate();
 
-  const auth = useContext(AuthContext);
+  const { Authref } = useContext(AuthContext);
 
   const handlechange = (e) => {
     const { name, value } = e.target;
@@ -25,7 +25,12 @@ const Signup = () => {
 
 
   const handlecancle = () => {
-    navigate(-1);
+      
+      navigate('/signup');
+      if (Authref.current === true) {
+        navigate(-1);
+      }
+    
   };
 
   const handleUser = async (e) => {
@@ -41,14 +46,22 @@ const Signup = () => {
         body: JSON.stringify(user),
       });
 
-      console.log("after geting token",response.token);
 
       const data = await response.json();
-      auth.setisauthorize(data.isauthorize);
+      console.log("frontend error",data.message )
+      console.log("after geting token", data.token);
+      if (!data.token) {
+        console.log("token is not having at signup page");
+        return;
+      }
+      Authref.current = true;
+
       if (response.ok) {
         console.log(response.ok, "Signup successful!");
+
       } else {
         console.log("Signup failed:", data.message);
+
       }
 
       navigate('/');
@@ -61,8 +74,8 @@ const Signup = () => {
   return (
     <div className="parent">
       <form action="/signup" method="post" className="sign-form" onSubmit={handleUser}>
-      <i className="ri-close-line cancle" onClick={handlecancle}></i>
-        
+        <i className="ri-close-line cancle" onClick={handlecancle}></i>
+
         <h2 className="signin-title">Sign Up</h2>
 
         <div className="input-box">
@@ -77,7 +90,7 @@ const Signup = () => {
           />
         </div>
 
-        <div  className="input-box">
+        <div className="input-box">
           <label htmlFor="email">Email</label>
           <input
             type="email"
@@ -102,7 +115,7 @@ const Signup = () => {
         </div>
 
         <p className="navigate-links">
-          Already have an account? <a onClick={()=>{
+          Already have an account? <a onClick={() => {
             navigate("/login")
           }}>Log in</a>
         </p>
