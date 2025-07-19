@@ -1,72 +1,61 @@
 .header{
-    position: absolute;
-    width: calc(49rem + 20vw);
-    border-bottom: 0.0000001px solid white;
-    left: 240px;
-    top: 5px;
-    height: 3rem;
-    flex-wrap: wrap;
+    /* background-color: red; */
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px; 
-    z-index: 10;
-    gap: 15px;
-    h2{
-        left :226px;
-        padding-left: 5px;
-        font-size: x-large;
-        letter-spacing: 1px;
-    }
-    .blockmenu{
-        height: 100%;
-        display: flex;
-        flex-direction: row-reverse;
-        gap: 10px;
-        align-items: center;
-        .ri{
-            font-size: medium;
-            font-weight: 500;
-        }
-
-        .add-btn{
-            width: 100%;
-            height: 100%;
-            margin-bottom: 8px;
-            border-radius: 14px;
-
-            padding: 5px 15px;
-            text-align: baseline;
-
-        }
-        
-    }
-    .menublock{
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        justify-content: space-between;
-        align-items: center;
-        gap: 2px ;
-        padding: 8px;
-        right: 0;
-        top: 2.7rem;
-        margin: 5px;
-        width: 7rem;
-        height: 8rem;
-        background-color: transparent;
-
-        button{
-            width: 100%;
-            height: 100%;
-        }
-        .logout{
-            background-color: rgba(255, 68, 0, 0.9);
-        }
-        button:hover{
-            opacity: 0.9;
-        }
-    }
-    
+   padding: .5rem;
+    border-bottom: 1px solid white;
+    position: relative;
     
 }
+.board-title {
+  font-size: 1.5rem;
+  color: white;
+  background: linear-gradient(130deg, #7c73f1, #cbc7ff, #f0f0f3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  cursor: pointer;
+}
+
+.add-btn{
+    padding: .7rem .8rem;
+}
+.blockmenu {
+    /* position: relative; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.menublock{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    right: 2px;
+    background-color: #655ec7;
+    gap: .5rem;
+    border-radius: 2px;
+    width: 8rem;
+}
+
+
+.btn-menu{
+    padding: .5rem;
+    cursor: pointer;
+}
+.logout{
+    padding: .5rem;
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    padding: .7rem .8rem;
+    
+}
+
+
+

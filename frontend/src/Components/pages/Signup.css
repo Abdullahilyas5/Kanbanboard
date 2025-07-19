@@ -1,29 +1,44 @@
-
 .parent {
-    background-color: rgba(8, 8, 8, 0.514); 
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(8, 8, 8, 0.514);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bg-signup {
+    
+    width: 100%;
+    height: 100%;
+   
+    
 }
 
 .sign-form{
-    position: absolute;
-    overflow: hidden;
+    position: relative;
     display: flex;
     flex-direction: column;
-    z-index: 99999;
-    column-gap: 22px;
+    z-index: 10000;
     height: 25rem;
     width: 350px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     background: #2C2C38;
     border-radius: 10px;
     padding: 10px;
+    margin: 0 auto;
+    top: 0;
+    left: 0;
+    transform: none;
 }
 
 .form-closer{
+    position: fixed;
     inset: 0;
+    z-index: 9998;
+    background: transparent;
 }
-
 
 .signin-title {
     font-size: 1rem;

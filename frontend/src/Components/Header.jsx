@@ -1,52 +1,32 @@
-import React from "react";
+import React, { useContext, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/Authcontext.jsx";
 import "./Header.css";
-import { Navigate, useNavigate } from "react-router-dom";
 
-const Header = (props) => {
+const Header = ({ title }) => {
   const navigate = useNavigate();
+  const { siderbarRef , headerRef } = useContext(AuthContext);
 
-  const showmenu = () => {
-    const menu = document.querySelector('.menublock');
-    if (menu.classList.contains('show')) {
-      menu.classList.remove('show');
-      menu.style.display = 'none';
-    }
-    else {
-      menu.classList.add('show');
-      menu.style.display = 'flex';
-    }
-  }
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
+
   return (
-    <div className="header">
-      <h2>{props.title}</h2>
+    <div className={` header ${siderbarRef ? 'sidebar' : 'non-sidebar'}`} ref={headerRef}>
+      <h3 className="board-title">{title}</h3>
+
       <div className="blockmenu">
-        <i className="ri-more-2-fill" onClick={showmenu}></i>
+        <button className="add-btn btn" onClick={() => handleNavigate('/create-tasks')}>
+          + Add Task
+        </button>
 
-        <button className="add-btn"  onClick={()=>{
-          navigate('/create-tasks');
-        }}>+ Add Task</button>
+        <button className="logout btn" onClick={() => handleNavigate('/logout')}>
+          Logout
+        </button>
 
-        <div className="menublock" >
-          <button onClick={() => {
-            navigate('/login')
-            showmenu();
-          }}>Login</button>
-          <button
-            onClick={() => {
-              navigate('/signup');
-            showmenu();
-
-            }}>Signup</button>
-          <button className='logout' onClick={() => {
-            navigate('/logout');
-            showmenu();
-
-          }}>logout</button>
-        </div>
       </div>
-
     </div>
   );
-}
+};
 
 export default Header;

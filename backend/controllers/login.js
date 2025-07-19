@@ -14,13 +14,13 @@ const loginMiddleware = async (req, res) => {
         }
 
         const result = await User.findOne({ email });
-        console.log("db query :", result);
 
         if (!result) {
             return res.status(401).json({ message: 'Login failed' });
         }
 
         const match = await bcrypt.compare(password, result.password);
+        
         if (!match) {
             return res.status(401).json({ message: 'Login failed' });
         }
@@ -35,7 +35,10 @@ const loginMiddleware = async (req, res) => {
         });
 
 
-        res.status(200).json({ message: 'Login successful', token: token }); // Include the token in the response body
+        res.status(200).json({ message: 'Login successful',
+            user : result ,
+            message  : "login successfully",
+            token: token }); 
     } catch (error) {
         res.status(400).json({ message: error.message, token: null });
     }

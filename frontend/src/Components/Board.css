@@ -1,54 +1,49 @@
-.container
-{
-    display: flex;
-    flex-direction: column;
-    overflow: none;
-    height: 65rem;
-    gap: 6px;
-    p{
-        position: relative;
-        left: 26px;
-        font-size: 10px;
-        opacity: 0.6;
-        width: 90%     ;
-        margin-top: 20px ;
-    }
-    .boardcontainer{
-        overflow-y: scroll;
-        overflow-x: none;
-        -ms-overflow-style: none;
-        scrollbar-width: none; 
-        left: 25px;
-        height: 73vh;
-        width: 15rem;
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: red;
+  padding: 1rem;
+  height: 100%;
+  gap: 0.5rem;
+  width: 100%;
+}
+.btn {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  padding: .5rem 1.5rem;
+  left: 0px;
+  border-radius: .6rem;
+  outline: none;
+  gap: 5px;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  bottom: 1px;
 
-    }
-        .btn{
-        display: flex;
-        flex-direction: row;
-        position: relative;
-        left: 0px;
-        padding: 10px 25px;
-        border-radius: 17px;
-        outline: none;
-        gap: 5px;
-        align-items: center;
-        justify-content: space-between;
-        .fa{
-            font-size: 1rem;
-            color:#655EC7 ;
-            background-color: inherit;
-            color: rgb(255, 255, 255);
+  .fa {
+    font-size: .8rem;
+    color: #655ec7;
+    background-color: inherit;
+    color: rgb(255, 255, 255);
+  }
+}
 
-        }
-        .btn-1{
-            outline: none;
-            border: none;
-            color:#655EC7 ;
+.container .boardcount {
+  font-size: 0.6rem;
+  color: #dadada;
 
-        }
-    
-    }
-    
+}
 
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  left: 0px;
+  border-radius: 17px;
+  outline: none;
+  align-items: center;
+  justify-content: space-between;
 }

@@ -1,68 +1,14 @@
 .columns{
+    width: 100%;
+    height: 100%;
+    background-color: aqua;
     display: flex;
-    flex-direction: column;
-    gap: 4px;
-    height: 100vh;
-    min-width: 15rem;
-    max-width: max-content;
-    background-color: inherit;
-    margin: 10px 10px;
-    margin-left: 20px;
-    bottom: 10px;
-    overflow-y: scroll;
-    -ms-overflow-style: none;
-    scrollbar-width: none; 
-    padding: 5px 15px;
-    overflow-x: none;
-    .top{
-        display: flex;
-        background-color: inherit;
-        margin: 10px;
-        flex-direction: row;
-        position: fixed;
-        background-color:transparent;
-        gap: 5px;
-        height: 2rem;
-        width: 15%;
-        z-index: 999;
-        i{
-        background-color: inherit;
-
-        }
-        p{
-            font-size: smaller;
-            background-color: inherit;
-        
-            font-weight: 100;
-        }
-
-       
-
-    }
-    i{
-        color: inherit;
-    }
+    flex-direction: row;
+    gap: 1rem;
 }
 
-.tasksqueue{
-    background-color: inherit;
-    display: flex;
-    flex-direction: column;
-    row-gap: 20px;
-    margin-top: 30px;
-    max-height: fit-content;
-}
-
-.columns::-webkit-scrollbar{
-    display: none;
-}
-
-.hold{
-    cursor: pointer;
-    display: flex;
-    opacity: 1;
-}
-
-.hide{
-    display: none;
+.column{
+    flex: 1;
+    background-color: blue;
+    height: 100%;
 }

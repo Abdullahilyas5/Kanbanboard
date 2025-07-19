@@ -1,20 +1,23 @@
 import { useRef, useState } from "react";
 import "./create-task.css";
 import { useNavigate } from "react-router";
+import { useMutation, useQueryClient } from "react-query";
+import { createTask } from "../../API/api.js";
 
-const task = () => {
+const CreateTask = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [Task, setTask] = useState({
-    title: "",
-    description: "",
-    subtasks: [],
-    status: "Todo"
-  }
-  );
+      title: "",
+      description: "",
+      subtasks: [],
+      status: "Todo"
+    }
+    );
 
-  const [addsub, setaddsub] = useState([]);
-  const inputref = useRef(null);
-  const [isVisible, setisVisible] = useState(true);
+    const [addsub, setaddsub] = useState([]);
+    const inputref = useRef(null);
+    const [isVisible, setisVisible] = useState(true);
 console.log("The add sub task value is ", Task)
   const handlesub = () => {
     const menu = document.querySelector(".content");
@@ -40,40 +43,17 @@ console.log("The add sub task value is ", Task)
     navigate(-1);
   };
 
-   async function handleTaskSubmission(e) {
-    try {
-      e.preventDefault();
-      const response = await fetch('http://localhost:3000/createTask', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(Task),
-      })
-
-      const data =  await response.json();
-
-      if (response.ok) {
-        console.log(response.ok, "task is created !");
-      }
-
-      setTask({
-        title: "",
-        description: "",
-        subtasks: [],
-        status: "Todo"
-      })
-
-      navigate('/')
-
-      console.log(Task);
-      
-      
-    } catch (error) {
-      console.log(error);
-
+  const createTaskMutation = useMutation(createTask, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("tasks");
+      setTask({ title: "", description: "", subtasks: [], status: "Todo" });
+      navigate('/');
     }
+  });
+
+   function handleTaskSubmission(e) {
+    e.preventDefault();
+    createTaskMutation.mutate(Task);
   }
 
 
@@ -185,4 +165,4 @@ console.log("The add sub task value is ", Task)
   );
 };
 
-export default task;
+export default CreateTask;

@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
 import "./boarddata.css";
 import { useNavigate } from 'react-router-dom';
+
+import api from '../../API/api';
 // import PrivateRoute  from '../../context/Privateroute'
 import { AuthContext } from '../../context/Authcontext'
 const boarddata = () => {
@@ -8,6 +10,7 @@ const boarddata = () => {
     const [details, setdetails] = useState({ title: '' });
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+
 
     const { board, setBoard, refresh, setrefresh, task, settask } = useContext(AuthContext);
 
@@ -27,14 +30,7 @@ const boarddata = () => {
     const handleboarddata = async (e) => {
         try {
             e.preventDefault();
-            const response = await fetch('http://localhost:3000/create-board', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-                body: JSON.stringify(details)
-            });
+           const response = await api.createboard(details)
             const data = await response.json();
             console.log('Response data:', data);
 

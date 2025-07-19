@@ -4,9 +4,6 @@ const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
 const User = require("../models/User.js");
 
-
-
-
 const signupMiddleware = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -56,8 +53,15 @@ const signupMiddleware = async (req, res) => {
 
 
 
-    res.status(201).json({ token: token, message: "User created successfully" });
-    res.end();
+    res.status(201).json({ token: token,
+      user : createdUser,
+      boards : [],
+      tasks : [],
+      status: 201,
+      message: "User created successfully" });
+    
+    
+      res.end();
 
   } catch (err) {
 

@@ -9,8 +9,10 @@ const {createTask , validateTask} = require('./controllers/createTask.js')
 const helmet = require('helmet');
 const cors = require("cors");
 const { displayTask ,verification} = require('./controllers/displaytask.js');
-const { homeRoute ,checkUser } = require('./controllers/homeRoute.js');
+const { homeRoute } = require('./controllers/homeRoute.js');
 const { boardverification ,displayboard } = require('./controllers/displayboard.js');
+const { checkUser } = require('./middleware/AuthenticateUser.js');
+
 require('dotenv').config();
 
 

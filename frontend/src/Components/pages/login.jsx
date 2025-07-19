@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
+import api from "../../API/api"
+import { useMutation } from "react-query";
 
 const Login = () => {
   const [user, setUser] = useState({
@@ -19,33 +21,23 @@ const Login = () => {
     }));
   };
 
+  const loginmutation = useMutation({
+    mutationFn: (user) => api.loginUser(user),
+    onSuccess: (data) => {
+      console.log("Login successful:", data);
+      navigate("/"); 
+    },
+    onError: (error) => {
+      console.error("Login error:", error.response?.data || error.message);
+    },
+  })
 
-  const handlecancle = () => {
-    navigate(-1);
-  };
 
   const handleUser = async (e) => {
-    try {
-      e.preventDefault();
+    e.preventDefault();
+    loginmutation.mutate(user);
 
-      const response = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(user),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        console.log(response.ok, "login successful!");
-      } else {
-        console.log("Login failed:", data.message);
-      }
-      navigate("/");
-    } catch (error) {
-      console.error("login error:", error.message);
-    }
+
   };
 
   return (
@@ -56,7 +48,6 @@ const Login = () => {
         className="login-form"
         onSubmit={handleUser}
       >
-        <i className="ri-close-line cancle" onClick={handlecancle}></i>
         <h2 className="login-title">Login</h2>
         <div className="input-box">
           <label htmlFor="email">Email</label>
@@ -80,6 +71,7 @@ const Login = () => {
             value={user.password}
             onChange={handleChange}
             placeholder="Password"
+            
           />
         </div>
         <p className="navigate-links">
@@ -87,7 +79,6 @@ const Login = () => {
         </p>
         <button type="submit" className="login-btn">Login</button>
       </form>
-      <div className="form-closer" onClick={handlecancle}></div>
     </div>
   );
 };

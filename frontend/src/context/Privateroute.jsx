@@ -1,11 +1,12 @@
 import { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "../context/Authcontext.jsx";
-import Signup from '../Components/pages/Signup.jsx'
+import { AuthContext } from "./Authcontext.jsx";
+
 const PrivateRoute = ({ children }) => {
-    const { Authref } = useContext(AuthContext);
-    console.log("Authref value in privateroute : ", Authref.current);
-    return Authref.current ? children : <Signup/>;
+  const { isAuthenticated, loading } = useContext(AuthContext);
+
+  if (loading) return null;
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
 
-export default  PrivateRoute;
+export default PrivateRoute;
