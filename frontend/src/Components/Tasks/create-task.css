@@ -1,159 +1,252 @@
-.parent {
-  background-color: rgba(8, 8, 8, 0.514);
-}
-
-.cancle {
-  position: absolute;
-  left: 91%;
-  top: 10px;
-  cursor: pointer;
+/* === Backdrop Overlay === */
+.form-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
 .task-form {
   display: flex;
-  align-items: start;
-  justify-content: space-between;
   flex-direction: column;
+}
+
+/* === Modal Container === */
+.task-modal {
+  background-color: #2c2c38;
+  padding: 1rem;
+  width: 100%;
+  max-width: 25rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* === Close Button === */
+.modal-close-btn {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 5px;
-  background-color: inherit;
-  z-index: 99;
-  padding: 15px;
-  background: #2c2c38;
-  width: clamp(10rem, 35vw, 20rem);
-  height: 90%;
-  z-index: 999;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1rem;
+  color: #bbb;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+.modal-close-btn:hover {
+  color: #fff;
 }
 
-.form-closer {
-  inset: 0;
-  position: fixed;
-  background: transparent
-}
-
-.task-form h2 {
-  font-size: 0.9rem;
-  max-width: 100%;
-  margin: 5px 0px;
-}
-
-.task-form label {
-  font-size: 0.6rem;
-}
-
-.task-form .inputs {
-  border: 1px solid rgba(255, 255, 255, 0.215);
-  padding: 5px 10px;
-  margin: 0px;
-  font-size: 0.7rem;
-}
-
-.task-form .inputs::placeholder {
-  font-size: 0.6rem;
-}
-
-.task-form .dec {
-  height: 5rem;
-}
-.task-form .dec::placeholder {
-  text-align: start;
-  justify-content: flex-start;
-}
-
-.subtask {
-  list-style-type: none;
-  width: 100%;
-  text-align: start;
-  position: relative;
-  ul{
-    display: flex;
-    flex-direction: column;
-  }
-  ul li i {
-    transform: translateX(-100%);
-    position: absolute;
-    right: -18px;
-    font-size: large;
-    margin-bottom: 10px;
-  }
-   ul li {
-    font-size: 0.6rem;
-    padding: 10px;
-    margin: 5px 0px;
-    border-radius: 5px;
-    opacity: 0.5;
-    width: 90%;
-    border: 1px solid rgba(255, 255, 255, 0.215);
-  }
-}
-.task-form button {
-  background-color: white;
-  color: #655ec7;
-  width: 100%;
-  padding: 10px;
+/* === Title === */
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
   align-items: center;
-  font-size: 0.6rem;
-  border-radius: 15px;
-  margin-bottom: 10px;
-}
-.subtask ul{
-    list-style-type: none;
+  justify-content: center;
+  margin: 1rem;
+  background: linear-gradient(90deg, #7c73f1, #cbc7ff, #f0f0f3, #7c73f1);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: textGradientAnimation 4s infinite linear;
 }
 
-.subtask .content {
+@keyframes textGradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* === Label for Inputs === */
+.input-label {
+  font-size: 0.75rem;
+  color: white;
+  margin-bottom: 0.5rem;
+  margin-left: 0.2rem;
+}
+
+.task-input {
+  margin-bottom: 1rem;
+}
+
+/* === Inputs & Selects === */
+.task-input,
+.description-input,
+.subtask-input,
+.status-select {
   width: 100%;
-  display: none;
-  justify-content: space-between;
-  align-items: baseline;
-  input {
-    width: 90%;
-    outline: none;
-    border: 1px solid rgba(255, 255, 255, 0.215);
-    font-size: 0.6;
-    padding: 10px;
-    border-radius: 5px;
-    width: 90%;
-  }
-  input::placeholder {
-    font-size: 0.6rem;
-  }
-  i {
-    color: white;
-    opacity: 0.7;
-    padding: 5px;
-  }
+  padding: 0.6rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background-color: transparent;
+  color: #fff;
+  font-size: 0.85rem;
+  transition: border-color 0.2s;
 }
 
+.task-input:focus,
+.description-input:focus,
+.subtask-input:focus,
+.status-select:focus {
+  border-color: white;
+  outline: none;
+}
 
-.menu {
+/* === Description Box === */
+.description-input {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* === Subtask Section === */
+.subtask-section {
   display: flex;
   flex-direction: column;
-  height: auto;
-  padding: 10px;
-  gap: 5px;
-  list-style-type: none;
-  width: 100%;
-  position: relative;
-  margin: 0px;
+  gap: 0.75rem;
 }
 
-
-
-.show {
+/* === Subtask List === */
+.subtask-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
   display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
-.menu li {
-  font-size: 0.6rem;
-  padding: 5px 10px;
-  width: 100%;
-  opacity: 0.6;
-  border: 1px solid rgba(255, 255, 255, 0.215);
+.subtask-list > *{
+ background-color: transparent;
+}
+.subtask-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ddd;
+  font-size: 0.75rem;
+  transition: background 0.2s;
+  span{
+    background-color: transparent;
+  }
 }
 
-#btn{
-    background-color: #655ec7;
-    color: white;
+.subtask-item:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.subtask-title {
+  flex: 1;
+  word-break: break-word;
+}
+
+/* === Subtask Delete Icon === */
+.subtask-delete-icon {
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: #aaa;
+  background-color: transparent;
+  margin-left: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.subtask-delete-icon:hover {
+  color: white;
+}
+
+/* === Subtask Input Field === */
+.subtask-input-wrapper {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.subtask-cancel-icon {
+  font-size: 1.2rem;
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.subtask-cancel-icon:hover {
+  color: white;
+}
+
+/* === Buttons === */
+.task-button,
+.submit-button {
+  background-color: #655ec7;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 0.75rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  width: 100%;
+  margin: .9rem 0;
+  transition: background-color 0.2s ease;
+}
+
+.task-button:hover,
+.submit-button:hover {
+  background-color: #554fc5;
+}
+
+/* === Disable Button When Max Subtasks === */
+.task-button:disabled {
+  background-color: #444;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* === Dropdown Styling === */
+.status-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg fill='white' height='20' width='20' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 14px;
+}
+
+/* === Responsive === */
+@media (max-width: 480px) {
+  .task-modal {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .modal-title {
+    font-size: 1.2rem;
+  }
+
+  .task-input,
+  .description-input,
+  .subtask-input,
+  .status-select {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.6rem;
+  }
+
+  .task-button,
+  .submit-button {
+    font-size: 0.75rem;
+    padding: 0.6rem;
+  }
 }

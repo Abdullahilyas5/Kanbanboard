@@ -2,34 +2,73 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:3000";
 
-
- const fetchUser = () =>
+// — User auth —
+export const fetchUser = () =>
   axios.get(`${BASE_URL}/`, { withCredentials: true });
 
-const createUser = (data) =>
-  axios.post(`${BASE_URL}/signup`,data, { withCredentials: true });
+export const createUser = (data) =>
+  axios.post(`${BASE_URL}/signup`, data, { withCredentials: true });
 
+export const logout = () =>
+  axios.get(`${BASE_URL}/logout`, { withCredentials: true });
 
+export const loginUser = (data) =>
+  axios.post(`${BASE_URL}/login`, data, { withCredentials: true });
 
-const loginUser = (data) =>
-  axios.post(`${BASE_URL}/login`,data, { withCredentials: true });
-
-
- const fetchBoards = (userId) =>
+// — Boards —
+export const fetchBoards = (userId) =>
   axios.get(`${BASE_URL}/display-board/${userId}`, { withCredentials: true });
 
- const createBoard = (newBoard) =>
+export const createBoard = (newBoard) =>
   axios.post(`${BASE_URL}/createBoard`, newBoard, { withCredentials: true });
 
- const fetchTasks = (boardId) =>
+export const updateBoard = (updatedBoard, id) =>
+  axios.put(`${BASE_URL}/updateBoard/${id}`, updatedBoard, { withCredentials: true });
+
+export const deleteBoard = (id) =>
+  axios.delete(`${BASE_URL}/deleteBoard/${id}`, { withCredentials: true });
+
+// — Tasks & Subtasks —
+export const fetchTasks = (boardId) =>
   axios.get(`${BASE_URL}/displayTask/${boardId}`, { withCredentials: true });
 
- const createTask = (task) =>
-  axios.post(`${BASE_URL}/createTask`, task, { withCredentials: true });
+export const createTask = (task, id) =>
+  axios.post(`${BASE_URL}/createTask/${id}`, task, { withCredentials: true });
 
- const logout = () =>
-  axios.post(`${BASE_URL}/logout`, {}, { withCredentials: true });
+// ✅ Changed these to PATCH so you update only the field in question:
+export const checkboxUpdate = (taskId, subtaskId, completed) =>
+  axios.patch(
+    `${BASE_URL}/tasks/${taskId}/subtasks/${subtaskId}`,
+    { completed },
+    { withCredentials: true }
+  );
 
+export const statusUpdate = (taskId, status) =>
+  axios.patch(
+    `${BASE_URL}/tasks/${taskId}/status`,
+    { status },
+    { withCredentials: true }
+  );
 
+export const updateTask = (taskId, data) =>
+  axios.put(`${BASE_URL}/tasks/${taskId}`, data, { withCredentials: true });
 
- export default { fetchUser, fetchBoards,  loginUser, createBoard, fetchTasks, createUser, createTask, logout };
+export const deleteTask = (taskId) =>
+  axios.delete(`${BASE_URL}/tasks/${taskId}`, { withCredentials: true });
+
+export default {
+  fetchUser,
+  createUser,
+  logout,
+  loginUser,
+  fetchBoards,
+  createBoard,
+  updateBoard,
+  deleteBoard,
+  fetchTasks,
+  createTask,
+  checkboxUpdate,
+  statusUpdate,
+  updateTask,
+  deleteTask,
+};

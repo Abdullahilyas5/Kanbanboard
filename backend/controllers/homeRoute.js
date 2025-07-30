@@ -1,27 +1,39 @@
-const Boards = require('../models/Board.js');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User.js');
+const User = require('../models/User');
+const Board = require('../models/Board');
 
 const homeRoute = async (req, res) => {
   try {
-    const currentUser = req.user;
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ message: "No token, authorization denied" });
+    }
+    const decoded = jwt.verify(token, "secret");
+    const currentUser = await User.findOne({ email: decoded.email });
+    if (!currentUser) {
+      return res.status(400).json({ message: "Invalid token payload" });
+    }
+    const user = await User.findById(currentUser._id).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-    // Find all boards for current user and populate the tasks
-    const boards = await Boards.find({ Users: currentUser._id }).populate('tasks');
-
-    // 🔍 Extract all tasks from boards into a flat array
-    const allTasks = boards.flatMap(board => board.tasks);
+    // Always populate Tasks and their subtasks for each board
+    const boards = await Board.find({ _id: { $in: user.Boards } })
+      .populate({
+        path: 'Tasks',
+        populate: { path: 'subtasks' }
+      })
+      .lean();
 
     res.status(200).json({
-      boards: boards,
-      tasks: allTasks,
-      user: currentUser,
-      message: 'Boards and tasks fetched successfully',
+      message: "User and boards fetched successfully",
+      user,
+      boards
     });
-
   } catch (error) {
     console.error("Error in homeRoute:", error.message);
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 

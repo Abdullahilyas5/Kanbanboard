@@ -2,12 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './logout.css';
 import { useMutation } from "react-query";
-import { logout } from "../../API/api.js"; // Correct path
+import api  from "../../API/api.js"; // Correct path
 
 const Logout = () => {
   const navigate = useNavigate();
 
-  const logoutMutation = useMutation(logout, {
+  const logoutMutation = useMutation(api.logout(), {
     onSuccess: () => {
       // Optionally clear user context/state here
       navigate('/login'); // Redirect to login after logout
@@ -40,3 +40,4 @@ const Logout = () => {
     </div>
   );
 };
+export default Logout;

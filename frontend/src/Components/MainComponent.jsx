@@ -7,15 +7,10 @@ import "../App.css"
 
 
 const MainComponent = () => {
-  const {headerRef} = useContext(AuthContext);
-  
- const height = headerRef?.current?.offsetHeight;
-    
-
 
     return (
     <div>
-         <div className="Task-block" style={{height : headerRef ? `${height}px` : '80vh' }}>
+         <div className="Task-block" >
            <Columns />
           </div>
     </div>

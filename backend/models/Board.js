@@ -2,18 +2,18 @@ const mongoose = require('mongoose');
 
 const boardSchema = new mongoose.Schema(
   {
-    title : {
+    title: {
       type: String,
       required: [true, "Title is required"],
       minlength: 3,
       maxlength: 50,
     },
-   user: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true
     },
-      tasks: [{
+    Tasks: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Task'
     }]

@@ -1,74 +1,83 @@
-import { useState, createContext } from "react";
+import React, { useState, createContext, useEffect, useRef } from "react";
 import api from "../API/api.js";
 import { useQuery } from "react-query";
 
-// ✅ Exporting context as you already had
 export const AuthContext = createContext();
 
-export const AuthProvider = function (props) {
-  // ✅ UI states
+export const AuthProvider = ({ children }) => {
+  const logostyles = useRef(null);
   const [sliderbar, setSliderbar] = useState(false);
-  const [refreshBoard, setRefreshBoard] = useState(false);
-  const [refreshTask, setRefreshTask] = useState(false);
+
+  // Boards & tasks state
+  const [tasks, setTasks] = useState([]);
   const [selectedBoard, setSelectedBoard] = useState(null);
 
-  // ✅ Utility: Get token from cookie
-  const getToken = () => {
-    const cookieString = document.cookie;
-    const tokenCookie = cookieString
-      .split("; ")
-      .find((row) => row.startsWith("token="));
-    return tokenCookie ? tokenCookie.split("=")[1] : null;
-  };
+  // Fetch user + boards
+  const fetchUserData = () =>
+    api.fetchUser().then((res) => {
+      if (res.status === 200) return res.data;
+      throw new Error("Unauthorized");
+    });
 
-  // ✅ Refined: Let React Query handle the error
-  const fetchUserData = async () => {
-    const res = await api.fetchUser(); // Axios throws on failure
-    return res.data; // Return only on success
-  };
-
-  // ✅ React Query for fetching user
-  const { data, isError, error, isLoading } = useQuery({
-    queryKey: ['userData'],
-    queryFn: fetchUserData,
-    retry: false, // Disable retry for fast failure
-    onSuccess: () => {
-      console.log("Auth context: Data fetched successfully.");
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    refetch: refetchUser,
+  } = useQuery(["userData"], fetchUserData, {
+    refetchOnWindowFocus: true,
+    retry: false,
+    onError: () => {
+      setSelectedBoard(null);
+      setTasks([]);
     },
-    onError: (err) => {
-      console.log("Auth context: Failed to fetch user data", err);
-    }
   });
 
-  // ✅ Extract data safely
-  const user = data?.user || null;
-  const boards = data?.boards || [];
-  const tasks = data?.tasks || [];
+  const user = data?.user ?? null;
+  const boards = data?.boards ?? [];
 
-  const token = getToken();
-  const isAuthenticated = !!token && !!user;
+  // ➤ Initialize selectedBoard once when boards arrive
+  useEffect(() => {
+    if (boards.length > 0 && selectedBoard === null) {
+      setSelectedBoard(boards[0]._id);
+    }
+    // we only want to run when `boards` change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [boards]);
 
-  // ✅ Final context provider
+  // ➤ Update tasks when selectedBoard or boards change
+  useEffect(() => {
+    if (selectedBoard) {
+      const board = boards.find((b) => b._id === selectedBoard);
+      setTasks(board?.Tasks || []);
+    } else {
+      setTasks([]);
+    }
+  }, [selectedBoard, boards]);
+
+  const isAuthenticated = !!user && !isError;
+
   return (
-    <AuthContext.Provider value={{
-      user,
-      boards,
-      tasks,
-      token,
-      isAuthenticated,
-      isLoading,
-      isError,
-      error,
-      sliderbar,
-      setSliderbar,
-      selectedBoard,
-      setSelectedBoard,
-      refreshBoard,
-      setRefreshBoard,
-      refreshTask,
-      setRefreshTask
-    }}>
-      {props.children}
+    <AuthContext.Provider
+      value={{
+        user,
+        boards,
+        tasks,
+        setTasks,
+        isAuthenticated,
+        isLoading,
+        isError,
+        error,
+        refetchUser,
+        logostyles,
+        sliderbar,
+        setSliderbar,
+        selectedBoard,
+        setSelectedBoard,
+      }}
+    >
+      {children}
     </AuthContext.Provider>
   );
 };

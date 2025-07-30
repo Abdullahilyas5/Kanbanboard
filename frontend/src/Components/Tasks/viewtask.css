@@ -1,0 +1,129 @@
+.wrapper-form-create-board {
+  position: fixed;
+  inset: 0;
+  top: 50%;
+  left: 50%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cancle-box{
+    z-index: 1;
+}
+.wrapper-first-half{
+    padding: 1.5rem 1rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    z-index: 99;
+    min-width:30rem;
+}
+.board-details-header{
+ /* background-color: aqua; */
+ min-width: max-content;
+ display: flex;
+ justify-content: space-between;
+ align-items: start;
+ gap: 2rem;
+}
+
+.toggle-icon-details{
+    cursor: pointer;
+}
+
+.task-details-heading {
+  margin-top: 0;
+  color: #ffff;
+  background-color: transparent;
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  margin-bottom: 1rem;
+}
+.task-details-desc{
+    font-size: .8rem;
+    color: #ffffffe0;
+    text-transform: capitalize;
+}
+
+/* checkbox label style */
+.subtask-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+/* checkbox itself */
+.subtask-checkbox input[type="checkbox"] {
+  accent-color: #6cddac;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/* completed subtask styling */
+.subtask-checkbox.completed .subtask-title {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* not completed */
+.subtask-title {
+  text-transform: none;
+}
+
+/* task section heading */
+.subtask-heading {
+  color: white;
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+/* button container */
+.task-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+
+}
+
+/* buttons general */
+.btn {
+  padding: 1rem 1rem;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* update button specific */
+.action-update-btn {
+  background-color: #4cc1e5;
+}
+
+/* delete button specific */
+.delete-btn {
+  background-color: #e54c4c;
+}
+
+
+
+.action-status{
+    width: 100%;
+    padding: 1rem;
+    border-radius: 10px;
+
+}
+.action-status > *{
+    padding: 1rem;
+
+}
+
+
+
+

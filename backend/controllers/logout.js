@@ -2,12 +2,16 @@ const express = require('express');
 
 
 const logoutMiddleware = (req, res) => {
-    res.clearCookie('token',{"path": '/',
-        sameSite : 'none',
-    });
-    res.send('logout successful');  
+    try {
+        res.clearCookie('token', {
+            path: '/',
+            httpOnly: true,
+            sameSite: 'Lax', // Use 'Lax' for local dev, 'None' + secure: true for production HTTPS
+            secure: false,
+        });
+        res.status(200).json({ message: 'Logout successful' });
+    } catch (err) {
+        res.status(500).json({ message: 'Logout failed', error: err.message });
+    }
 };
-
-
-
 exports.logoutMiddleware = logoutMiddleware;

@@ -1,104 +1,149 @@
 .parent {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(8, 8, 8, 0.514);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.bg-signup {
-    
-    width: 100%;
-    height: 100%;
-   
-    
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  scroll-behavior: smooth ;
+  justify-content: center;
+  background-color: #17171e !important;
 }
 
-.sign-form{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    z-index: 10000;
-    height: 25rem;
-    width: 350px;
-    background: #2C2C38;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 0 auto;
-    top: 0;
-    left: 0;
-    transform: none;
+.sign-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 30rem;
+  max-height: max-content ;
+  align-content: space-around;
+  width: 25rem;
+  background: #2c2c38;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 auto;
+  top: 0;
+  left: 0;
+  transform: none;
 }
-
-.form-closer{
-    position: fixed;
-    inset: 0;
-    z-index: 9998;
-    background: transparent;
-}
-
 .signin-title {
-    font-size: 1rem;
-    font-weight: 700;
-    align-items: center;
-    display: flex;
-    margin: 1rem;
-    justify-content: center;
-  }
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem;
 
-  .input-box {
+  /* Gradient for text */
+  background: linear-gradient(90deg, #7c73f1, #cbc7ff, #f0f0f3, #7c73f1);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 0.5rem;
+  /* Animate the gradient inside the text */
+  animation: textGradientAnimation 4s infinite linear;
 }
-  
-  .input-box label {
-    font-size: 0.7rem;
+
+@keyframes textGradientAnimation {
+  0% {
+    background-position: 0% 50%;
   }
-  
- .input-box input {
-    border: 1px solid rgba(255, 255, 255, 0.215);
-    margin: 0px;
-    font-size: 0.7rem;
-    padding: .7rem .9rem;
-
+  50% {
+    background-position: 100% 50%;
   }
-  
-  .input-box input::placeholder {
-    font-size: 0.6rem;
+  100% {
+    background-position: 0% 50%;
   }
-
-  .navigate-links{
-    font-size: .8em;
-    padding: .7rem;
-  }
+}
 
 
 
-  .navigate-links a{
-     
-    color: #655ec7;
-    text-decoration: none;
-    font-size: small;
-    transition: 0.3s ease;
-    padding: 5px;
-    cursor: pointer;
-  }
+.input-box {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.5rem;
+}
+
+.input-box label {
+  font-size: 0.8rem;
+  font-weight: 100;
+}
+
+.input-box input {
+  border: 1px solid rgba(255, 255, 255, 0.215);
+  margin: 0px;
+  font-size: 0.7rem;
+  padding: 0.7rem 0.9rem;
+  transition: ease-out .8s border;
+}
+
+.input-box input:focus {
+  color: black;
+}
+.input-box input::placeholder {
+  font-size: 0.8rem;
+
+}
+.input-box input:focus input::placeholder {
+
+  color: black;
+}
 
 
 
-  .signin-btn{
-    margin: .5rem;
-    padding: 10px;
+.navigate-links {
+  font-size: 0.8em;
+  padding: 0.7rem;
+}
 
-  }
+.navigate-links .link {
+  color: rgb(77, 244, 244);
+  text-decoration: none;
+  font-size: small;
+  transition: 0.3s ease;
+  padding: 5px;
+  cursor: pointer;
+}
 
-  .input-box input:focus {
-    border-color: #dadada;
-  }
+
+.input-box input:focus {
+  border-color: #dadada;
+}
+
+.signin-btn {
+  position: relative;
+  overflow: hidden;
+  margin: 0.5rem;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 10px;
+  background-color: transparent;
+  color: white;
+  z-index: 1;
+}
+
+/* Water animation layer */
+.signin-btn::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0%;
+  background: rgba(255, 255, 255, 0.977); /* Light water color */
+  z-index: -1;
+  transition: height 0.6s ease;
+  border-radius: 0 0 10px 10px;
+}
+
+.signin-btn:hover::before {
+  height: 100%; 
+}
+
+.signin-btn:hover {
+  color: black;
+}
 

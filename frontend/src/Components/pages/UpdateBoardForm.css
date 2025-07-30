@@ -1,0 +1,96 @@
+#update-container {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  align-items: center;
+  justify-content: center;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(8, 8, 8, 0.642);
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+}
+
+.update-container .cancle-box{
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    background-color: red;
+}
+
+.update-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-direction: column;
+  background-color: #2c2c38;
+  min-width: 22rem;
+  min-height: 15rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  position: relative;
+}
+.update-form > * {
+  background-color: transparent;
+}
+.icon-cancel-board {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.update-board-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem;
+
+  /* Gradient for text */
+  background: linear-gradient(90deg, #7c73f1, #cbc7ff, #f0f0f3, #7c73f1);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+
+  /* Animate the gradient inside the text */
+  animation: textGradientAnimation 4s infinite linear;
+}
+
+@keyframes textGradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.update-board-input::placeholder {
+  font-size: 0.8rem;
+}
+
+.update-board-input {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1px solid white;
+}
+
+.update-btn {
+  border: 1px solid white;
+  text-transform: capitalize;
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+  background-color: #7c73f1;
+  color: white;
+}

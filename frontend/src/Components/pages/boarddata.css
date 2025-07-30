@@ -1,14 +1,19 @@
-.parent{
+.wrapper-form-create-board{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 99999;
-    background-color: rgba(8, 8, 8, 0.514);
-    width: 100%;
-    height: 100%;
+    background-color: rgba(8, 8, 8, 0.642);
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
 }
-
+.wrapper-form-create-board .cancle-box{
+    min-width: 100vw;
+    min-height: 100vh;
+    position: absolute;
+    background-color: transparent;
+}
 
 .board-details{
     display: flex;
@@ -20,26 +25,65 @@
     padding: 20px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    width: 20rem;
-    height: 13rem;
+    min-width: 22rem;
+    min-height: 15rem;
     gap: 1rem;
-    z-index: 999999;
-}
-
-.board-details h1{
-    align-self: center;
-    font-size: .9em;
-    font-weight: 500;
     padding: 1rem;
+    z-index: 999999 !important;
 }
 
- input {
-    border: 1px solid rgba(255, 255, 255, 0.215);
-    margin: 0px;
-    font-size: 0.7rem;
-    padding: .7rem .9rem;
+.board-form-heading  {
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem;
+  /* Gradient for text */
+  background: linear-gradient(90deg, #7c73f1, #cbc7ff, #f0f0f3, #7c73f1);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  /* Animate the gradient inside the text */
+  animation: textGradientAnimation 4s infinite linear;
+}
 
+@keyframes textGradientAnimation {
+  0% {
+    background-position: 0% 50%;
   }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.create-form-input::placeholder {
+  font-size: 0.8rem;
+}
+
+.create-form-input{
+    width: 100%;  
+    padding: 0.7rem 1rem; 
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+.create-form-btn{
+    border: 1px solid white;
+    font-size: 1rem;
+    text-transform: capitalize;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    margin-top: .5rem;
+    background-color: #7c73f1 ;
+    color: white;
+
+}
 
 
 .ri-close-line{
@@ -68,8 +112,4 @@ button{
     cursor: pointer;
 }
 
-.create-btn{
-    padding: 10px;
-    font-weight: 200;
 
-}
