@@ -35,7 +35,6 @@ app.use(helmet());
 
 // Routes
 app.get('/', homeRoute);
-app.get('/signup', (req, res) => res.send('hello world'));
 
 app.post('/createTask/:id', validateTask, createTask);
 app.put('/statusUpdate/:id', updateTaskStatusInBoard);

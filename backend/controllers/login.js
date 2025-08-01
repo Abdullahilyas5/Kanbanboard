@@ -20,25 +20,27 @@ const loginMiddleware = async (req, res) => {
         }
 
         const match = await bcrypt.compare(password, result.password);
-        
+
         if (!match) {
             return res.status(401).json({ message: 'Login failed' });
         }
 
-        const token = jwt.sign({ email }, process.env.JWT_SECRET, {expiresIn :"7d"});
+        const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
         res.cookie('token', token, {
             httpOnly: true,
-            sameSite: 'Lax',
+            sameSite: 'None',
             secure: false,
             path: '/',
         });
 
 
-        res.status(200).json({ message: 'Login successful',
-            user : result ,
-            message  : "login successfully",
-            token: token }); 
+        res.status(200).json({
+            message: 'Login successful',
+            user: result,
+            message: "login successfully",
+            token: token
+        });
     } catch (error) {
         res.status(400).json({ message: error.message, token: null });
     }

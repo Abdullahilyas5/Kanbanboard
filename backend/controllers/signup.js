@@ -39,14 +39,15 @@ const signupMiddleware = async (req, res) => {
 
     await createdUser.save();
 
+    
+    
+    console.log("token created successfully:", process.env.JWT_SECRET); 
 
     const token =  jwt.sign({ email: req.body.email },process.env.JWT_SECRET, { expiresIn: "7d" });
   
-
-
     res.cookie('token', token, {
       httpOnly: true,
-      sameSite: 'Lax',
+      sameSite: 'None',
       secure: false,
       path: '/',
     });

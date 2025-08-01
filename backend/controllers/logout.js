@@ -6,7 +6,7 @@ const logoutMiddleware = (req, res) => {
         res.clearCookie('token', {
             path: '/',
             httpOnly: true,
-            sameSite: 'Lax', // Use 'Lax' for local dev, 'None' + secure: true for production HTTPS
+            sameSite: 'None', // Use 'Lax' for local dev, 'None' + secure: true for production HTTPS
             secure: false,
         });
         res.status(200).json({ message: 'Logout successful' });
