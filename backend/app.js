@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
     cors({
-        origin: "http://localhost:5173",
+        origin: "https://abdullahkanbans.netlify.app/",
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
         credentials: true,
         allowedHeaders: ['Authorization', 'Content-Type'],
