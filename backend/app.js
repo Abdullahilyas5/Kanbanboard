@@ -1,5 +1,5 @@
-require('dotenv').config();
 const express = require('express');
+require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const Board = require('./models/Board.js');
 const { createBoard, validateUser, authenticationuser } = require('./controllers/boards.js');
@@ -16,6 +16,7 @@ const { deleteBoard } = require('./controllers/deleteController.js');
 const { updateTaskStatusInBoard } = require('./controllers/statusUpdateController.js');
 const { updateStatus, updateSubtask } = require("./controllers/UpdateTaskStatus.js");
 const { updateTask, deleteTask } = require('./controllers/TaskController.js');
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -30,21 +31,19 @@ app.use(
         allowedHeaders: ['Authorization', 'Content-Type'],
     })
 );
-const uri = process.env.MONGODB_URI;
-if (!uri) {
-    console.error("❌ MONGO_URI is not set in environment!");
-    process.exit(1);
-}
 
-mongoose.connect(process.env.MONGODB_URI, {}).then(
-    () => {
-        console.log('Connected to the database');
-    }
-).catch(
-    (err) => {
-        console.log('Failed to connect to the database', err);
-    }
-);
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => {
+  console.log("✅ Connected to MongoDB Atlas");
+  app.listen(3000, () => console.log("🚀 Server running on port 3000"));
+})
+.catch((err) => {
+  console.error("❌ MongoDB connection failed:", err.message);
+});
+
 
 
 app.use(helmet());
@@ -65,10 +64,5 @@ app.post('/createBoard', authenticationuser, createBoard);
 app.put('/updateBoard/:id', updateBoard);
 app.delete('/deleteBoard/:id', deleteBoard);
 app.get('/logout', logoutMiddleware);
-
-// Start server
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-});
 
 module.exports = app; // Needed for Vercel

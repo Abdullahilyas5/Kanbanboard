@@ -8,7 +8,6 @@ import UpdateBoard from "./Components/pages/UpdateBoard.jsx";
 
 import Login from "./Components/pages/login.jsx";
 import Signup from "./Components/pages/Signup.jsx";
-import App from "./App.jsx";
 import PrivateRoute from "./context/Privateroute.jsx";
 import Homepage from "./Components/pages/Homepages.jsx";
 import MainLayouts from "./Layouts/MainLayouts.jsx";

@@ -7,6 +7,7 @@ const User = require("../models/User.js");
 const signupMiddleware = async (req, res) => {
   try {
     const errors = validationResult(req);
+    console.log("Validation errors:", errors.array());
 
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
