@@ -25,7 +25,7 @@ const Homepage = () => {
     const toastDismissed = localStorage.getItem("homepage-toast-dismissed");
     const toastId = "homepage-toast";
     if (!toastDismissed && !toast.isActive(toastId)) {
-      toast.info("Welcome to the Homepage!", {
+      toast.info("Double click to see more details!", {
         toastId,
         onClose: () => {
           localStorage.setItem("homepage-toast-dismissed", "true");
