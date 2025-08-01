@@ -24,12 +24,28 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
     cors({
-        origin: ["http://localhost:5173","https://kanban-boards-task-management.netlify.app"],
+        origin: ["http://localhost:5173", "https://kanban-boards-task-management.netlify.app"],
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
         credentials: true,
         allowedHeaders: ['Authorization', 'Content-Type'],
     })
 );
+const uri = process.env.MONGODB_URI;
+if (!uri) {
+    console.error("❌ MONGO_URI is not set in environment!");
+    process.exit(1);
+}
+
+mongoose.connect(process.env.MONGODB_URI, {}).then(
+    () => {
+        console.log('Connected to the database');
+    }
+).catch(
+    (err) => {
+        console.log('Failed to connect to the database', err);
+    }
+);
+
 
 app.use(helmet());
 

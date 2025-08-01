@@ -1,21 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const uri = process.env.MONGODB_URI;
-if (!uri) {
-  console.error("❌ MONGO_URI is not set in environment!");
-  process.exit(1);
-}
-
-mongoose.connect(process.env.MONGODB_URI, {}).then(
-    () => {
-        console.log('Connected to the database');
-    }
-).catch(
-    (err)=>{
-        console.log('Failed to connect to the database', err);
-    }
-);
 
 const userSchema = new mongoose.Schema(
   {
