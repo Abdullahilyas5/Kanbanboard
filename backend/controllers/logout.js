@@ -7,7 +7,7 @@ const logoutMiddleware = (req, res) => {
             path: '/',
             httpOnly: true,
             sameSite: 'None', // Use 'Lax' for local dev, 'None' + secure: true for production HTTPS
-            secure: false,
+            secure: true,
         });
         res.status(200).json({ message: 'Logout successful' });
     } catch (err) {

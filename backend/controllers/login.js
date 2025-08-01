@@ -30,7 +30,7 @@ const loginMiddleware = async (req, res) => {
         res.cookie('token', token, {
             httpOnly: true,
             sameSite: 'None',
-            secure: false,
+            secure: true,
             path: '/',
         });
 
