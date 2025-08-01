@@ -1,13 +1,12 @@
 require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const serverless = require('serverless-http');  // <--- add this
 const Board = require('./models/Board.js');
 const { createBoard, validateUser, authenticationuser } = require('./controllers/boards.js');
 const { signupMiddleware, validateSignup } = require('./controllers/signup.js');
 const { loginMiddleware, validatelogin } = require('./controllers/login.js');
 const { logoutMiddleware } = require('./controllers/logout.js');
-const { createTask , validateTask } = require('./controllers/createTask.js');
+const { createTask, validateTask } = require('./controllers/createTask.js');
 const helmet = require('helmet');
 const cors = require("cors");
 const { homeRoute } = require('./controllers/homeRoute.js');
@@ -36,10 +35,7 @@ app.use(helmet());
 
 // Routes
 app.get('/', homeRoute);
-
-app.get('/signup', (req, res) => {
-    res.send('hello world');
-});
+app.get('/signup', (req, res) => res.send('hello world'));
 
 app.post('/createTask/:id', validateTask, createTask);
 app.put('/statusUpdate/:id', updateTaskStatusInBoard);
@@ -50,12 +46,14 @@ app.delete("/tasks/:taskId", deleteTask);
 
 app.post('/signup', validateSignup, signupMiddleware);
 app.post('/login', validatelogin, loginMiddleware);
-
 app.post('/createBoard', authenticationuser, createBoard);
 app.put('/updateBoard/:id', updateBoard);
 app.delete('/deleteBoard/:id', deleteBoard);
 app.get('/logout', logoutMiddleware);
 
-// Remove app.listen for Vercel serverless deployment
-// Export the serverless handler instead:
-module.exports.handler = serverless(app);
+// Start server
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
+});
+
+module.exports = app; // Needed for Vercel
