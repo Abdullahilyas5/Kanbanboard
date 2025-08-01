@@ -61,7 +61,6 @@ const signupMiddleware = async (req, res) => {
       status: 201,
       message: "User created successfully" });
     
-      res.end();
 
   } catch (err) {
 
