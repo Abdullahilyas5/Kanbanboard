@@ -24,13 +24,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
-    cors({
-        origin: ["http://localhost:5173", "kanban-boards-tasks-management.vercel.app"],
-        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-        credentials: true,
-        allowedHeaders: ['Authorization', 'Content-Type'],
-    })
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://kanban-boards-tasks-management.vercel.app"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    credentials: true,
+    allowedHeaders: ['Authorization', 'Content-Type'],
+  })
 );
+app.options('*', cors());
+
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
