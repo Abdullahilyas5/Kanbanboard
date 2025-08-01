@@ -174,7 +174,7 @@ const Signup = () => {
         </div>
 
         <p className="navigate-links">
-          Already have an account? <NavLink className="link" to="/login-page" replace >Login</NavLink>
+          Already have an account? <NavLink className="link" to="/login" replace >Login</NavLink>
         </p>
 
         <button type="submit" className="signin-btn" disabled={createUserMutation.isLoading}>

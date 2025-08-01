@@ -31,7 +31,7 @@ const App = () => {
     return <LogoLoader />;
   }
   if (isError || !isAuthenticated) {
-    return <Navigate to="/signup-page" replace />;
+    return <Navigate to="/signup" replace />;
   }
   return <Outlet />;
 };

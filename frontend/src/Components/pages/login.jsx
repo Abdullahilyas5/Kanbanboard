@@ -164,7 +164,7 @@ const Login = () => {
           </div>
         </div>
         <p className="navigate-links">
-          Don't have an account ? <NavLink className="link" to="/signup-page" >Sign up</NavLink>
+          Don't have an account ? <NavLink className="link" to="/signup" >Sign up</NavLink>
         </p>
         <button type="submit" className="login-btn">Login</button>
       </motion.form>
