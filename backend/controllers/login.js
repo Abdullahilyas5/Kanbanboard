@@ -25,7 +25,7 @@ const loginMiddleware = async (req, res) => {
             return res.status(401).json({ message: 'Login failed' });
         }
 
-        const token = jwt.sign({ email }, "secret", {expiresIn :"7d"});
+        const token = jwt.sign({ email }, process.env.JWT_SECRET, {expiresIn :"7d"});
 
         res.cookie('token', token, {
             httpOnly: true,

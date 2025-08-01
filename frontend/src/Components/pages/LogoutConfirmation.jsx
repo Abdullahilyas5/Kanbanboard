@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from "react-query";
 import api from "../../API/api.js";
 import "../pages/deleteboard.css";
+import { AuthContext } from '../../context/Authcontext.jsx';
 
 const LogoutConfirmation = () => {
   const navigate = useNavigate();
+  const {refetchUser} = useContext(AuthContext)
 
   const logoutMutation = useMutation(api.logout, {
     onSuccess: () => {
       localStorage.removeItem("token");
-      // Instead of reload, just navigate and let AuthContext update
-      navigate('/');
+      refetchUser();
     },
     onError: () => {
       alert("Logout failed. Please try again.");

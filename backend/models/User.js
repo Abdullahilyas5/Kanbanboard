@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-mongoose.connect('mongodb://127.0.0.1:27017/kanban', {}).then(
+
+mongoose.connect(process.env.MONGODB_URI, {}).then(
     () => {
         console.log('Connected to the database');
     }

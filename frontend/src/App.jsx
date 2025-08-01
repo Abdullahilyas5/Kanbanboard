@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Bars } from "react-loader-spinner";
 import { AuthContext } from "./context/Authcontext.jsx";
 import { Navigate, Outlet } from "react-router-dom";
-
+import "./App.css";
 const LogoLoader = () => (
   <div className="loading-container">
     <div className="loading-content">
@@ -13,7 +13,7 @@ const LogoLoader = () => (
         color="#655ec3"
         ariaLabel="loading"
       />
-      Kanban Board
+      <div className="loader-logo">Kanban Board</div>
     </div>
   </div>
 );
@@ -22,23 +22,17 @@ const App = () => {
   const { isLoading, isAuthenticated, isError } = useContext(AuthContext);
   const [showLoader, setShowLoader] = useState(true);
 
-  // ➤ Mandatory 2 s loader on mount
   useEffect(() => {
-    const t = setTimeout(() => setShowLoader(false), 2000);
+    const t = setTimeout(() => setShowLoader(false), 3000);
     return () => clearTimeout(t);
   }, []);
 
-  // ➤ While loader active OR fetching user data
   if (showLoader || isLoading) {
     return <LogoLoader />;
   }
-
-  // ➤ After loader + fetch, redirect if not authenticated
   if (isError || !isAuthenticated) {
-    return <Navigate to="/signup" replace />;
+    return <Navigate to="/signup-page" replace />;
   }
-
-  // ➤ Authenticated → render child routes
   return <Outlet />;
 };
 

@@ -1,10 +1,10 @@
-
 import { useNavigate, useLocation } from 'react-router';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/Authcontext';
 import { useMutation } from 'react-query';
 import "./deleteboard.css"
 import api from "../../API/api"
+import { toast } from "react-toastify";
 
 
 const DeleteBoard = () => {
@@ -20,11 +20,20 @@ const DeleteBoard = () => {
     const deleteBoardmutation = useMutation({
         mutationFn: ({ id }) => api.deleteBoard(id),
         onSuccess: (data) => {
-            console.log("Board deleted:", data);
-            refetchUser(),
-                navigate("/homepage");
+            toast.success("Board deleted successfully!", {
+                position: "top-right",
+                autoClose: 1200,
+                theme: "dark",
+            });
+            refetchUser();
+            navigate("/homepage");
         },
         onError: (error) => {
+            toast.error("Failed to delete board!", {
+                position: "top-right",
+                autoClose: 2000,
+                theme: "dark",
+            });
             console.error("deletion error:", error.response?.data || error.message);
         },
     });

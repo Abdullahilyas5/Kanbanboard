@@ -24,7 +24,6 @@ const updateStatus = async (req, res) => {
   const { taskId } = req.params;
   const { status } = req.body;
 
-  console.log("Received status:", status); // <-- Add this line
 
   if (!ALLOWED_STATUSES.includes(status)) {
     return res.status(400).json({ message: "Invalid status value" });

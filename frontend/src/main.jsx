@@ -17,6 +17,7 @@ import LogoutConfirmation from "./Components/pages/LogoutConfirmation.jsx";
 import Boarddata from "./Components/pages/boarddata.jsx";
 import DeleteBoard from "./Components/pages/DeleteBoard.jsx";
 import TaskDetailsModal from "./Components/Tasks/viewtask.jsx";
+import { ToastContainer } from "react-toastify";
 
 // Query client instance
 const queryClient = new QueryClient();
@@ -26,23 +27,22 @@ const router = createBrowserRouter([
   // Public routes (no layout)
 
   {
-    path: '/login',
+    path: '/login-page',
+    
     element: <Login />
   },
   {
-    path: '/signup',
+    path: '/signup-page',
     element: <Signup />
   },
+
 
   // Routes using MainLayouts
   {
     path: '/',
     element: <MainLayouts />,
     children: [
-      {
-        path: '/',
-        element: <App />
-      },
+
       {
         path: '/update-Board',
         element: <UpdateBoard />
@@ -72,12 +72,12 @@ const router = createBrowserRouter([
         path: '/logout',
         element: <LogoutConfirmation />
       },
-       {
+      {
         path: '/task-Details',
         element: <TaskDetailsModal />
       },
 
-    
+
     ]
   }
 ]);
@@ -88,6 +88,27 @@ createRoot(document.getElementById("root")).render(
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <RouterProvider router={router} />
+        <ToastContainer
+          position="top-right"
+          autoClose={1500}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          toastStyle={{
+            zIndex: 9999,
+            background: "transparent !important",
+            backdropFilter: "blur(8px)",
+            borderRadius: "12px",
+            color: "#00fff7",
+            border: "1px solid rgba(0,255,247,0.3)"
+          }}
+        />
+
       </AuthProvider>
     </QueryClientProvider>
   </StrictMode>

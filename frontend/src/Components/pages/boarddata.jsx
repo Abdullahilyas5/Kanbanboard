@@ -1,15 +1,16 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import "./boarddata.css";
 import { useNavigate } from 'react-router-dom';
 import api from '../../API/api';
-import {useMutation } from 'react-query';
+import { useMutation } from 'react-query';
 import { AuthContext } from '../../context/Authcontext';
+import { toast } from "react-toastify";
 
 const Boarddata = () => {
     const navigate = useNavigate();
     const [details, setdetails] = useState({ title: '' });
-    const {refetchUser} = useContext(AuthContext);
-    
+    const { refetchUser } = useContext(AuthContext);
+
     const handlechange = (e) => {
         const { name, value } = e.target;
         setdetails((prev) => ({
@@ -22,26 +23,30 @@ const Boarddata = () => {
         navigate('/homepage');
     };
 
-
-    const createBoardMutation =useMutation({
+    const createBoardMutation = useMutation({
         mutationFn: (details) => api.createBoard(details),
         onSuccess: (data) => {
-          console.log("Board created:", data);
-          refetchUser();
-          navigate("/"); 
-          
+            toast.success("🎉 Board created!", {
+                position: "top-right",
+                autoClose: 1500,
+                theme: "colored",
+                style: {
+                    background: "#e0ffe0",
+                    color: "#1a7f37",
+                    fontWeight: "bold",
+                },
+            });
+            refetchUser();
+            navigate("/");
         },
         onError: (error) => {
-          console.error("Signup error:", error.response?.data || error.message);
+            console.error("Signup error:", error.response?.data || error.message);
         },
-      });
-
-
-    
+    });
 
     return (
         <div className='wrapper-form-create-board'>
-            <form action="/createBoard" method='post' className='board-details' onSubmit={(e)=>{
+            <form action="/createBoard" method='post' className='board-details' onSubmit={(e) => {
                 e.preventDefault();
                 createBoardMutation.mutate(details);
             }}>

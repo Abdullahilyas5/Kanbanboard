@@ -11,7 +11,7 @@
 .board-title {
   font-size: 1.5rem;
   color: white;
-  background: linear-gradient(130deg, #7c73f1, #cbc7ff, #f0f0f3);
+  background: linear-gradient(130deg,  #fff);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

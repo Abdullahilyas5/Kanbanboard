@@ -10,6 +10,10 @@
   background-color: #17171e !important;
 }
 
+.eye-icons{
+  margin-top: 1.5rem;
+  margin-right: .5rem;
+}
 .sign-form {
   position: relative;
   display: flex;

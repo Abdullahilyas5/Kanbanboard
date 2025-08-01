@@ -10,6 +10,29 @@
   overflow-y: hidden;
   background-color: #20212c;
   z-index: 0;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.columns::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Hide scrollbar for each column */
+.column {
+  flex: 0 0 300px; /* fixed width per column */
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: background-color 0.2s ease-in-out;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.column::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 /* Reset all child column background if overridden */
@@ -37,11 +60,15 @@
   gap: 0.5rem;
   margin-bottom: 1.2rem;
   color: #828fa3;
-  background-color: transparent;
+
+  background-color: transparent !important;
   font-weight: 600;
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+.column .top > *{
+  background-color: transparent !important;
 }
 
 /* Tasks queue inside column */

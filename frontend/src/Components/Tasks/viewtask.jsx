@@ -6,14 +6,16 @@ import { AuthContext } from "../../context/Authcontext";
 import { RiCloseLine } from "react-icons/ri";
 import DeleteTaskModal from "./DeleteTaskModal";
 import UpdateTaskModal from "./UpdateTaskModal";
+import { toast } from "react-toastify";
 import "./viewtask.css";
 
 const ALLOWED_STATUSES = ["Todo", "Doing", "Done"];
 
 const TaskDetails = () => {
   const { state } = useLocation();
-  const navigate = useNavigate();
   const { refetchUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { setTasks, tasks } = useContext(AuthContext);
   const [task, setTask] = useState(state?.task);
   const [showDelete, setShowDelete] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
@@ -24,9 +26,15 @@ const TaskDetails = () => {
       api.checkboxUpdate(taskId, subtaskId, completed),
     onSuccess: (res) => {
       setTask(res.data.task);
-      refetchUser?.();
+      setTasks((prev) =>
+        prev.map((t) => (t._id === res.data.task._id ? res.data.task : t))
+      );
     },
-    onError: (err) => console.error("Subtask update failed", err.response?.data || err.message),
+    onError: (err) => {
+      // Optionally refetchUser here if you suspect data is out of sync
+      // refetchUser?.();
+      console.error("Subtask update failed", err.response?.data || err.message);
+    },
   });
 
   const handleCheckboxChange = (subtaskId, completed) => {
@@ -45,7 +53,11 @@ const TaskDetails = () => {
     mutationFn: ({ taskId, status }) => api.statusUpdate(taskId, status),
     onSuccess: (res) => {
       setTask(res.data.task);
-      refetchUser?.();
+      // Update tasks in context
+      setTasks((prev) =>
+        prev.map((t) => (t._id === res.data.task._id ? res.data.task : t))
+      );
+      // refetchUser?.(); // Only if needed
     },
     onError: (err) => console.error("Status update failed", err.response?.data || err.message),
   });
@@ -61,10 +73,21 @@ const TaskDetails = () => {
   const { mutate: deleteTask } = useMutation({
     mutationFn: (taskId) => api.deleteTask(taskId),
     onSuccess: () => {
+      toast.success("Task deleted successfully!", {
+        position: "top-right",
+        autoClose: 1200,
+        theme: "dark",
+      });
       refetchUser?.();
       navigate("/homepage");
     },
-    onError: (err) => console.error("Task delete failed", err),
+    onError: (err) => {
+      toast.error("Failed to delete task!", {
+        position: "top-right",
+        autoClose: 2000,
+        theme: "dark",
+      });
+    },
   });
 
   const completedCount = (task.subtasks || []).filter((st) => st.completed).length;
@@ -86,9 +109,9 @@ const TaskDetails = () => {
           <p className="task-details-desc">{task.description}</p>
 
           <div className="subtask-section">
-            <h3 className="subtask-heading">
+            {task.subtasks.length > 0 && <h3 className="subtask-heading">
               Subtasks ({completedCount} of {task.subtasks.length})
-            </h3>
+            </h3>}
             {task.subtasks.map((sub) => (
               <label
                 key={sub._id}

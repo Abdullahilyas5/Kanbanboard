@@ -1,6 +1,7 @@
 import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 import api from "../../API/api.js";
 import "./create-task.css";
 
@@ -10,7 +11,7 @@ import { AuthContext } from "../../context/Authcontext.jsx";
 const CreateTask = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { selectedBoard , refetchUser } = useContext(AuthContext);
+  const { selectedBoard, refetchUser } = useContext(AuthContext);
 
   const [taskData, setTaskData] = useState({
     title: "",
@@ -24,23 +25,30 @@ const CreateTask = () => {
   const subInputRef = useRef(null);
   const formRef = useRef(null);
 
- const mutation = useMutation(
-  ({ taskData, selectedBoard }) => api.createTask(taskData, selectedBoard),
-  {
-    onSuccess: (res) => {
-      queryClient.invalidateQueries("tasks");
-      setTaskData({ title: "", description: "", subtasks: [], status: "Todo" });
-      setSubtasksUI([]);
-      console.log(res);
-      refetchUser();
-      navigate("/homepage");
-    },
-    onError: (error) => {
-      console.log(error.message);
-      alert("Failed to create task. Please try again.");
-    },
-  }
-);
+  const mutation = useMutation(
+    ({ taskData, selectedBoard }) => api.createTask(taskData, selectedBoard),
+    {
+      onSuccess: (res) => {
+        toast.success("Task created successfully!", {
+          position: "top-right",
+          autoClose: 1200,
+          theme: "dark",
+        });
+        queryClient.invalidateQueries("tasks");
+        setTaskData({ title: "", description: "", subtasks: [], status: "Todo" });
+        setSubtasksUI([]);
+        refetchUser();
+        navigate("/homepage");
+      },
+      onError: (error) => {
+        toast.error("Failed to create task!", {
+          position: "top-right",
+          autoClose: 2000,
+          theme: "dark",
+        });
+      },
+    }
+  );
 
 
   const handleAddSubtask = () => {
@@ -75,26 +83,32 @@ const CreateTask = () => {
     setTaskData((prev) => ({ ...prev, subtasks: updatedData }));
   };
 
- const handleFormSubmit = (e) => {
-  e.preventDefault();
-  if (!selectedBoard) {
-    alert("No board selected. Please select a board first.");
-    return;
-  }
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (!selectedBoard) {
+     toast.error("Please select a board first.", {
+        position: "top-right",
+        autoClose: 2000,
+        theme: "dark",  
+      });
+      navigate("/homepage", { replace: true });
+    }
 
-  if (!taskData.title.trim()) return alert("Title is required.");
-  mutation.mutate({ taskData, selectedBoard }); // selectedBoard is the ID string
-};
+    if (!taskData.title.trim()) return alert("Title is required.");
+    mutation.mutate({ taskData, selectedBoard }); // selectedBoard is the ID string
+  };
 
 
   const handleEnterKey = (e, currentField) => {
     if (e.key === "Enter") {
       e.preventDefault();
       const formElements = [...formRef.current.elements];
+      console.log(formElements);
       const index = formElements.findIndex((el) => el.name === currentField);
       if (index >= 0 && index < formElements.length - 1) {
         const nextElement = formElements[index + 1];
         nextElement?.focus();
+        console.log("Focused on next element:", nextElement?.focus());
       } else {
         handleFormSubmit(e);
       }
@@ -121,6 +135,8 @@ const CreateTask = () => {
             name="title"
             value={taskData.title}
             placeholder="Title"
+            autoFocus
+            required
             onChange={(e) => setTaskData({ ...taskData, title: e.target.value })}
             onKeyDown={(e) => handleEnterKey(e, "title")}
           />

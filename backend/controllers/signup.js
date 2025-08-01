@@ -40,7 +40,7 @@ const signupMiddleware = async (req, res) => {
     await createdUser.save();
 
 
-    const token =  jwt.sign({ email: req.body.email }, "secret", { expiresIn: "7d" });
+    const token =  jwt.sign({ email: req.body.email },process.env.JWT_SECRET, { expiresIn: "7d" });
   
 
 
@@ -59,7 +59,6 @@ const signupMiddleware = async (req, res) => {
       tasks : [],
       status: 201,
       message: "User created successfully" });
-    
     
       res.end();
 

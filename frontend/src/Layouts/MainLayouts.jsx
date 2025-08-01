@@ -5,6 +5,7 @@ import Homepage from '../Components/pages/Homepages.jsx';
 const MainLayouts = () => {
   return (
     <div>
+      <App/>
       <Homepage />
       <Outlet />
     </div>

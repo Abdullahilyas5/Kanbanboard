@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const Board = require('./models/Board.js');
@@ -8,9 +9,7 @@ const { logoutMiddleware } = require('./controllers/logout.js');
 const {createTask , validateTask} = require('./controllers/createTask.js')
 const helmet = require('helmet');
 const cors = require("cors");
-const { displayTask ,verification} = require('./controllers/displaytask.js');
 const { homeRoute } = require('./controllers/homeRoute.js');
-const { boardverification ,displayboard } = require('./controllers/displayboard.js');
 const { checkUser } = require('./middleware/AuthenticateUser.js');
 const { updateBoard } = require('./controllers/updateController.js');
 const { deleteBoard } = require('./controllers/deleteController.js');
@@ -18,7 +17,7 @@ const { updateTaskStatusInBoard } = require('./controllers/statusUpdateControlle
 const {updateStatus,updateSubtask} = require("./controllers/UpdateTaskStatus.js")
 const { updateTask, deleteTask } = require('./controllers/TaskController.js');
 
-require('dotenv').config();
+
 
 
 const app = express();
@@ -47,7 +46,6 @@ app.get('/signup', (req, res) => {
 
 // create task
 
-app.get('/displayTask', displayTask)
 app.post('/createTask/:id',validateTask, createTask);
 
 app.put('/statusUpdate/:id', updateTaskStatusInBoard);
@@ -68,13 +66,12 @@ app.delete("/tasks/:taskId", deleteTask);
 
 
 // login  or logout  and signup route      
-app.post('/signup', checkUser, validateSignup, signupMiddleware);
+app.post('/signup', validateSignup, signupMiddleware);
 
 app.post('/login', validatelogin, loginMiddleware);
 
 // boards routes
 
-app.get('/display-board/:user', boardverification ,displayboard);
 
 app.post('/createBoard', authenticationuser , createBoard);
 

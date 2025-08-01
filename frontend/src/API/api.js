@@ -15,6 +15,8 @@ export const logout = () =>
 export const loginUser = (data) =>
   axios.post(`${BASE_URL}/login`, data, { withCredentials: true });
 
+
+
 // — Boards —
 export const fetchBoards = (userId) =>
   axios.get(`${BASE_URL}/display-board/${userId}`, { withCredentials: true });

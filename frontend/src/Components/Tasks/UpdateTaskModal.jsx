@@ -3,6 +3,7 @@ import { useMutation } from "react-query";
 import api from "../../API/api.js";
 import "./create-task.css";
 import { RiCloseLine } from "react-icons/ri";
+import { toast } from "react-toastify";
 
 const UpdateTaskModal = ({ open, onClose, task, onUpdated }) => {
   const [taskData, setTaskData] = useState({
@@ -21,11 +22,20 @@ const UpdateTaskModal = ({ open, onClose, task, onUpdated }) => {
     (data) => api.updateTask(task._id, data),
     {
       onSuccess: (res) => {
+        toast.success("Task updated successfully!", {
+          position: "top-right",
+          autoClose: 1200,
+          theme: "dark",
+        });
         onUpdated(res.data.task);
         onClose();
       },
       onError: (error) => {
-        alert("Failed to update task. Please try again.");
+        toast.error("Failed to update task!", {
+          position: "top-right",
+          autoClose: 2000,
+          theme: "dark",
+        });
       },
     }
   );

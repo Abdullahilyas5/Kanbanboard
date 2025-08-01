@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import { MdOutlineCancel } from "react-icons/md";
 import "../pages/UpdateBoardForm.css"
 import { useLocation } from 'react-router';
+import { toast } from "react-toastify";
 
 import api from "../../API/api"
 import { AuthContext } from '../../context/Authcontext';
@@ -34,12 +35,26 @@ const UpdateBoard = () => {
     const updateBoardmutation = useMutation({
         mutationFn: ({ info, id }) => api.updateBoard(info, id),
         onSuccess: (data) => {
-            console.log("Board updated:", data);
-            refetchUser(),
-                navigate("/homepage");
+            toast.info("Board updated successfully!", {
+                position: "bottom-right",
+                autoClose: 1200,
+                theme: "light",
+                style: {
+                    background: "#e6f0ff",
+                    color: "#1a3d7c",
+                    fontWeight: "bold",
+                },
+                icon: "✏️",
+            });
+            refetchUser();
+            navigate("/homepage");
         },
         onError: (error) => {
-            console.error("update board error:", error.response?.data || error.message);
+            toast.error("Failed to update board!", {
+                position: "bottom-right",
+                autoClose: 2000,
+                theme: "light",
+            });
         },
     });
     return (
@@ -51,10 +66,13 @@ const UpdateBoard = () => {
                 <i className="ri-close-line" onClick={handlecancle}></i>
 
                 <h1 className='update-board-heading'>Update Board</h1>
-                <input className='update-board-input' type="text" name="title" placeholder="Title"
-                    value={info.title}
-                    onChange={handlechange} autoFocus required />
-                <button type="submit" className='update-btn'>Update Board</button>
+                <input className='update-board-input' type="text" name="title" required placeholder="Title" value={info.title} onChange={handlechange} />
+                <button
+                    className='update-board-button'
+                    type='submit'
+                >
+                    {updateBoardmutation.isLoading ? "Updating..." : "Update Board"}
+                </button>
             </form>
         </div >
     )

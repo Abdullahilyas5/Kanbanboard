@@ -1,22 +1,24 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/Authcontext";
 import "./Board.css";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdDashboard, MdCreate } from "react-icons/md";
-import { motion } from "motion/react";
-const Boards = ({ settitle, sidebarRef }) => {
-  const { boards, logostyles, selectedBoard, setSelectedBoard } = useContext(AuthContext);
+
+const Boards = ({ settitle, Usersetboard }) => {
+  const { boards, logostyles, selectedBoard, setSelectedBoard, refetchUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleBoard = () => {
     navigate("/createBoard", { replace: true });
   };
 
-  const handleTitle = (newTitle, id) => {
+  const handleTitle = useCallback((newTitle, id) => {
     settitle(newTitle);
     setSelectedBoard(id);
-  };
+    Usersetboard(id);
+    refetchUser?.();
+  }, [settitle, setSelectedBoard, Usersetboard, refetchUser]);
 
   const height = logostyles?.current?.offsetHeight;
 
@@ -25,7 +27,6 @@ const Boards = ({ settitle, sidebarRef }) => {
       <div
         className="container"
         style={{ height: logostyles ? `calc(100vh - ${height}px)` : "auto" }}
-        ref={sidebarRef}
       >
         <p className="boardcount">ALL BOARDS ({boards?.length || 0})</p>
         <BoardDisplay boards={boards} handleTitle={handleTitle} />
@@ -45,18 +46,15 @@ const BoardDisplay = ({ boards, handleTitle }) => {
 
   const handleToggle = (id) => {
     setActiveMenuId(prevId => (prevId === id ? null : id));
-    
-    setTimeout(()=>{
+    setTimeout(() => {
       setActiveMenuId(null);
-    },7000)
+    }, 7000);
   };
 
   return (
     <div className="display-wrapper">
       {boards.map((board) => (
-        <div 
-        
-        className="board-container" key={board._id}>
+        <div className="board-container" key={board._id}>
           <div className="top-board">
             <div className="board-title-container">
               <MdDashboard className="board-icons" />

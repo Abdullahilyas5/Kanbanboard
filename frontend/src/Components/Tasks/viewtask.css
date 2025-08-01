@@ -35,24 +35,27 @@
 
 .task-details-heading {
   margin-top: 0;
-  color: #ffff;
+  color: white;
   background-color: transparent;
   font-size: 1.5rem;
   text-transform: capitalize;
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
+
+  
 }
 .task-details-desc{
-    font-size: .8rem;
-    color: #ffffffe0;
-    text-transform: capitalize;
+    font-size: 1rem;
+    color: floralwhite;
 }
+
 
 /* checkbox label style */
 .subtask-checkbox {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.3rem;
+  gap: 1rem;
+  margin-bottom: .5rem;
+  margin-left: .5rem;
   color: #fff;
   cursor: pointer;
   font-size: 0.85rem;
@@ -61,7 +64,7 @@
 /* checkbox itself */
 .subtask-checkbox input[type="checkbox"] {
   accent-color: #6cddac;
-  transform: scale(1.2);
+  transform: scale(1.5);
   cursor: pointer;
 }
 
@@ -78,9 +81,9 @@
 
 /* task section heading */
 .subtask-heading {
-  color: white;
+  color: #4cc1e5;
   font-size: 1rem;
-  margin: 0.5rem 0;
+  margin: 1rem 0;
 }
 
 /* button container */
@@ -117,6 +120,8 @@
     width: 100%;
     padding: 1rem;
     border-radius: 10px;
+  margin-bottom: 1rem;
+
 
 }
 .action-status > *{

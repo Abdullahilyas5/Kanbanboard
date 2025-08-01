@@ -3,16 +3,38 @@ import "./BoardCard.css";
 import { AuthContext } from "../context/Authcontext.jsx";
 import { useMutation, useQueryClient } from "react-query";
 import api from "../API/api.js";
+import { toast } from "react-toastify";
 
 function BoardCard({ key, id, title, handletitle }) {
   const { board, setSelectedBoard, settask } = useContext(AuthContext);
   const queryClient = useQueryClient();
 
-  const createBoardMutation = useMutation(api.createBoard, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("boards");
-    },
-  });
+  const createBoardMutation = useMutation(
+    (data) => api.createBoard(data),
+    {
+      onSuccess: () => {
+        toast.success("🎉 Board created!", {
+          position: "top-center",
+          autoClose: 1500,
+          theme: "colored",
+          style: {
+            background: "#e0ffe0",
+            color: "#1a7f37",
+            fontWeight: "bold",
+          },
+          icon: "🆕",
+        });
+        queryClient.invalidateQueries("boards");
+      },
+      onError: () => {
+        toast.error("Failed to create board!", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "colored",
+        });
+      },
+    }
+  );
 
   function handlenewtitle() {
     handletitle(title);

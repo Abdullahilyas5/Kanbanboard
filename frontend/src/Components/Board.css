@@ -60,9 +60,10 @@
 .board-title-container{
   background-color: transparent;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   gap: .2rem;
+  flex: 1;
 }
 
 .menu-btn{
@@ -72,7 +73,8 @@
 }
 .board-icons{
   background-color: transparent;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  
 
 }
 
@@ -80,7 +82,9 @@
 .boardbtn{
   background-color: transparent;
   font-size: 1rem;
+  width: 100%;
   text-transform: capitalize;
+  justify-content: start !important;
 }
 
 

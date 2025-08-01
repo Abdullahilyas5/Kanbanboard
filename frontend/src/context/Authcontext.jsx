@@ -1,18 +1,18 @@
+// src/context/Authcontext.jsx
 import React, { useState, createContext, useEffect, useRef } from "react";
 import api from "../API/api.js";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const logostyles = useRef(null);
-  const [sliderbar, setSliderbar] = useState(false);
 
-  // Boards & tasks state
   const [tasks, setTasks] = useState([]);
   const [selectedBoard, setSelectedBoard] = useState(null);
 
-  // Fetch user + boards
+  // 1) Fetch user + boards
   const fetchUserData = () =>
     api.fetchUser().then((res) => {
       if (res.status === 200) return res.data;
@@ -37,24 +37,51 @@ export const AuthProvider = ({ children }) => {
   const user = data?.user ?? null;
   const boards = data?.boards ?? [];
 
-  // ➤ Initialize selectedBoard once when boards arrive
+  // 2) Auto-select first board when boards change
   useEffect(() => {
-    if (boards.length > 0 && selectedBoard === null) {
-      setSelectedBoard(boards[0]._id);
+    if (boards.length > 0) {
+      const exists = boards.some((b) => b._id === selectedBoard);
+      const firstId = boards[0]._id;
+      if (!exists) {
+        setSelectedBoard(firstId);
+      }
+    } else {
+      setSelectedBoard(null);
     }
-    // we only want to run when `boards` change
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [boards]);
+  }, [boards, selectedBoard]);
 
-  // ➤ Update tasks when selectedBoard or boards change
+  // 3) Update tasks _only_ when they truly change
   useEffect(() => {
     if (selectedBoard) {
       const board = boards.find((b) => b._id === selectedBoard);
-      setTasks(board?.Tasks || []);
+      const newTasks = board?.Tasks || [];
+
+      setTasks((prev) => {
+        // quick length check + ID-by-index check
+        if (
+          prev.length === newTasks.length &&
+          prev.every((t, i) => t._id === newTasks[i]._id)
+        ) {
+          return prev; // identical → no update
+        }
+        return newTasks; // changed → update
+      });
     } else {
-      setTasks([]);
+      setTasks((prev) => (prev.length ? [] : prev));
     }
-  }, [selectedBoard, boards]);
+  }, [boards, selectedBoard]);
+
+  // 4) One-time homepage toast
+  useEffect(() => {
+    if (!localStorage.getItem("homepage-toast-shown")) {
+      toast.info("Welcome to your Kanban Homepage!", {
+        toastId: "homepage-welcome",
+        onClose: () => localStorage.setItem("homepage-toast-shown", "true"),
+        autoClose: false,
+        closeOnClick: true,
+      });
+    }
+  }, []);
 
   const isAuthenticated = !!user && !isError;
 
@@ -71,8 +98,6 @@ export const AuthProvider = ({ children }) => {
         error,
         refetchUser,
         logostyles,
-        sliderbar,
-        setSliderbar,
         selectedBoard,
         setSelectedBoard,
       }}

@@ -5,6 +5,38 @@
   box-sizing: border-box;
   color: white;
 }
+.Toastify__toast-container {
+background: transparent !important;
+  }
+
+
+.Toastify__toast-icon {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Remove background from close (X) button */
+.Toastify__close-button {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: white !important; /* or any color you prefer */
+}
+
+.loader-logo{
+  font-size: 5rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, #7c73f1, #cbc7ff, #f0f0f3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Optional: make toast fully transparent background */
+.Toastify__toast {
+  background-color: rgba(30, 30, 30, 0.9) !important;
+  color: white !important;
+  border-radius: 10px;
+}
 
 html, body {
   width: 100%;
@@ -28,7 +60,6 @@ html, body {
 /* Splash Content (Loader + Logo) */
 .loading-content {
   display: flex;
-  flex-direction: column;
   align-items: center;
   gap: 20px;
 }
@@ -36,7 +67,7 @@ html, body {
 /* Gradient Text Logo */
 .loader-logo,
 .logo {
-  font-size: 1rem;
+  font-size: 3rem;
   font-weight: bold;
   background: linear-gradient(45deg, #7c73f1, #cbc7ff, #f0f0f3);
   -webkit-background-clip: text;
