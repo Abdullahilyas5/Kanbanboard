@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "./context/Authcontext.jsx";
+
 import Login from "./Components/pages/login.jsx";
 import Signup from "./Components/pages/Signup.jsx";
 import App from "./App.jsx";
