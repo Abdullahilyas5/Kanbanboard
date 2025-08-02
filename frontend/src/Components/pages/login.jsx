@@ -1,6 +1,6 @@
 // Login.jsx
 import React, { useContext, useRef, useState } from "react";
-import styles from "./Login.module.css";      // or "./Login.css"
+import "./login.css";      // or "./Login.css"
 import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/Authcontext.jsx";
 import api from "../../API/api.js";

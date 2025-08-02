@@ -1,6 +1,6 @@
 // Signup.jsx
 import React, { useContext, useRef, useState } from "react";
-import styles from "./Signup.module.css";       // or "./Signup.css"
+import  "./Signup.css";       // or "./Signup.css"
 import { NavLink, useNavigate, Navigate } from "react-router-dom";
 import { AuthContext } from "../../context/Authcontext.jsx";
 import api from "../../API/api.js";

@@ -1,6 +1,6 @@
 // Logout.jsx
 import React from "react";
-import styles from "./Logout.module.css";   // or "./logout.css"
+import "./logout.css";   // or "./logout.css"
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import api from "../../API/api.js";
