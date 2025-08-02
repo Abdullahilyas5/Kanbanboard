@@ -29,7 +29,7 @@ app.use(
   cors({
     origin: [
       'http://localhost:5173',
-      'https://kanbanboard-taskmanagement.vercel.app/',
+      'https://kanbanboard-puce-xi.vercel.app',
     ],
     methods: ['GET','POST','PUT','DELETE','PATCH'],
     credentials: true,
