@@ -27,16 +27,17 @@ const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,    // ← top-level guard & loader
+    element: <App />,    // ← top‐level loader/auth guard
     children: [
       // Public
       { path: "login",  element: <Login /> },
       { path: "signup", element: <Signup /> },
 
-      // Protected
+      // Protected layout
       {
-        element: <MainLayouts />, // shared layout (header/sidebar)
+        element: <MainLayouts />,
         children: [
+          // Serve Homepage on both "/" and "/homepage"
           {
             index: true,
             element: (
@@ -45,6 +46,16 @@ const router = createBrowserRouter([
               </PrivateRoute>
             ),
           },
+          {
+            path: "homepage",
+            element: (
+              <PrivateRoute>
+                <Homepage />
+              </PrivateRoute>
+            ),
+          },
+
+          // Other protected routes
           {
             path: "update-Board",
             element: (
