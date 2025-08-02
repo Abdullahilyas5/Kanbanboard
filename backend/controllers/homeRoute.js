@@ -12,6 +12,7 @@ exports.homeRoute = async (req, res) => {
     }
     if (!token) {
       return res.status(401).json({ message: 'Unauthorized' });
+      
     }
 
     // 2) verify
