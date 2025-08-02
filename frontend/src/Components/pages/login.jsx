@@ -9,7 +9,7 @@ import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const Login = () => {
+const Login = () => { 
   const [creds, setCreds] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const { isAuthenticated, refetchUser } = useContext(AuthContext);
