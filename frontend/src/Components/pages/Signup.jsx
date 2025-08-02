@@ -87,7 +87,6 @@ const Signup = () => {
     createUserMutation.mutate(user);
   };
 
-  // ✅ Now placed AFTER hooks — safe usage
   if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }

@@ -81,6 +81,7 @@
   font-size: 0.7rem;
   padding: 0.7rem 0.9rem;
   transition: ease-out .8s border;
+  background-color: transparent;
 }
 
 .input-box input:focus {

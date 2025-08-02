@@ -1,69 +1,51 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
-console.log("vite api url:", BASE_URL);
+// Create a single axios instance with baseURL and credentials
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true, // send cookies if your backend uses cookie-based auth
+});
+
+// If you use a JWT in localStorage, inject it on every request:
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers = {
+      ...config.headers,
+      Authorization: `Bearer ${token}`,
+    };
+  }
+  return config;
+});
 
 // — User auth —
-export const fetchUser = () =>
-  axios.get(`${BASE_URL}/`, { withCredentials: true });
-
-export const createUser = (data) =>
-  axios.post(`${BASE_URL}/signup`, data, { withCredentials: true });
-
-export const logout = () =>
-  axios.get(`${BASE_URL}/logout`, { withCredentials: true });
-
-export const loginUser = (data) =>
-  axios.post(`${BASE_URL}/login`, data, { withCredentials: true });
-
-
+// NOTE: your backend root ("/") endpoint returns { user, boards }
+export const fetchUser = () => api.get("/");
+export const loginUser = (data) => api.post("/login", data);
+export const createUser = (data) => api.post("/signup", data);
+export const logout = () => api.post("/logout");
 
 // — Boards —
-export const fetchBoards = (userId) =>
-  axios.get(`${BASE_URL}/display-board/${userId}`, { withCredentials: true });
-
-export const createBoard = (newBoard) =>
-  axios.post(`${BASE_URL}/createBoard`, newBoard, { withCredentials: true });
-
-export const updateBoard = (updatedBoard, id) =>
-  axios.put(`${BASE_URL}/updateBoard/${id}`, updatedBoard, { withCredentials: true });
-
-export const deleteBoard = (id) =>
-  axios.delete(`${BASE_URL}/deleteBoard/${id}`, { withCredentials: true });
+export const fetchBoards = (userId) => api.get(`/display-board/${userId}`);
+export const createBoard = (newBoard) => api.post("/createBoard", newBoard);
+export const updateBoard = (updatedBoard, id) => api.put(`/updateBoard/${id}`, updatedBoard);
+export const deleteBoard = (id) => api.delete(`/deleteBoard/${id}`);
 
 // — Tasks & Subtasks —
-export const fetchTasks = (boardId) =>
-  axios.get(`${BASE_URL}/displayTask/${boardId}`, { withCredentials: true });
-
-export const createTask = (task, id) =>
-  axios.post(`${BASE_URL}/createTask/${id}`, task, { withCredentials: true });
-
-// ✅ Changed these to PATCH so you update only the field in question:
+export const fetchTasks = (boardId) => api.get(`/displayTask/${boardId}`);
+export const createTask = (task, id) => api.post(`/createTask/${id}`, task);
 export const checkboxUpdate = (taskId, subtaskId, completed) =>
-  axios.patch(
-    `${BASE_URL}/tasks/${taskId}/subtasks/${subtaskId}`,
-    { completed },
-    { withCredentials: true }
-  );
-
+  api.patch(`/tasks/${taskId}/subtasks/${subtaskId}`, { completed });
 export const statusUpdate = (taskId, status) =>
-  axios.patch(
-    `${BASE_URL}/tasks/${taskId}/status`,
-    { status },
-    { withCredentials: true }
-  );
-
-export const updateTask = (taskId, data) =>
-  axios.put(`${BASE_URL}/tasks/${taskId}`, data, { withCredentials: true });
-
-export const deleteTask = (taskId) =>
-  axios.delete(`${BASE_URL}/tasks/${taskId}`, { withCredentials: true });
+  api.patch(`/tasks/${taskId}/status`, { status });
+export const updateTask = (taskId, data) => api.put(`/tasks/${taskId}`, data);
+export const deleteTask = (taskId) => api.delete(`/tasks/${taskId}`);
 
 export default {
   fetchUser,
+  loginUser,
   createUser,
   logout,
-  loginUser,
   fetchBoards,
   createBoard,
   updateBoard,

@@ -1,109 +1,47 @@
-// src/index.jsx
-import React, { StrictMode } from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "./context/Authcontext.jsx";
-import App from "./App.jsx";
-
 import Login from "./Components/pages/login.jsx";
 import Signup from "./Components/pages/Signup.jsx";
+import App from "./App.jsx";
 import MainLayouts from "./Layouts/MainLayouts.jsx";
 import Homepage from "./Components/pages/Homepages.jsx";
 import UpdateBoard from "./Components/pages/UpdateBoard.jsx";
 import DeleteBoard from "./Components/pages/DeleteBoard.jsx";
 import Boarddata from "./Components/pages/boarddata.jsx";
 import CreateTask from "./Components/Tasks/create-task.jsx";
-import LogoutConfirmation from "./Components/pages/LogoutConfirmation.jsx";
 import TaskDetailsModal from "./Components/Tasks/viewtask.jsx";
-import PrivateRoute from "./context/Privateroute.jsx";
+import LogoutConfirmation from "./Components/pages/LogoutConfirmation.jsx";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
+  // Public (no auth required)
+  { path: "/login", element: <Login /> },
+  { path: "/signup", element: <Signup /> },
+
+  // Everything under "/" goes through <App> (auth guard + loader)
   {
     path: "/",
-    element: <App />,    // ← top‐level loader/auth guard
+    element: <App />,
     children: [
-      // Public
-      { path: "login",  element: <Login /> },
-      { path: "signup", element: <Signup /> },
-
-      // Protected layout
       {
+        // Your main app layout (sidebar/header etc)
         element: <MainLayouts />,
         children: [
-          // Serve Homepage on both "/" and "/homepage"
-          {
-            index: true,
-            element: (
-              <PrivateRoute>
-                <Homepage />
-              </PrivateRoute>
-            ),
-          },
-          {
-            path: "homepage",
-            element: (
-              <PrivateRoute>
-                <Homepage />
-              </PrivateRoute>
-            ),
-          },
-
-          // Other protected routes
-          {
-            path: "update-Board",
-            element: (
-              <PrivateRoute>
-                <UpdateBoard />
-              </PrivateRoute>
-            ),
-          },
-          {
-            path: "delete-Board",
-            element: (
-              <PrivateRoute>
-                <DeleteBoard />
-              </PrivateRoute>
-            ),
-          },
-          {
-            path: "createBoard",
-            element: (
-              <PrivateRoute>
-                <Boarddata />
-              </PrivateRoute>
-            ),
-          },
-          {
-            path: "create-Task",
-            element: (
-              <PrivateRoute>
-                <CreateTask />
-              </PrivateRoute>
-            ),
-          },
-          {
-            path: "logout",
-            element: (
-              <PrivateRoute>
-                <LogoutConfirmation />
-              </PrivateRoute>
-            ),
-          },
-          {
-            path: "task-Details",
-            element: (
-              <PrivateRoute>
-                <TaskDetailsModal />
-              </PrivateRoute>
-            ),
-          },
+          // default redirect to /homepage
+          { index: true, element: <Navigate to="homepage" replace /> },
+          { path: "homepage", element: <Homepage /> },
+          { path: "update-Board", element: <UpdateBoard /> },
+          { path: "delete-Board", element: <DeleteBoard /> },
+          { path: "createBoard", element: <Boarddata /> },
+          { path: "create-Task", element: <CreateTask /> },
+          { path: "task-Details", element: <TaskDetailsModal /> },
+          { path: "logout", element: <LogoutConfirmation /> },
         ],
       },
     ],
