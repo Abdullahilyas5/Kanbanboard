@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
-import "./Login.css";
+import "./login.css";
 import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/Authcontext.jsx";
 import api from "../../API/api.js";
@@ -91,7 +91,9 @@ const Login = () => {
             aria-label={showPassword ? "Hide password" : "Show password"}
             tabIndex={-1}
           >
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
+            <div
+            className="eye-icons-login"
+            >{showPassword ? <FaEyeSlash /> : <FaEye />}</div>
           </button>
         </div>
 

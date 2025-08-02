@@ -105,7 +105,9 @@ const Signup = () => {
             aria-label={showPassword ? "Hide password" : "Show password"}
             tabIndex={-1}
           >
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
+            <div
+            className="eye-icons"
+            >{showPassword ? <FaEyeSlash /> : <FaEye />}</div>
           </button>
         </div>
 
