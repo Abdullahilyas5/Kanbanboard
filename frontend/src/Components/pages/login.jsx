@@ -1,6 +1,5 @@
-// Login.jsx
 import React, { useContext, useRef, useState } from "react";
-import "./login.css";      // or "./Login.css"
+import "./Login.css";
 import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/Authcontext.jsx";
 import api from "../../API/api.js";
@@ -9,7 +8,7 @@ import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const Login = () => { 
+const Login = () => {
   const [creds, setCreds] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const { isAuthenticated, refetchUser } = useContext(AuthContext);
@@ -31,11 +30,11 @@ const Login = () => {
   const mutation = useMutation((u) => api.loginUser(u), {
     onSuccess: async (data) => {
       localStorage.setItem("token", data.data.token);
-      toast.success("Login successful!", { /* …options… */ });
+      toast.success("Login successful!");
       await refetchUser();
       navigate("/");
     },
-    onError: () => toast.error("Invalid credentials!", { /* …options… */ }),
+    onError: () => toast.error("Invalid credentials!"),
   });
 
   const handleSubmit = (e) => {
@@ -46,24 +45,24 @@ const Login = () => {
   if (isAuthenticated) return <Navigate to="/" replace />;
 
   return (
-    <div className={styles.login__container}>
+    <div className="login__container">
       <motion.form
-        className={styles.login__form}
+        className="login__form"
         initial={{ opacity: 0.3, scale: 0.7 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.9, ease: "anticipate" }}
         onSubmit={handleSubmit}
       >
-        <h2 className={styles.login__title}>Login</h2>
+        <h2 className="login__title">Login</h2>
 
-        <div className={styles.login__field-group}>
-          <label htmlFor="email" className={styles.login__label}>Email</label>
+        <div className="login__field-group">
+          <label htmlFor="email" className="login__label">Email</label>
           <input
             ref={emailRef}
             id="email"
             name="email"
             type="email"
-            className={styles.login__input}
+            className="login__input"
             value={creds.email}
             onChange={handleChange}
             onKeyDown={(e) => handleKeyDown(e, passwordRef)}
@@ -72,14 +71,14 @@ const Login = () => {
           />
         </div>
 
-        <div className={styles.login__field-group} style={{ position: "relative" }}>
-          <label htmlFor="password" className={styles.login__label}>Password</label>
+        <div className="login__field-group" style={{ position: "relative" }}>
+          <label htmlFor="password" className="login__label">Password</label>
           <input
             ref={passwordRef}
             id="password"
             name="password"
             type={showPassword ? "text" : "password"}
-            className={styles.login__input}
+            className="login__input"
             value={creds.password}
             onChange={handleChange}
             onKeyDown={(e) => handleKeyDown(e, null)}
@@ -87,7 +86,7 @@ const Login = () => {
           />
           <button
             type="button"
-            className={styles.login__toggle-btn}
+            className="login__toggle-btn"
             onClick={() => setShowPassword((v) => !v)}
             aria-label={showPassword ? "Hide password" : "Show password"}
             tabIndex={-1}
@@ -96,14 +95,14 @@ const Login = () => {
           </button>
         </div>
 
-        <p className={styles.login__nav}>
+        <p className="login__nav">
           Don't have an account?{" "}
-          <NavLink to="/signup" className={styles.login__nav_link}>
+          <NavLink to="/signup" className="login__nav_link">
             Sign up
           </NavLink>
         </p>
 
-        <button type="submit" className={styles.login__submit}>
+        <button type="submit" className="login__submit">
           Login
         </button>
       </motion.form>
