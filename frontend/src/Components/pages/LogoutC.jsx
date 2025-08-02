@@ -1,43 +1,52 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import './logout.css';
+// Logout.jsx
+import React from "react";
+import styles from "./Logout.module.css";   // or "./logout.css"
+import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
-import api  from "../../API/api.js"; // Correct path
+import api from "../../API/api.js";
 
 const Logout = () => {
   const navigate = useNavigate();
-
-  const logoutMutation = useMutation(api.logout(), {
-    onSuccess: () => {
-      // Optionally clear user context/state here
-      navigate('/login'); // Redirect to login after logout
-    },
-    onError: (error) => {
-      console.log(error);
-    }
+  const mutation = useMutation(() => api.logout(), {
+    onSuccess: () => navigate("/login"),
   });
 
   const handleLogout = (e) => {
     e.preventDefault();
-    logoutMutation.mutate();
+    mutation.mutate();
   };
 
   return (
-    <div className='logout-page'>
-      <form className='logout-form' onSubmit={handleLogout}>
-        <h3 className='logout-title'>Logout</h3>
-        <p>Do you want to logout from <span>Kanban board</span>?</p>
-        <div className='logout-btns'>
-          <button type="submit" disabled={logoutMutation.isLoading}>Yes</button>
-          <button type="button" onClick={() => navigate('/')}>No</button>
+    <div className={styles.logout__overlay}>
+      <form className={styles.logout__dialog} onSubmit={handleLogout}>
+        <h3 className={styles.logout__title}>Logout</h3>
+        <p className={styles.logout__message}>
+          Do you want to logout from <strong>Kanban Board</strong>?
+        </p>
+        <div className={styles.logout__buttons}>
+          <button
+            type="submit"
+            className={styles.logout__btn}
+            disabled={mutation.isLoading}
+          >
+            Yes
+          </button>
+          <button
+            type="button"
+            className={styles.logout__btn}
+            onClick={() => navigate("/")}
+          >
+            No
+          </button>
         </div>
-        {logoutMutation.isError && (
-          <div className="logout-error">
+        {mutation.isError && (
+          <p className={styles.logout__error}>
             Error logging out. Please try again.
-          </div>
+          </p>
         )}
       </form>
     </div>
   );
 };
+
 export default Logout;

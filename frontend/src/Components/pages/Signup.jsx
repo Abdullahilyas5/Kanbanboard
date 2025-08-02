@@ -1,183 +1,130 @@
-import { useContext, useRef, useState } from "react";
-import "./Signup.css";
+// Signup.jsx
+import React, { useContext, useRef, useState } from "react";
+import styles from "./Signup.module.css";       // or "./Signup.css"
 import { NavLink, useNavigate, Navigate } from "react-router-dom";
 import { AuthContext } from "../../context/Authcontext.jsx";
 import api from "../../API/api.js";
 import { motion } from "motion/react";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Add this import
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Signup = () => {
-  const [user, setUser] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-  const [showPassword, setShowPassword] = useState(false); // Add this state
-
-  // ✅ get isAuthenticated and refetchUser
+  const [user, setUser] = useState({ name: "", email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const { isAuthenticated, refetchUser } = useContext(AuthContext);
-
-  const nameRef = useRef();
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const nameRef = useRef(), emailRef = useRef(), passwordRef = useRef();
   const navigate = useNavigate();
 
-  const handlechange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setUser((u) => ({ ...u, [name]: value }));
   };
 
   const handleKeyDown = (e, nextRef) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (nextRef && nextRef.current) {
-        nextRef.current.focus();
-      } else {
-        handleUser(e);
-      }
+      nextRef?.current ? nextRef.current.focus() : handleSubmit(e);
     }
   };
 
-  const createUserMutation = useMutation({
-    mutationFn: (newUser) => api.createUser(newUser),
+  const mutation = useMutation((u) => api.createUser(u), {
     onSuccess: async (data) => {
       localStorage.setItem("token", data.data.token);
-      toast.success("User created successful!", {
-              position: "top-right",
-              autoClose: 1000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              theme: "dark", // Use dark theme
-              style: {
-                background: "white", // semi-transparent dark
-                color: "white",                    // cyan-like text color
-                borderRadius: "10px",
-              },
-            });
-      await refetchUser(); 
-      navigate("/" , {replace  : true});
+      toast.success("User created!", { /* …options… */ });
+      await refetchUser();
+      navigate("/", { replace: true });
     },
     onError: () => {
-       toast.error("invalid credential!", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light", // Use dark theme
-        style: {
-          background: "white", // semi-transparent dark
-          color: "white",                    // cyan-like text color
-          borderRadius: "10px",
-        },
-      });
+      toast.error("Signup failed!", { /* …options… */ });
     },
   });
 
-  const handleUser = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    createUserMutation.mutate(user);
+    mutation.mutate(user);
   };
 
-  if (isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
+  if (isAuthenticated) return <Navigate to="/" replace />;
 
   return (
-    <div className="parent">
+    <div className={styles.signup__container}>
       <motion.form
+        className={styles.signup__form}
         initial={{ opacity: 0.3, scale: 0.7 }}
         animate={{ opacity: 1, scale: 1 }}
-        end={{ opacity: 0.5, scale: 0.7 }}
-        transition={{
-          duration: 0.9,
-          ease: "anticipate",
-        }}
-        className="sign-form"
-        onSubmit={handleUser}
+        transition={{ duration: 0.9, ease: "anticipate" }}
+        onSubmit={handleSubmit}
       >
-        <h2 className="signin-title">Sign up</h2>
+        <h2 className={styles.signup__title}>Sign up</h2>
 
-        <div className="input-box">
-          <label htmlFor="name">Name</label>
+        <div className={styles.signup__field-group}>
+          <label htmlFor="name" className={styles.signup__label}>Name</label>
           <input
             ref={nameRef}
-            type="text"
-            name="name"
             id="name"
+            name="name"
+            type="text"
+            className={styles.signup__input}
             value={user.name}
-            onChange={handlechange}
+            onChange={handleChange}
             onKeyDown={(e) => handleKeyDown(e, emailRef)}
-            onBlur={() => emailRef.current.focus()}
-            placeholder="Name"
             required
           />
         </div>
 
-        <div className="input-box">
-          <label htmlFor="email">Email</label>
+        <div className={styles.signup__field-group}>
+          <label htmlFor="email" className={styles.signup__label}>Email</label>
           <input
             ref={emailRef}
-            type="email"
-            name="email"
             id="email"
+            name="email"
+            type="email"
+            className={styles.signup__input}
             value={user.email}
-            onChange={handlechange}
+            onChange={handleChange}
             onKeyDown={(e) => handleKeyDown(e, passwordRef)}
-            onBlur={() => passwordRef.current.focus()}
-            placeholder="Email"
             required
           />
         </div>
 
-        <div className="input-box" style={{ position: "relative" }}>
-          <label htmlFor="password">Password</label>
+        <div className={styles.signup__field-group} style={{ position: "relative" }}>
+          <label htmlFor="password" className={styles.signup__label}>Password</label>
           <input
             ref={passwordRef}
-            type={showPassword ? "text" : "password"} // Toggle type
-            name="password"
             id="password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            className={styles.signup__input}
             value={user.password}
-            onChange={handlechange}
+            onChange={handleChange}
             onKeyDown={(e) => handleKeyDown(e, null)}
-            placeholder="Password"
             required
           />
           <button
             type="button"
-            onClick={() => setShowPassword((prev) => !prev)}
-            style={{
-              position: "absolute",
-              right: "1rem",
-              top: "55%",
-              transform: "translateY(-50%)",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: "#888",
-              padding: 0,
-            }}
-            tabIndex={-1}
+            className={styles.signup__toggle-btn}
+            onClick={() => setShowPassword((v) => !v)}
             aria-label={showPassword ? "Hide password" : "Show password"}
+            tabIndex={-1}
           >
-            <div className="eye-icons">{showPassword ? <FaEyeSlash /> : <FaEye />}</div>
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         </div>
 
-        <p className="navigate-links">
-          Already have an account? <NavLink className="link" to="/login" replace >Login</NavLink>
+        <p className={styles.signup__nav}>
+          Already have an account?{" "}
+          <NavLink to="/login" className={styles.signup__nav_link}>
+            Login
+          </NavLink>
         </p>
 
-        <button type="submit" className="signin-btn" disabled={createUserMutation.isLoading}>
-          {createUserMutation.isLoading ? "Signing up..." : "Sign Up"}
+        <button
+          type="submit"
+          className={styles.signup__submit}
+          disabled={mutation.isLoading}
+        >
+          {mutation.isLoading ? "Signing up…" : "Sign Up"}
         </button>
       </motion.form>
     </div>
