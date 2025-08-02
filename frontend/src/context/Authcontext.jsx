@@ -71,18 +71,6 @@ export const AuthProvider = ({ children }) => {
     }
   }, [boards, selectedBoard]);
 
-  // 4) One-time homepage toast
-  useEffect(() => {
-    if (!localStorage.getItem("homepage-toast-shown")) {
-      toast.info("Welcome to your Kanban Homepage!", {
-        toastId: "homepage-welcome",
-        onClose: () => localStorage.setItem("homepage-toast-shown", "true"),
-        autoClose: false,
-        closeOnClick: true,
-      });
-    }
-  }, []);
-
   const isAuthenticated = !!user && !isError;
 
   return (
