@@ -6,6 +6,7 @@ const api = axios.create({
   withCredentials: true, // send cookies if your backend uses cookie-based auth
 });
 
+
 // If you use a JWT in localStorage, inject it on every request:
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
