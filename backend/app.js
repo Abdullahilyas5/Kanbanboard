@@ -29,7 +29,7 @@ app.use(helmet());
 app.use(cors({
   origin: [
     'http://localhost:5173',
-    'https://kanbanboard-teal.vercel.app'      // add any other deployed URL
+    'https://kanbanboard-llfm.vercel.app',
   ],
   methods: ['GET','POST','PUT','DELETE','PATCH'],
   credentials: true,
