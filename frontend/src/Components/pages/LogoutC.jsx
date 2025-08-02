@@ -32,7 +32,7 @@ const Logout = () => {
           </button>
           <button
             type="button"
-            className="logout__btn"
+            className="logout__btn" 
             onClick={() => navigate("/")}
           >
             No
