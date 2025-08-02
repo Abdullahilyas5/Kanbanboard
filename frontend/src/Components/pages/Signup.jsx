@@ -9,6 +9,7 @@ import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
+
 const Signup = () => {
   const [user, setUser] = useState({ name: "", email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
