@@ -1,51 +1,51 @@
-.wrapper-form-create-board{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(8, 8, 8, 0.642);
-    width: 100vw;
-    height: 100vh;
-    z-index: 10;
-}
-.wrapper-form-create-board .cancle-box{
-    min-width: 100vw;
-    min-height: 100vh;
-    position: absolute;
-    background-color: transparent;
+.modal-board-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+  background-color: rgba(8, 8, 8, 0.178);
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
 }
 
-.board-details{
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    min-width: 22rem;
-    min-height: 15rem;
-    gap: 1rem;
-    padding: 1rem;
-    z-index: 999999 !important;
+.modal-dismiss-area {
+  min-width: 100vw;
+  min-height: 100vh;
+  position: absolute;
+  background-color: transparent;
 }
 
-.board-form-heading  {
+.board-form-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  min-width: 22rem;
+  min-height: 15rem;
+  background-color: #2C2C38;
+  gap: 1rem;
+  z-index: 999999 !important;
+}
+
+.form-heading {
   font-size: 1.5rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 1rem;
-  /* Gradient for text */
   background: linear-gradient(90deg, #7c73f1, #cbc7ff, #f0f0f3, #7c73f1);
   background-size: 300% 300%;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  /* Animate the gradient inside the text */
   animation: textGradientAnimation 4s infinite linear;
 }
 
@@ -61,55 +61,54 @@
   }
 }
 
-.create-form-input::placeholder {
+.input-field::placeholder {
   font-size: 0.8rem;
 }
 
-.create-form-input{
-    width: 100%;  
-    padding: 0.7rem 1rem; 
-    border: 1px solid white;
-    border-radius: 5px;
+.input-field {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1px solid white;
+  border-radius: 5px;
+  background-color: transparent;
 }
 
-.create-form-btn{
-    border: 1px solid white;
-    font-size: 1rem;
-    text-transform: capitalize;
-    width: 100%;
-    padding: 0.8rem 1rem;
-    border-radius: 10px;
-    margin-top: .5rem;
-    background-color: #7c73f1 ;
-    color: white;
-
+.submit-btn {
+  border: 1px solid white;
+  font-size: 1rem;
+  text-transform: capitalize;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+  background-color: #7c73f1;
+  color: white;
 }
 
-
-.ri-close-line{
-    position: absolute;
-    top: 3px;
-    right: 7px;
-    color: white;
-    cursor: pointer;
-    font-size: larger;
-    font-weight: lighter;
-    padding: 3px
+/* Classified h1 (previously h1) */
+.board-heading-text {
+  color: white;
+  font-size: 1em;
 }
 
-h1{
-    color: white;
-    font-size: 1em;
+/* Classified button (default button styles) */
+.default-button {
+  background-color: #8370EE;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-button{
-    background-color: #8370EE;
-    border: none;
-    border-radius: 5px;
-    padding: 5px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+.close-icon {
+  position: absolute;
+  top: 3px;
+  right: 7px;
+  color: white;
+  cursor: pointer;
+  font-size: larger;
+  font-weight: lighter;
+  padding: 3px;
 }
-
-

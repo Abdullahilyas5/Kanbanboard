@@ -1,4 +1,5 @@
-// app.js (or server.js)
+// app.js
+
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -6,12 +7,11 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
-// Controllers & middleware
 const { homeRoute } = require('./controllers/homeRoute.js');
 const { signupMiddleware, validateSignup } = require('./controllers/signup.js');
 const { loginMiddleware, validatelogin } = require('./controllers/login.js');
 const { logoutMiddleware } = require('./controllers/logout.js');
-const { createBoard, validateUser, authenticationuser } = require('./controllers/boards.js');
+const { createBoard, validateBoard, boardCheck } = require('./controllers/boards.js');
 const { createTask, validateTask } = require('./controllers/createTask.js');
 const { updateBoard } = require('./controllers/updateController.js');
 const { deleteBoard } = require('./controllers/deleteController.js');
@@ -20,29 +20,28 @@ const { updateTask, deleteTask } = require('./controllers/TaskController.js');
 
 const app = express();
 
-// === MIDDLEWARE ===
+// ─── Global Middleware ─────────────────────────────────────────────────────────
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(helmet());
 
-app.use(
-  cors({
-    origin: [
-      'http://localhost:5173',
-      'https://kanbanboard-llfm.vercel.app',
-    ],
-    methods: ['GET','POST','PUT','DELETE','PATCH'],
-    credentials: true,
-    allowedHeaders: ['Authorization','Content-Type']
-  })
-);
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://kanbanboard-teal.vercel.app'      // add any other deployed URL
+  ],
+  methods: ['GET','POST','PUT','DELETE','PATCH'],
+  credentials: true,
+  allowedHeaders: ['Authorization','Content-Type']
+}));
 
-// === ROUTES ===
-// 1) Fetch user + boards
+// ─── Routes ────────────────────────────────────────────────────────────────────
+
+// 1) Home: fetch user + their boards
 app.get('/', homeRoute);
 
-// 2) Task CRUD & status/subtasks
+// 2) Tasks
 app.post('/createTask/:id', validateTask, createTask);
 app.patch('/tasks/:taskId/subtasks/:subtaskId', updateSubtask);
 app.patch('/tasks/:taskId/status', updateStatus);
@@ -52,29 +51,32 @@ app.delete('/tasks/:taskId', deleteTask);
 // 3) Auth
 app.post('/signup', validateSignup, signupMiddleware);
 app.post('/login', validatelogin, loginMiddleware);
+app.post('/logout', logoutMiddleware);
 
-// 4) Boards
-app.post('/createBoard', createBoard);
+// 4) Boards (validate → auth → controller)
+app.post(
+  '/createBoard',
+  validateBoard,   // check title in body
+  boardCheck,      // verify JWT via cookie/header
+  createBoard      // handle creation
+);
+
 app.put('/updateBoard/:id', updateBoard);
 app.delete('/deleteBoard/:id', deleteBoard);
 
-// 5) Logout (now POST, to match client)
-app.post('/logout', logoutMiddleware);
-
-// === DATABASE & SERVER START ===
-mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log('✅ Connected to MongoDB');
-    app.listen(process.env.PORT || 3000, () =>
-      console.log(`🚀 Server running on port ${process.env.PORT || 3000}`)
-    );
-  })
-  .catch((err) => {
-    console.error('❌ MongoDB connection failed:', err.message);
-  });
+// ─── Start Server ──────────────────────────────────────────────────────────────
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => {
+  console.log('✅ Connected to MongoDB');
+  app.listen(process.env.PORT || 3000, () =>
+    console.log(`🚀 Server running on port ${process.env.PORT || 3000}`)
+  );
+})
+.catch(err => {
+  console.error('❌ MongoDB connection failed:', err.message);
+});
 
 module.exports = app;

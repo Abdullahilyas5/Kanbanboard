@@ -8,21 +8,18 @@ const Header = ({ title }) => {
   const { siderbarRef, headerRef } = useContext(AuthContext);
 
   const handleNavigate = (path) => navigate(path);
-
-  const handleLogout = () => {
-    navigate('/logout');
-  };
+  const handleLogout = () => navigate('/logout');
 
   return (
-    <div className={`header ${siderbarRef ? 'sidebar' : 'non-sidebar'}`} ref={headerRef}>
+    <div className={`header-container ${siderbarRef ? 'sidebar' : 'non-sidebar'}`} ref={headerRef}>
       <div className="header-left">
-        <h3 className="board-title">{title}</h3>
+        <h3 className="title-text">{title}</h3>
       </div>
-      <div className="blockmenu">
-        <button className="add-btn header-btn" onClick={() => handleNavigate('/create-Task')}>
+      <div className="btn-group">
+        <button className="btn btn-primary" onClick={() => handleNavigate('/create-Task')}>
           + Add Task
         </button>
-        <button className="logout header-btn" onClick={handleLogout}>
+        <button className="btn btn-danger" onClick={handleLogout}>
           Logout
         </button>
       </div>

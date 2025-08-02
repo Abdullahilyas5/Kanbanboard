@@ -1,31 +1,29 @@
 import React, { useState, useContext } from 'react';
-import "./boarddata.css";
+import './boarddata.css';
 import { useNavigate } from 'react-router-dom';
 import api from '../../API/api';
 import { useMutation } from 'react-query';
 import { AuthContext } from '../../context/Authcontext';
 import { toast } from "react-toastify";
+import { useRef } from 'react';
 
 const Boarddata = () => {
     const navigate = useNavigate();
-    const [details, setdetails] = useState({ title: '' });
+    const [details, setDetails] = useState({ title: ''});
     const { refetchUser } = useContext(AuthContext);
-
-    const handlechange = (e) => {
+     const nameRef = useRef();
+    const handleChange = (e) => {
         const { name, value } = e.target;
-        setdetails((prev) => ({
-            ...prev,
-            [name]: value
-        }));
+        setDetails((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handlecancle = () => {
+    const handleCancel = () => {
         navigate('/homepage');
     };
 
     const createBoardMutation = useMutation({
         mutationFn: (details) => api.createBoard(details),
-        onSuccess: (data) => {
+        onSuccess: () => {
             toast.success("🎉 Board created!", {
                 position: "top-right",
                 autoClose: 1500,
@@ -37,27 +35,48 @@ const Boarddata = () => {
                 },
             });
             refetchUser();
-            navigate("/");
+            navigate('/');
         },
         onError: (error) => {
-            console.error("Signup error:", error.response?.data || error.message);
-        },
+            console.error("Board creation error:", error);
+            //  error.response?.data ||
+        }
     });
+    console.log("Boarddata " , details);
+    const handleKeyDown = (e, nextRef) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      nextRef?.current ? nextRef.current.focus() : createBoardMutation.mutate(details);
+    }
+  };
 
     return (
-        <div className='wrapper-form-create-board'>
-            <form action="/createBoard" method='post' className='board-details' onSubmit={(e) => {
-                e.preventDefault();
-                createBoardMutation.mutate(details);
-            }}>
-                <i className="ri-close-line" onClick={handlecancle}></i>
-                <h1 className='board-form-heading'>Create Board</h1>
-                <input className='create-form-input' type="text" name="title" placeholder="Title"
+        <div className="modal-board-wrapper">
+            <form
+                className="board-form-container"
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    createBoardMutation.mutate(details);
+                }}
+            >
+                <i className="ri-close-line close-icon" onClick={handleCancel}></i>
+                <h1 className="form-heading">Create Board</h1>
+
+                <input
+                    className="input-field"
+                    type="text"
+                    name="title"
+                    placeholder="Title"
                     value={details.title}
-                    onChange={handlechange} autoFocus required />
-                <button type="submit" className='create-form-btn'>Create Board</button>
+                    onChange={handleChange}
+                    autoFocus
+                    ref={nameRef}
+                    onKeyDown={(e) => handleKeyDown(e, null)}
+                    required
+                />
+                <button type="submit" className="submit-btn">{createBoardMutation.isLoading ? "Creating board..." : "Create board"}</button>
             </form>
-            <div className='cancle-box' onClick={handlecancle}></div>
+            <div className="modal-dismiss-area" onClick={handleCancel}></div>
         </div>
     );
 };

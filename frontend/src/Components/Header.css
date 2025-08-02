@@ -1,17 +1,18 @@
-.header {
-  /* background-color: red; */
+/* === Header Styles === */
+.header-container {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem;
   border-bottom: 1px solid white;
+  background : #2C2C38;
   position: relative;
 }
-.board-title {
+
+.title-text {
   font-size: 1.5rem;
-  color: white;
-  background: linear-gradient(130deg,  #fff);
+  background: linear-gradient(130deg, rgb(95, 95, 242) , rgb(115, 115, 159) );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -20,65 +21,45 @@
   margin-left: 1rem;
 }
 
-.blockmenu {
+/* === Buttons === */
+.btn-group {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
   padding: 0 1rem;
 }
-.add-btn {
-  padding: 0.7rem 1rem;
+
+.btn {
+  padding: 0.2rem 1.2rem;
+  border-radius: 1rem;
+  min-width: 6rem;
+  text-wrap: nowrap;
   cursor: pointer;
   font-weight: 500;
-  border: 1px solid white;
-  background-color:#655EC3;
+  border: none;
   position: relative;
   z-index: 1;
-  border-radius: .5rem;
-  overflow: hidden; 
-}
-
-
-.logout {
-  padding: 0.7rem 1.2rem;
-  background-color: red;
-  color: white;
-  cursor: pointer;
-  border-radius: .5rem;
-  border: 1px solid white;
-  position: relative;
-  z-index: 1;
-  transition: color ease-in 0.3s;
   overflow: hidden;
-  justify-content: center;
-}
-
-.header-btn {
   transition: background 0.3s, color 0.3s, transform 0.2s;
-  position: relative;
-  overflow: hidden;
 }
 
-.header-btn:hover {
-  background: #fff;
-  color: #655EC3;
+.btn:hover {
   transform: translateY(-2px) scale(1.04);
   box-shadow: 0 2px 8px rgba(101,94,195,0.08);
 }
 
-.add-btn.header-btn {
+.btn-primary {
   background: linear-gradient(90deg, #655EC3 60%, #8370EE 100%);
   color: #fff;
-  border: none;
 }
 
-.logout.header-btn {
+.btn-danger {
   background: linear-gradient(90deg, #ff4d4f 60%, #ff7875 100%);
   color: #fff;
-  border: none;
 }
 
+/* === Modal === */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -95,7 +76,7 @@
   to { opacity: 1; }
 }
 
-.modal-content {
+.modal-box {
   background: #232334;
   color: #fff;
   padding: 2rem 2.5rem;
@@ -118,42 +99,33 @@
   justify-content: center;
 }
 
-.confirm-btn {
+.btn-confirm {
   background: #655EC3;
   color: #fff;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.2s;
 }
-.confirm-btn:hover {
+
+.btn-confirm:hover {
   background: #8370EE;
 }
 
-.cancel-btn {
+.btn-cancel {
   background: #fff;
   color: #655EC3;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.2s, color 0.2s;
 }
-.cancel-btn:hover {
+
+.btn-cancel:hover {
   background: #655EC3;
   color: #fff;
 }
 
+/* === Header Logo === */
 .header-left {
   display: flex;
   align-items: center;
   gap: 0.7rem;
 }
 
-.kanban-logo {
+.logo-circle {
   display: flex;
   align-items: center;
   justify-content: center;
