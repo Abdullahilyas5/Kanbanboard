@@ -34,6 +34,7 @@ const Logout = () => {
             type="button"
             className="logout__btn" 
             onClick={() => navigate("/")}
+            
           >
             No
           </button>
