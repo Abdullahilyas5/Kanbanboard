@@ -34,7 +34,7 @@ const Signup = () => {
       await refetchUser();
       navigate("/", { replace: true });
     },
-    onError: () => toast.error("Signup failed!"),
+    onError: (error) => toast.error(`Signup failed! ${error.message}`),
   });
 
   const handleSubmit = (e) => {
