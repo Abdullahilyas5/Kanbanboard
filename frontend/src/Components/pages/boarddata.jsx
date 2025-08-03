@@ -34,7 +34,7 @@ const Boarddata = () => {
                     fontWeight: "bold",
                 },
             });
-            refetchUser();
+            refetchUser?.();
             navigate('/');
         },
         onError: (error) => {
