@@ -1,4 +1,3 @@
-// src/context/Authcontext.jsx
 import React, { useState, createContext, useEffect, useRef } from "react";
 import api from "../API/api.js";
 import { useQuery } from "react-query";
@@ -12,34 +11,44 @@ export const AuthProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
   const [selectedBoard, setSelectedBoard] = useState(null);
 
-  // 1) Fetch user + boards
-  const fetchUserData = () =>
-    api.fetchUser().then((res) => {
-      if (res.status === 200) return res.data;
-      throw new Error("Unauthorized");
-    });
+  // ✅ 1) Define fetch function properly
+  const fetchUserData = async () => {
+    const response = await api.fetchUser();
 
+    if (!response || !response.data) {
+      throw new Error("No user data found");
+    }
+
+    return response.data;
+  };
+
+  // ✅ 2) useQuery to handle data fetching
   const {
     data,
     isLoading,
     isError,
     error,
     refetch: refetchUser,
-  } = useQuery(["userData"], fetchUserData, {
+  } = useQuery("userData", fetchUserData, {
     refetchOnWindowFocus: true,
     retry: false,
-    onError: () => {
+    onSuccess: (data) => {
+      console.log("User data fetched:", data);
+    },
+    onError: (error) => {
+      console.error("Error fetching user data:", error.message);
       setSelectedBoard(null);
       setTasks([]);
+      toast.error("Failed to fetch user data");
     },
   });
 
   const user = data?.user ?? null;
   const boards = data?.boards ?? [];
 
-  console.log("AuthContext user:", user , "boards:", boards ,"tasks:", tasks, "selectedBoard:", selectedBoard );
+  console.log("AuthContext user:", user, "boards:", boards, "tasks:", tasks, "selectedBoard:", selectedBoard);
 
-  // 2) Auto-select first board when boards change
+  // ✅ 3) Auto-select first board
   useEffect(() => {
     if (boards.length > 0) {
       const exists = boards.some((b) => b._id === selectedBoard);
@@ -52,21 +61,20 @@ export const AuthProvider = ({ children }) => {
     }
   }, [boards, selectedBoard]);
 
-  // 3) Update tasks _only_ when they truly change
+  // ✅ 4) Update tasks only when needed
   useEffect(() => {
     if (selectedBoard) {
       const board = boards.find((b) => b._id === selectedBoard);
       const newTasks = board?.Tasks || [];
 
       setTasks((prev) => {
-        // quick length check + ID-by-index check
         if (
           prev.length === newTasks.length &&
           prev.every((t, i) => t._id === newTasks[i]._id)
         ) {
-          return prev; // identical → no update
+          return prev;
         }
-        return newTasks; // changed → update
+        return newTasks;
       });
     } else {
       setTasks((prev) => (prev.length ? [] : prev));
