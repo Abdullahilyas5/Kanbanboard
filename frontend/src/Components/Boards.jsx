@@ -1,13 +1,14 @@
 import React, { useContext, useRef, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/Authcontext";
-import "./Board.css";
+import "./BoardsPanel.css";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdDashboard, MdCreate } from "react-icons/md";
 
 const Boards = ({ settitle, Usersetboard }) => {
   const { boards, logostyles, selectedBoard, setSelectedBoard, refetchUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const height = logostyles?.current?.offsetHeight;
 
   const handleBoard = () => {
     navigate("/createBoard", { replace: true });
@@ -20,21 +21,14 @@ const Boards = ({ settitle, Usersetboard }) => {
     refetchUser?.();
   }, [settitle, setSelectedBoard, Usersetboard, refetchUser]);
 
-  const height = logostyles?.current?.offsetHeight;
-
   return (
-    <div>
-      <div
-        className="container"
-        style={{ height: logostyles ? `calc(100vh - ${height}px)` : "auto" }}
-      >
-        <p className="boardcount">ALL BOARDS ({boards?.length || 0})</p>
-        <BoardDisplay boards={boards} handleTitle={handleTitle} />
-        <div className="btn-div">
-          <button className="create-btn-homepage" onClick={handleBoard}>
-            <MdCreate className="creation-board-btn" /> Create new board
-          </button>
-        </div>
+    <div className="boards-panel-wrapper" style={{ height: logostyles ? `calc(100vh - ${height}px)` : "auto" }}>
+      <p className="boards-panel-count">ALL BOARDS ({boards?.length || 0})</p>
+      <BoardDisplay boards={boards} handleTitle={handleTitle} />
+      <div className="btn-div">
+        <button className="boards-panel-create-btn" onClick={handleBoard}>
+          <MdCreate className="boards-panel-create-icon" /> Create new board
+        </button>
       </div>
     </div>
   );
@@ -52,35 +46,35 @@ const BoardDisplay = ({ boards, handleTitle }) => {
   };
 
   return (
-    <div className="display-wrapper">
+    <div className="boards-panel-scrollable">
       {boards.map((board) => (
-        <div className="board-container" key={board._id}>
-          <div className="top-board">
-            <div className="board-title-container">
-              <MdDashboard className="board-icons" />
+        <div className="boards-panel-card" key={board._id}>
+          <div className="boards-panel-card-header">
+            <div className="boards-panel-title">
+              <MdDashboard className="boards-panel-icons" />
               <button
-                className="boardbtn"
+                className="boards-panel-title-btn"
                 onClick={() => handleTitle(board.title, board._id)}
               >
                 {board.title}
               </button>
             </div>
-            <div className="menu-container">
-              <BsThreeDotsVertical className="menu-btn" onClick={() => handleToggle(board._id)} />
-            </div>
+            <BsThreeDotsVertical className="boards-panel-menu-icon" onClick={() => handleToggle(board._id)} />
           </div>
           {activeMenuId === board._id && (
-            <div className="boards-menu">
+            <div className="boards-panel-menu">
               <button
-                type="button"
-                className="modify-btn"
-                onClick={() => navigate('/update-Board', { state: { boardId: board._id } })}
-              >Update</button>
+                className="boards-panel-btn-update"
+                onClick={() => navigate("/update-Board", { state: { boardId: board._id } })}
+              >
+                Update
+              </button>
               <button
-                type="button"
-                className="modify-btn"
-                onClick={() => navigate('/delete-Board', { state: { boardId: board._id } })}
-              >Delete</button>
+                className="boards-panel-btn-delete"
+                onClick={() => navigate("/delete-Board", { state: { boardId: board._id } })}
+              >
+                Delete
+              </button>
             </div>
           )}
         </div>

@@ -2,9 +2,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-
   transform: translate(-50%, -50%);
-  background-color: rgba(8, 8, 8, 0.178);
+  background-color:  #17171e !important;
   width: 100vw;
   height: 100vh;
   z-index: 10;
