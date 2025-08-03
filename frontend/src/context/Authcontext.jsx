@@ -37,6 +37,8 @@ export const AuthProvider = ({ children }) => {
   const user = data?.user ?? null;
   const boards = data?.boards ?? [];
 
+  console.log("AuthContext user:", user , "boards:", boards ,"tasks:", tasks, "selectedBoard:", selectedBoard );
+
   // 2) Auto-select first board when boards change
   useEffect(() => {
     if (boards.length > 0) {
