@@ -1,14 +1,13 @@
-const express = require("express");
+// controllers/signup.js
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
 const User = require("../models/User.js");
+const { cookieSettings } = require("../utils/env.js");
 
 const signupMiddleware = async (req, res) => {
   try {
     const errors = validationResult(req);
-    console.log("Validation errors:", errors.array());
-
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -16,21 +15,17 @@ const signupMiddleware = async (req, res) => {
     const { name, email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(404).json({
-        message: "please enter the value , empty field is not accepted"
-      })
+      return res.status(400).json({
+        message: "Email and password are required.",
+      });
     }
 
-    const isuser = await User.findOne({ email });
-    if (isuser) {
-      return res.json({
-        message: "user is already exist"
-      })
+    const isUser = await User.findOne({ email });
+    if (isUser) {
+      return res.status(409).json({ message: "User already exists" });
     }
 
-    const salt = await bcrypt.genSalt(10);
-
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const createdUser = await User.create({
       name,
@@ -38,41 +33,30 @@ const signupMiddleware = async (req, res) => {
       password: hashedPassword,
     });
 
-    await createdUser.save();
-
-    
-    
-    console.log("token created successfully:", process.env.JWT_SECRET); 
-
-    const token =  jwt.sign({ email: req.body.email },process.env.JWT_SECRET, { expiresIn: "7d" });
-  
-    res.cookie('token', token, {
-      httpOnly: true,
-      sameSite: 'None',
-      secure: true,
-      path: '/',
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
     });
 
+    res.cookie("token", token, cookieSettings);
 
-
-    res.status(201).json({ token: token,
-      user : createdUser,
-      boards : [],
-      tasks : [],
-      status: 201,
-      message: "User created successfully" });
-    
-
+    return res.status(201).json({
+      message: "User created successfully",
+      token,
+      user: createdUser,
+      boards: [],
+      tasks: [],
+    });
   } catch (err) {
-
-    res.status(400).json({ message: err.message, token: null });
+    res.status(500).json({ message: "Signup failed", error: err.message });
   }
 };
 
 const validateSignup = [
   check("name").notEmpty().withMessage("Name is required"),
   check("email").isEmail().withMessage("Invalid email"),
-  check("password").isLength({ min: 3 }).withMessage("Password must be at least 6 characters long"),
+  check("password")
+    .isLength({ min: 3 })
+    .withMessage("Password must be at least 3 characters long"),
 ];
 
 module.exports = { signupMiddleware, validateSignup };

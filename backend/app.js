@@ -7,9 +7,11 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
+const { isProduction } = require('./utils/env.js');
+
 const { homeRoute } = require('./controllers/homeRoute.js');
 const { signupMiddleware, validateSignup } = require('./controllers/signup.js');
-const { loginMiddleware, validatelogin } = require('./controllers/login.js');
+const { loginMiddleware, validateLogin } = require('./controllers/login.js');
 const { logoutMiddleware } = require('./controllers/logout.js');
 const { createBoard, validateBoard, boardCheck } = require('./controllers/boards.js');
 const { createTask, validateTask } = require('./controllers/createTask.js');
@@ -26,15 +28,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(helmet());
 
-app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'https://kanbanboard-llfm.vercel.app',
-  ],
-  methods: ['GET','POST','PUT','DELETE','PATCH'],
-  credentials: true,
-  allowedHeaders: ['Authorization','Content-Type']
-}));
+// ─── CORS Configuration ────────────────────────────────────────────────────────
+const allowedOrigins = isProduction
+  ? [process.env.PROD_ORIGIN]
+  : [process.env.DEV_ORIGIN];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    credentials: true,
+    allowedHeaders: ['Authorization', 'Content-Type'],
+  })
+);
 
 // ─── Routes ────────────────────────────────────────────────────────────────────
 
@@ -50,33 +56,28 @@ app.delete('/tasks/:taskId', deleteTask);
 
 // 3) Auth
 app.post('/signup', validateSignup, signupMiddleware);
-app.post('/login', validatelogin, loginMiddleware);
+app.post('/login', validateLogin, loginMiddleware);
 app.post('/logout', logoutMiddleware);
 
 // 4) Boards (validate → auth → controller)
-app.post(
-  '/createBoard',
-  validateBoard,   // check title in body
-  boardCheck,      // verify JWT via cookie/header
-  createBoard      // handle creation
-);
-
+app.post('/createBoard', validateBoard, boardCheck, createBoard);
 app.put('/updateBoard/:id', updateBoard);
 app.delete('/deleteBoard/:id', deleteBoard);
 
 // ─── Start Server ──────────────────────────────────────────────────────────────
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => {
-  console.log('✅ Connected to MongoDB');
-  app.listen(process.env.PORT || 3000, () =>
-    console.log(`🚀 Server running on port ${process.env.PORT || 3000}`)
-  );
-})
-.catch(err => {
-  console.error('❌ MongoDB connection failed:', err.message);
-});
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('✅ Connected to MongoDB');
+    app.listen(process.env.PORT || 3000, () =>
+      console.log(`🚀 Server running on port ${process.env.PORT || 3000}`)
+    );
+  })
+  .catch((err) => {
+    console.error('❌ MongoDB connection failed:', err.message);
+  });
 
 module.exports = app;
