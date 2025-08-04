@@ -1,14 +1,13 @@
 // utils/env.js
-const isProduction = process.env.NODE_ENV === 'production';
 
 const cookieSettings = {
   httpOnly: true,
-  secure: isProduction,
-  sameSite: isProduction ? 'None' : 'Lax',
+  secure: true,             // Force HTTPS in production
+  sameSite: 'None',         // Required for cross-site cookies with secure=true
   path: '/',
 };
 
 module.exports = {
-  isProduction,
+  isProduction: true,
   cookieSettings,
 };
