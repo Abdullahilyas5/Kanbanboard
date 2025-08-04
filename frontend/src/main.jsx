@@ -21,34 +21,35 @@ import "react-toastify/dist/ReactToastify.css";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
-  // Public (no auth required)
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <Signup /> },
 
-  // Everything under "/" goes through <App> (auth guard + loader)
   {
     path: "/",
     element: <App />,
     children: [
       {
-        // Your main app layout (sidebar/header etc)
-        element: <MainLayouts />,
+        // ✅ Private wrapper applied here
+        element: (
+          <PrivateRoute>
+            <MainLayouts />
+          </PrivateRoute>
+        ),
         children: [
-          // default redirect to /homepage
           { index: true, element: <Navigate to="homepage" replace /> },
           { path: "homepage", element: <Homepage /> },
           { path: "update-Board", element: <UpdateBoard /> },
           { path: "delete-Board", element: <DeleteBoard /> },
           { path: "create-Board", element: <Boarddata /> },
-        
           { path: "create-Task", element: <CreateTask /> },
           { path: "task-Details", element: <TaskDetailsModal /> },
-          { path: "logout", element: <Logout/> },
+          { path: "logout", element: <Logout /> },
         ],
       },
     ],
   },
 ]);
+
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
