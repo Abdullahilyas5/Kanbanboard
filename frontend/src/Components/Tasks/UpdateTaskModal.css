@@ -1,0 +1,162 @@
+/* Prefix: utm- = UpdateTaskModal */
+
+.utm-overlay {
+  display: flex;
+  position: fixed; /* better for modals */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(8, 8, 8, 0.642);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.utm-modal {
+  background-color: #2c2c38;
+  min-width: 22rem;
+  min-height: 15rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: white;
+}
+
+.utm-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: white;
+}
+
+.utm-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 1rem 0;
+
+  background: linear-gradient(90deg, #7c73f1, #cbc7ff, #f0f0f3, #7c73f1);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+
+  animation: utm-textGradientAnimation 4s infinite linear;
+}
+
+@keyframes utm-textGradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.utm-input-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
+.utm-text-input {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1px solid white;
+  border-radius: 5px;
+  background-color: transparent;
+  color: white;
+}
+
+.utm-description-input {
+  /* If you want a different style for description input */
+}
+
+.utm-subtask-section {
+  margin-top: 0.5rem;
+}
+
+.utm-subtask-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0.5rem;
+}
+
+.utm-subtask-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.3rem;
+  cursor: pointer;
+  color: white;
+}
+
+.utm-subtask-item.completed {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.utm-subtask-delete-icon {
+  cursor: pointer;
+  color: #f87171; /* light red */
+}
+
+.utm-subtask-input-wrapper {
+  margin-top: 0.5rem;
+}
+
+.utm-subtask-input {
+  width: 100%;
+  padding: 0.5rem 0.8rem;
+  border-radius: 5px;
+  border: 1px solid white;
+  background-color: transparent;
+  color: white;
+}
+
+.utm-add-subtask-btn {
+  background: none;
+  border: none;
+  color: #7c73f1;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  text-align: left;
+  font-weight: 600;
+  padding-left: 0;
+}
+
+.utm-status-select {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border-radius: 5px;
+  border: 1px solid white;
+  background-color: transparent;
+  color: white;
+  margin-top: 0.5rem;
+}
+
+.utm-submit-btn {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: none;
+  background-color: #7c73f1;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+.utm-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

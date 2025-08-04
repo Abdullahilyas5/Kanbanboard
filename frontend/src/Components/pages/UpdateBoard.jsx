@@ -55,6 +55,7 @@ const UpdateBoard = () => {
                 autoClose: 2000,
                 theme: "light",
             });
+            console.error("Error updating board:", error);
         },
     });
     return (
@@ -63,7 +64,7 @@ const UpdateBoard = () => {
                 e.preventDefault();
                 updateBoardmutation.mutate({ info, id: boardId });
             }}>
-                <i className="ri-close-line" onClick={handlecancle}></i>
+                <i className="ri-close-line uclose-icons" onClick={handlecancle}></i>
 
                 <h1 className='update-board-heading'>Update Board</h1>
                 <input className='update-board-input' type="text" name="title" required placeholder="Title" value={info.title} onChange={handlechange} />

@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useMutation } from "react-query";
 import api from "../../API/api.js";
-import "./create-task.css";
+import "./UpdateTaskModal.css";
 import { RiCloseLine } from "react-icons/ri";
 import { toast } from "react-toastify";
 
@@ -9,12 +9,14 @@ const UpdateTaskModal = ({ open, onClose, task, onUpdated }) => {
   const [taskData, setTaskData] = useState({
     title: task.title,
     description: task.description,
-    subtasks: task.subtasks.map((st) => ({ ...st })), // clone
+    subtasks: task.subtasks.map((st) => ({ ...st })), // clone subtasks
     status: task.status,
   });
+
   const [subtasksUI, setSubtasksUI] = useState(
     task.subtasks.map((st) => ({ ...st }))
   );
+
   const [showSubInput, setShowSubInput] = useState(false);
   const subInputRef = useRef(null);
 
@@ -30,7 +32,7 @@ const UpdateTaskModal = ({ open, onClose, task, onUpdated }) => {
         onUpdated(res.data.task);
         onClose();
       },
-      onError: (error) => {
+      onError: () => {
         toast.error("Failed to update task!", {
           position: "top-right",
           autoClose: 2000,
@@ -41,12 +43,13 @@ const UpdateTaskModal = ({ open, onClose, task, onUpdated }) => {
   );
 
   const subtaskMutation = useMutation(
-    ({ subtaskId, isCompleted }) => api.updateSubtask(task._id, subtaskId, { isCompleted }),
+    ({ subtaskId, isCompleted }) =>
+      api.updateSubtask(task._id, subtaskId, { isCompleted }),
     {
       onSuccess: (res) => {
         onUpdated(res.data.task);
       },
-      onError: (error) => {
+      onError: () => {
         alert("Failed to update subtask. Please try again.");
       },
     }
@@ -94,47 +97,58 @@ const UpdateTaskModal = ({ open, onClose, task, onUpdated }) => {
   if (!open) return null;
 
   return (
-    <div className="form-overlay">
-      <div className="task-modal">
-        <form className="task-form" onSubmit={handleFormSubmit}>
+    <div className="utm-overlay">
+      <div className="utm-modal">
+        <form className="utm-form" onSubmit={handleFormSubmit}>
           <RiCloseLine
-            className="modal-close-btn"
+            className="utm-close-btn"
             onClick={onClose}
             size={24}
             title="Close"
           />
-          <h2 className="modal-title">Update Task</h2>
-          <label className="input-label">Title</label>
+          <h2 className="utm-title">Update Task</h2>
+
+          <label className="utm-input-label">Title</label>
           <input
             type="text"
-            className="task-input"
+            className="utm-text-input"
             name="title"
             value={taskData.title}
             placeholder="Title"
             onChange={(e) => setTaskData({ ...taskData, title: e.target.value })}
           />
-          <label className="input-label">Description</label>
+
+          <label className="utm-input-label">Description</label>
           <input
             type="text"
-            className="task-input description-input"
+            className="utm-text-input utm-description-input"
             name="description"
             value={taskData.description}
             placeholder="Description"
-            onChange={(e) => setTaskData({ ...taskData, description: e.target.value })}
+            onChange={(e) =>
+              setTaskData({ ...taskData, description: e.target.value })
+            }
           />
-          <label className="input-label">Subtasks</label>
-          <div className="subtask-section">
-            <ul className="subtask-list">
+
+          <label className="utm-input-label">Subtasks</label>
+          <div className="utm-subtask-section">
+            <ul className="utm-subtask-list">
               {subtasksUI.map((subtask, idx) => (
-                <li key={subtask._id || idx} className="subtask-item">
+                <li
+                  key={subtask._id || idx}
+                  className={`utm-subtask-item ${
+                    subtask.isCompleted ? "completed" : ""
+                  }`}
+                >
                   <span
-                    onClick={() => handleSubtaskCompletionToggle(subtask._id, subtask.isCompleted)}
-                    style={{ textDecoration: subtask.isCompleted ? "line-through" : "none", cursor: "pointer" }}
+                    onClick={() =>
+                      handleSubtaskCompletionToggle(subtask._id, subtask.isCompleted)
+                    }
                   >
                     {subtask.title}
                   </span>
                   <RiCloseLine
-                    className="subtask-delete-icon"
+                    className="utm-subtask-delete-icon"
                     onClick={() => handleRemoveSubtask(idx)}
                     title="Delete subtask"
                     size={18}
@@ -143,25 +157,31 @@ const UpdateTaskModal = ({ open, onClose, task, onUpdated }) => {
               ))}
             </ul>
             {showSubInput && (
-              <div className="subtask-input-wrapper">
+              <div className="utm-subtask-input-wrapper">
                 <input
                   type="text"
                   placeholder="Mention subtask"
-                  className="subtask-input"
+                  className="utm-subtask-input"
                   ref={subInputRef}
                   onKeyDown={handleSubtaskEnter}
                 />
               </div>
             )}
           </div>
+
           {subtasksUI.length < 3 && (
-            <button type="button" className="task-button" onClick={handleAddSubtask}>
+            <button
+              type="button"
+              className="utm-add-subtask-btn"
+              onClick={handleAddSubtask}
+            >
               + Add New Subtask
             </button>
           )}
-          <label className="input-label">Status</label>
+
+          <label className="utm-input-label">Status</label>
           <select
-            className="status-select"
+            className="utm-status-select"
             value={taskData.status}
             onChange={(e) => setTaskData({ ...taskData, status: e.target.value })}
             name="status"
@@ -170,7 +190,12 @@ const UpdateTaskModal = ({ open, onClose, task, onUpdated }) => {
             <option value="Doing">Doing</option>
             <option value="Done">Done</option>
           </select>
-          <button type="submit" className="submit-button">
+
+          <button
+            type="submit"
+            className="utm-submit-btn"
+            disabled={mutation.isLoading}
+          >
             {mutation.isLoading ? "Updating..." : "Update Task"}
           </button>
         </form>

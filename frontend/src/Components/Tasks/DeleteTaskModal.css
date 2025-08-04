@@ -1,0 +1,76 @@
+.dtm-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(8, 8, 8, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.dtm-modal {
+  padding: 1.5rem;
+  max-width: 26rem;
+  width: 90%;
+  border-radius: 12px;
+  background-color: #2c2c38;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.dtm-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-align: center;
+  background: linear-gradient(90deg, #7c73f1, #cbc7ff, #f0f0f3, #7c73f1);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: dtm-textGradient 4s linear infinite;
+}
+
+@keyframes dtm-textGradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.dtm-message {
+  font-size: 1rem;
+  color: #f0f0f0;
+  text-align: center;
+}
+
+.dtm-actions {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.dtm-button {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dtm-button.confirm {
+  background: linear-gradient(90deg, #ff4d4f, #ff7875);
+  color: white;
+}
+
+.dtm-button.cancel {
+  background: linear-gradient(90deg, #655ec3, #8370ee);
+  color: black;
+}
