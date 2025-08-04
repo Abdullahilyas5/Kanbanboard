@@ -1,105 +1,88 @@
-#update-container {
-  display: flex;
-  position: absolute;
-  top: 50%;
-  align-items: center;
-  justify-content: center;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(8, 8, 8, 0.642);
-  width: 100vw;
-  height: 100vh;
-  z-index: 10;
-}
-
-.update-container .cancle-box{
-    max-width: 100%;
-    max-height: 100%;
-    position: absolute;
-    background-color: red;
-}
-
-.update-form {
+.modal-overlay {
+  position: fixed;
+  inset: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  flex-direction: column;
-  background-color: #2c2c38;
-  min-width: 22rem;
-  min-height: 15rem;
-  padding: 1rem;
+  background-color: rgba(30, 30, 30, 0.75);
+  z-index: 999;
+}
+
+.modal-form {
+  background-color: #1f1f2f;
+  padding: 2rem;
+  min-width: 20rem;
+  max-width: 90vw;
   border-radius: 1rem;
-  position: relative;
-}
-.update-form > * {
-  background-color: transparent;
-}
-.icon-cancel-board {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-.update-board-heading {
-  font-size: 1.5rem;
-  font-weight: 700;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 1rem;
+  flex-direction: column;
+  gap: 1.2rem;
+  position: relative;
+  box-shadow: 0 0 15px rgba(124, 115, 241, 0.2);
+}
 
-  /* Gradient for text */
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
   background: linear-gradient(90deg, #7c73f1, #cbc7ff, #f0f0f3, #7c73f1);
   background-size: 300% 300%;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-
-  /* Animate the gradient inside the text */
-  animation: textGradientAnimation 4s infinite linear;
+  animation: gradientMove 4s linear infinite;
 }
 
-@keyframes textGradientAnimation {
-  0% {
+@keyframes gradientMove {
+  0%, 100% {
     background-position: 0% 50%;
   }
   50% {
     background-position: 100% 50%;
   }
-  100% {
-    background-position: 0% 50%;
-  }
 }
 
-.update-board-input::placeholder {
-  font-size: 0.8rem;
+.modal-close-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #ccc;
+  transition: color 0.2s ease;
 }
 
-.update-board-input {
-  width: 100%;
-  padding: 0.7rem 1rem;
-  border: 1px solid white;
+.modal-close-icon:hover {
+  color: #fff;
 }
 
-.update-board-button {
-  border: 1px solid white;
-  text-transform: capitalize;
-  width: 100%;
-  font-size: 1rem;
+.modal-input {
   padding: 0.8rem 1rem;
-  border-radius: 10px;
-  margin-top: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #2c2c38;
+  color: #fff;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.modal-input:focus {
+  border-color: #7c73f1;
+  outline: none;
+}
+
+.modal-submit-btn {
+  padding: 0.8rem 1rem;
   background-color: #7c73f1;
   color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.uclose-icons {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: white;
+.modal-submit-btn:hover {
+  background-color: #6a62e6;
 }

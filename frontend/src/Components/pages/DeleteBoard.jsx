@@ -1,15 +1,15 @@
 import { useNavigate, useLocation } from 'react-router';
 import { useContext } from 'react';
-import { AuthContext } from '../../context/Authcontext';
 import { useMutation } from 'react-query';
-import "./deleteboard.css";
+import { toast } from 'react-toastify';
+import { AuthContext } from '../../context/Authcontext';
 import api from "../../API/api";
-import { toast } from "react-toastify";
+import "./delete-board.css";
 
 const DeleteBoardModal = () => {
   const navigate = useNavigate();
-  const { refetchUser } = useContext(AuthContext);
   const location = useLocation();
+  const { refetchUser } = useContext(AuthContext);
   const boardId = location.state?.boardId;
 
   const deleteBoard = useMutation({
@@ -20,7 +20,7 @@ const DeleteBoardModal = () => {
         autoClose: 1200,
         theme: "dark",
       });
-      refetchUser();
+      refetchUser?.();
       navigate("/homepage");
     },
     onError: (error) => {
@@ -34,23 +34,23 @@ const DeleteBoardModal = () => {
   });
 
   return (
-    <div className='delete-board-modal-overlay'>
+    <div className="modal-overlay">
       <form
-        className='delete-board-modal'
+        className="modal-box"
         onSubmit={(e) => {
           e.preventDefault();
           deleteBoard.mutate({ id: boardId });
         }}
       >
-        <h2 className='delete-board-title'>Delete Board</h2>
-        <p className='delete-board-message'>Do you really want to delete the board?</p>
-        <div className="delete-board-actions">
-          <button type="submit" className="delete-board-button confirm">
+        <h2 className="modal-title">Delete Board</h2>
+        <p className="modal-message">Do you really want to delete the board?</p>
+        <div className="modal-actions">
+          <button type="submit" className="modal-btn modal-confirm">
             Yes
           </button>
           <button
             type="button"
-            className="delete-board-button cancel"
+            className="modal-btn modal-cancel"
             onClick={() => navigate('/homepage')}
           >
             No

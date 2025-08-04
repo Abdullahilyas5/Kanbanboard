@@ -1,82 +1,75 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react';
 import { useMutation } from 'react-query';
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import { MdOutlineCancel } from "react-icons/md";
-import "../pages/UpdateBoardForm.css"
-import { useLocation } from 'react-router';
 import { toast } from "react-toastify";
-
-import api from "../../API/api"
+import api from "../../API/api";
 import { AuthContext } from '../../context/Authcontext';
+import "../pages/update-board.css";
+
 const UpdateBoard = () => {
-    const [info, setinfo] = useState({ title: '' });
-    const navigate = useNavigate();
+  const [info, setInfo] = useState({ title: '' });
+  const navigate = useNavigate();
+  const { refetchUser } = useContext(AuthContext);
+  const location = useLocation();
+  const boardId = location.state?.boardId;
 
-    const { refetchUser } = useContext(AuthContext);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInfo((prev) => ({ ...prev, [name]: value }));
+  };
 
-    const location = useLocation();
-    const boardId = location.state?.boardId;
-    console.warn("board id is coming from board component ", boardId);
+  const handleCancel = () => {
+    navigate('/homepage');
+  };
 
-    const handlechange = (e) => {
-        const { name, value } = e.target;
-        setinfo((prev) => ({
-            ...prev,
-            [name]: value
-        }));
-    };
+  const updateBoardMutation = useMutation({
+    mutationFn: ({ info, id }) => api.updateBoard(info, id),
+    onSuccess: () => {
+      toast.info("Board updated successfully!", {
+        position: "bottom-right",
+        autoClose: 1200,
+        theme: "light",
+      });
+      refetchUser?.();
+      navigate("/homepage");
+    },
+    onError: () => {
+      toast.error("Failed to update board!", {
+        position: "bottom-right",
+        autoClose: 2000,
+        theme: "light",
+      });
+    },
+  });
 
-    const handlecancle = () => {
-        navigate('/homepage');
-    };
+  return (
+    <div className="modal-overlay">
+      <form
+        className="modal-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          updateBoardMutation.mutate({ info, id: boardId });
+        }}
+      >
+        <MdOutlineCancel className="modal-close-icon" onClick={handleCancel} title="Close" />
+        <h2 className="modal-title">Update Board</h2>
+        <input
+          type="text"
+          name="title"
+          required
+          value={info.title}
+          onChange={handleChange}
+          className="modal-input"
+          placeholder="Enter board title"
+          autoFocus
+        />
+        <button className="modal-submit-btn" type="submit">
+          {updateBoardMutation.isLoading ? "Updating..." : "Update Board"}
+        </button>
+      </form>
+    </div>
+  );
+};
 
-
-    const updateBoardmutation = useMutation({
-        mutationFn: ({ info, id }) => api.updateBoard(info, id),
-        onSuccess: (data) => {
-            toast.info("Board updated successfully!", {
-                position: "bottom-right",
-                autoClose: 1200,
-                theme: "light",
-                style: {
-                    background: "#e6f0ff",
-                    color: "#1a3d7c",
-                    fontWeight: "bold",
-                },
-                icon: "✏️",
-            });
-            refetchUser();
-            navigate("/homepage");
-        },
-        onError: (error) => {
-            toast.error("Failed to update board!", {
-                position: "bottom-right",
-                autoClose: 2000,
-                theme: "light",
-            });
-            console.error("Error updating board:", error);
-        },
-    });
-    return (
-        <div id='update-container'>
-            <form action="/updateBoard" method='put' className='update-form' onSubmit={(e) => {
-                e.preventDefault();
-                updateBoardmutation.mutate({ info, id: boardId });
-            }}>
-                <i className="ri-close-line uclose-icons" onClick={handlecancle}></i>
-
-                <h1 className='update-board-heading'>Update Board</h1>
-                <input className='update-board-input' type="text" name="title" required placeholder="Title" value={info.title} onChange={handlechange} />
-                <button
-                    className='update-board-button'
-                    type='submit'
-                >
-                    {updateBoardmutation.isLoading ? "Updating..." : "Update Board"}
-                </button>
-            </form>
-        </div >
-    )
-}
-
-export default UpdateBoard
+export default UpdateBoard;
