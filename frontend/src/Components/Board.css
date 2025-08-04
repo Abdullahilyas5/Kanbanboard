@@ -1,57 +1,15 @@
-.boards-panel-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 100%;
-  padding: 1rem;
-  align-items: flex-start;
-}
-
-.boards-panel-count {
-  font-size: 0.75rem;
-  color: #dadada;
-}
-
-.boards-panel-create-btn {
-  position: fixed;
-  bottom: 0.5rem;
-  left: 5px;
-  width: 95%;
-  padding: 1rem;
-  border-radius: 0.6rem;
-  background-color: #4eecde;
-  font-size: 1rem;
-  font-weight: 500;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: black;
-  gap: 1rem;
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
-}
-.boards-panel-create-icon {
-  font-size: 1.4rem;
-  color: black !important;
-  outline: none;
-  border: none;
-}
-
-
-.boards-panel-create-icon  > *{
-  color: black !important;
-  outline: none;
-  border: none;
-}
-
-
 .boards-panel-scrollable {
   width: 100%;
   max-height: 85vh;
-  overflow-y: auto;
+  overflow-y: hidden; /* Hide scroll by default */
   overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: #c1c1c1 transparent;
+  transition: overflow-y 0.3s ease;
+}
+
+.boards-panel-scrollable.scroll-enabled {
+  overflow-y: auto; /* Enable scroll when needed */
 }
 
 .boards-panel-scrollable::-webkit-scrollbar {
@@ -71,83 +29,4 @@
 
 .boards-panel-scrollable::-webkit-scrollbar-thumb:hover {
   background-color: #a8a8a8;
-}
-
-.boards-panel-card {
-  display: flex;
-  flex-direction: column;
-  background-color: #655ec7;
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-  border-radius: 6px;
-  position: relative;
-  transition: all 0.2s ease-in-out;
-}
-
-.boards-panel-card:hover {
-  background-color: #5e57c6;
-}
-
-.boards-panel-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.boards-panel-title {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  flex: 1;
-  background: transparent;
-}
-
-.boards-panel-title-btn {
-  background: transparent;
-  font-size: 1rem;
-  color: white;
-  cursor: pointer;
-  border: none;
-  text-transform: capitalize;
-  padding: 0;
-}
-
-.boards-panel-icons {
-  font-size: 1.5rem;
-  background: transparent;
-}
-
-.boards-panel-menu-icon {
-  font-size: 1.2rem;
-  background: transparent;
-  cursor: pointer;
-}
-
-.boards-panel-menu {
-  display: flex;
-  gap: 1rem;
-  margin-top: 0.5rem;
-  transition: 0.4s ease-in-out;
-}
-
-.boards-panel-btn-update {
-  width: 100%;
-  background-color: #4cc1e5;
-  font-size: 0.85rem;
-  color: black;
-  padding: 0.3rem 0.5rem;
-  border-radius: 5px;
-  cursor: pointer;
-  border: none;
-}
-
-.boards-panel-btn-delete{
-  width: 100%;
-  background-color: #f44336;
-  font-size: 0.85rem;
-  color: white;
-  padding: 0.3rem 0.5rem !important;
-  border-radius: 5px;
-  cursor: pointer;
-  border: none;
 }
