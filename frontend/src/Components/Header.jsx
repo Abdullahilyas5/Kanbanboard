@@ -8,7 +8,6 @@ const Header = ({ title }) => {
   const { siderbarRef, headerRef } = useContext(AuthContext);
 
   const handleNavigate = (path) => navigate(path);
-  const handleLogout = () => navigate('/logout');
 
   return (
     <div className={`header-container ${siderbarRef ? 'sidebar' : 'non-sidebar'}`} ref={headerRef}>
@@ -19,7 +18,7 @@ const Header = ({ title }) => {
         <button className="btn btn-primary" onClick={() => handleNavigate('/create-Task')}>
           + Add Task
         </button>
-        <button className="btn btn-danger" onClick={handleLogout}>
+        <button className="btn btn-danger" onClick={handleNavigate('/logout')}>
           Logout
         </button>
       </div>

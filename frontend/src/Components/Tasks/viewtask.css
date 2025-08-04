@@ -1,134 +1,149 @@
-.wrapper-form-create-board {
+/* Overlay background covering full screen */
+.td-overlay {
   position: fixed;
   inset: 0;
-  top: 50%;
-  left: 50%;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.cancle-box{
-    z-index: 1;
-}
-.wrapper-first-half{
-    padding: 1.5rem 1rem;
-    border-radius: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-    z-index: 99;
-    min-width:30rem;
-}
-.board-details-header{
- /* background-color: aqua; */
- min-width: max-content;
- display: flex;
- justify-content: space-between;
- align-items: start;
- gap: 2rem;
+  z-index: 2000;
 }
 
-.toggle-icon-details{
-    cursor: pointer;
-}
-
-.task-details-heading {
-  margin-top: 0;
+/* Modal container */
+.td-modal {
+  background-color: #2c2c38;
+  border-radius: 1rem;
+  padding: 2rem 2.5rem;
+  width: 400px;
+  max-width: 90vw;
+  box-shadow: 0 0 15px rgba(124, 115, 241, 0.5);
   color: white;
-  background-color: transparent;
-  font-size: 1.5rem;
-  text-transform: capitalize;
-  margin-bottom: .5rem;
-
-  
-}
-.task-details-desc{
-    font-size: 1rem;
-    color: floralwhite;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
 }
 
+/* Header section with title and close icon */
+.td-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-/* checkbox label style */
-.subtask-checkbox {
+.td-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #7c73f1, #cbc7ff, #f0f0f3, #7c73f1);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: td-text-gradient 4s linear infinite;
+}
+
+@keyframes td-text-gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.td-close-icon {
+  cursor: pointer;
+  color: #bbb;
+  transition: color 0.3s ease;
+}
+
+.td-close-icon:hover {
+  color: #7c73f1;
+}
+
+.td-description {
+  font-size: 1rem;
+  color: #ddd;
+  line-height: 1.4;
+}
+
+/* Subtasks section */
+.td-subtasks-heading {
+  font-size: 1.1rem;
+  color: #4cc1e5;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.td-subtask-label {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: .5rem;
-  margin-left: .5rem;
-  color: #fff;
+  margin-bottom: 0.5rem;
   cursor: pointer;
-  font-size: 0.85rem;
+  color: white;
+  font-size: 0.95rem;
 }
 
-/* checkbox itself */
-.subtask-checkbox input[type="checkbox"] {
-  accent-color: #6cddac;
-  transform: scale(1.5);
-  cursor: pointer;
-}
-
-/* completed subtask styling */
-.subtask-checkbox.completed .subtask-title {
+.td-subtask-label.completed span {
   text-decoration: line-through;
   color: #888;
 }
 
-/* not completed */
-.subtask-title {
-  text-transform: none;
+.td-subtask-label input[type="checkbox"] {
+  transform: scale(1.4);
+  accent-color: #6cddac;
+  cursor: pointer;
 }
 
-/* task section heading */
-.subtask-heading {
-  color: #4cc1e5;
+/* Status dropdown */
+.td-status-select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: none;
   font-size: 1rem;
-  margin: 1rem 0;
+  background-color: #454555;
+  color: white;
+  margin-top: 1rem;
+  cursor: pointer;
 }
 
-/* button container */
-.task-actions {
+/* Buttons container */
+.td-actions {
   display: flex;
   gap: 1rem;
-  margin-top: 1rem;
-
+  margin-top: 1.5rem;
 }
 
-/* buttons general */
-.btn {
-  padding: 1rem 1rem;
-  border-radius: 5px;
+/* Buttons general */
+.td-btn {
+  flex: 1;
+  padding: 1rem 0;
+  border-radius: 8px;
   border: none;
-  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
-  width: 100%;
+  transition: background-color 0.3s ease;
 }
 
-/* update button specific */
-.action-update-btn {
+/* Update button style */
+.td-update-btn {
   background-color: #4cc1e5;
+  color: white;
 }
 
-/* delete button specific */
-.delete-btn {
+.td-update-btn:hover {
+  background-color: #3aa5d3;
+}
+
+/* Delete button style */
+.td-delete-btn {
   background-color: #e54c4c;
+  color: white;
 }
 
-
-
-.action-status{
-    width: 100%;
-    padding: 1rem;
-    border-radius: 10px;
-  margin-bottom: 1rem;
-
-
+.td-delete-btn:hover {
+  background-color: #cd3e3e;
 }
-.action-status > *{
-    padding: 1rem;
-
-}
-
-
-
-

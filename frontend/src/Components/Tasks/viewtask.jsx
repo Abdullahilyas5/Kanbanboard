@@ -20,7 +20,6 @@ const TaskDetails = () => {
   const [showDelete, setShowDelete] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
 
-  // — Subtask checkbox mutation (optimistic + PATCH) —
   const { mutate: updateSubtaskStatus } = useMutation({
     mutationFn: ({ taskId, subtaskId, completed }) =>
       api.checkboxUpdate(taskId, subtaskId, completed),
@@ -31,14 +30,11 @@ const TaskDetails = () => {
       );
     },
     onError: (err) => {
-      // Optionally refetchUser here if you suspect data is out of sync
-      // refetchUser?.();
       console.error("Subtask update failed", err.response?.data || err.message);
     },
   });
 
   const handleCheckboxChange = (subtaskId, completed) => {
-    // optimistic UI
     setTask((t) => ({
       ...t,
       subtasks: t.subtasks.map((st) =>
@@ -48,28 +44,25 @@ const TaskDetails = () => {
     updateSubtaskStatus({ taskId: task._id, subtaskId, completed });
   };
 
-  // — Status dropdown mutation (PATCH) —
   const { mutate: updateTaskStatus } = useMutation({
     mutationFn: ({ taskId, status }) => api.statusUpdate(taskId, status),
     onSuccess: (res) => {
       setTask(res.data.task);
-      // Update tasks in context
       setTasks((prev) =>
         prev.map((t) => (t._id === res.data.task._id ? res.data.task : t))
       );
-      // refetchUser?.(); // Only if needed
     },
-    onError: (err) => console.error("Status update failed", err.response?.data || err.message),
+    onError: (err) =>
+      console.error("Status update failed", err.response?.data || err.message),
   });
 
   const handleStatusChange = (e) => {
     const newStatus = e.target.value;
     if (!ALLOWED_STATUSES.includes(newStatus)) return;
-    setTask((t) => ({ ...t, status: newStatus })); // Optimistic UI update
+    setTask((t) => ({ ...t, status: newStatus }));
     updateTaskStatus({ taskId: task._id, status: newStatus });
   };
 
-  // — Delete task mutation —
   const { mutate: deleteTask } = useMutation({
     mutationFn: (taskId) => api.deleteTask(taskId),
     onSuccess: () => {
@@ -81,7 +74,7 @@ const TaskDetails = () => {
       refetchUser?.();
       navigate("/homepage");
     },
-    onError: (err) => {
+    onError: () => {
       toast.error("Failed to delete task!", {
         position: "top-right",
         autoClose: 2000,
@@ -92,43 +85,52 @@ const TaskDetails = () => {
 
   const completedCount = (task.subtasks || []).filter((st) => st.completed).length;
 
+  // Close modal when clicking outside content
+  const handleOverlayClick = (e) => {
+    if (e.target.classList.contains("td-overlay")) {
+      navigate("/homepage");
+    }
+  };
+
   return (
-    <div className="wrapper-form-create-board">
+    <div className="td-overlay" onClick={handleOverlayClick}>
       {!showDelete && !showUpdate && (
-        <div className="wrapper-first-half">
-          <div className="board-details-header">
-            <h3 className="task-details-heading">{task.title}</h3>
+        <div className="td-modal">
+          <div className="td-header">
+            <h3 className="td-title">{task.title}</h3>
             <RiCloseLine
-              className="toggle-icon-details"
+              className="td-close-icon"
               onClick={() => navigate("/homepage")}
               size={24}
               title="Close"
             />
           </div>
 
-          <p className="task-details-desc">{task.description}</p>
+          <p className="td-description">{task.description}</p>
 
-          <div className="subtask-section">
-            {task.subtasks.length > 0 && <h3 className="subtask-heading">
-              Subtasks ({completedCount} of {task.subtasks.length})
-            </h3>}
+          <div className="td-subtasks">
+            {task.subtasks.length > 0 && (
+              <h4 className="td-subtasks-heading">
+                Subtasks ({completedCount} of {task.subtasks.length})
+              </h4>
+            )}
             {task.subtasks.map((sub) => (
               <label
                 key={sub._id}
-                className={`subtask-checkbox ${sub.completed ? "completed" : ""}`}
+                className={`td-subtask-label ${sub.completed ? "completed" : ""}`}
               >
                 <input
                   type="checkbox"
                   checked={sub.completed}
                   onChange={() => handleCheckboxChange(sub._id, !sub.completed)}
                 />
-                <span className="subtask-title">{sub.title}</span>
+                <span className="td-subtask-title">{sub.title}</span>
               </label>
             ))}
           </div>
 
           <select
-            className="action-status"
+            className="td-status-select"
             value={task.status}
             onChange={handleStatusChange}
           >
@@ -139,18 +141,22 @@ const TaskDetails = () => {
             ))}
           </select>
 
-          <div className="task-actions">
-            <button className="btn action-update-btn" onClick={() => setShowUpdate(true)}>
+          <div className="td-actions">
+            <button
+              className="td-btn td-update-btn"
+              onClick={() => setShowUpdate(true)}
+            >
               Update
             </button>
-            <button className="btn delete-btn" onClick={() => setShowDelete(true)}>
+            <button
+              className="td-btn td-delete-btn"
+              onClick={() => setShowDelete(true)}
+            >
               Delete
             </button>
           </div>
         </div>
       )}
-
-      <div className="cancle-box" onClick={() => navigate("/homepage")} />
 
       <DeleteTaskModal
         open={showDelete}
