@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/Authcontext";
-import "./BoardsPanel.css";
+import "./Board.css";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdDashboard, MdCreate } from "react-icons/md";
 

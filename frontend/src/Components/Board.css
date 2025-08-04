@@ -135,12 +135,12 @@
   border: none;
 }
 
-.boards-panel-btn-delete {
+.boards-panel-btn-delete{
   width: 100%;
   background-color: #f44336;
   font-size: 0.85rem;
   color: white;
-  padding: 0.3rem 0.5rem;
+  padding: 0.3rem 0.5rem !important;
   border-radius: 5px;
   cursor: pointer;
   border: none;
