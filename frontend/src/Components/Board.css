@@ -53,8 +53,7 @@
   max-height: 80vh;
   overflow-y: auto;
   overflow-x: hidden;
-  scrollbar-width: thin;
-  scrollbar-color: #c1c1c1 transparent;
+  scrollbar-width: none;
 }
 
 .boards-panel-scrollable::-webkit-scrollbar {
