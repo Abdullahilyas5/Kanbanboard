@@ -16,7 +16,7 @@ const DeleteBoardModal = () => {
     mutationFn: ({ id }) => api.deleteBoard(id),
     onSuccess: () => {
       toast.success("Board deleted successfully!", {
-        position: "top-right",
+        position: "bottom-right",
         autoClose: 1200,
         theme: "dark",
       });
@@ -25,7 +25,7 @@ const DeleteBoardModal = () => {
     },
     onError: (error) => {
       toast.error("Failed to delete board!", {
-        position: "top-right",
+        position: "bottom-right",
         autoClose: 2000,
         theme: "dark",
       });

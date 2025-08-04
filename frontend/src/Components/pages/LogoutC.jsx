@@ -1,5 +1,4 @@
-import React from "react";
-import "./Logout.css";
+import "./logout.css";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import api from "../../API/api.js";
@@ -7,7 +6,19 @@ import api from "../../API/api.js";
 const Logout = () => {
   const navigate = useNavigate();
   const mutation = useMutation(() => api.logout(), {
-    onSuccess: () => navigate("/login"),
+    onSuccess: () => {
+      navigate("/login", { replace: true });
+      localStorage.removeItem("token");
+      console.log("Logout successful");
+    },
+    onError: (error) => {
+      console.error("Logout error:", error);
+      toast.error(`Logout failed. Please try again.${error}`, {
+        position: "top-right",
+        autoClose: 2000,
+        theme: "dark",
+      });
+    },
   });
 
   const handleLogout = (e) => {
@@ -33,17 +44,11 @@ const Logout = () => {
           <button
             type="button"
             className="logout__btn" 
-            onClick={() => navigate("/")}
-            
+            onClick={() => navigate("/")} 
           >
             No
           </button>
         </div>
-        {mutation.isError && (
-          <p className="logout__error">
-            Error logging out. Please try again.
-          </p>
-        )}
       </form>
     </div>
   );

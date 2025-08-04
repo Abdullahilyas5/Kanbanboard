@@ -7,6 +7,7 @@ import api from "../../API/api";
 import { AuthContext } from '../../context/Authcontext';
 
 import "../../Components/pages/UpdateBoardForm.css";
+import { RiCloseLine } from "react-icons/ri";
 
 const UpdateBoard = () => {
   const [info, setInfo] = useState({ title: '' });
@@ -20,9 +21,6 @@ const UpdateBoard = () => {
     setInfo((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCancel = () => {
-    navigate('/homepage');
-  };
 
   const updateBoardMutation = useMutation({
     mutationFn: ({ info, id }) => api.updateBoard(info, id),
@@ -53,7 +51,12 @@ const UpdateBoard = () => {
           updateBoardMutation.mutate({ info, id: boardId });
         }}
       >
-        <MdOutlineCancel className="modal-close-icon" onClick={handleCancel} title="Close" />
+        <RiCloseLine
+                    className="modal-close-btn"
+                    onClick={() => navigate("/homepage")}
+                    size={24}
+                    title="Close"
+                  />
         <h2 className="modal-title">Update Board</h2>
         <input
           type="text"

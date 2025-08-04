@@ -11,7 +11,7 @@ const Boards = ({ settitle, Usersetboard }) => {
   const height = logostyles?.current?.offsetHeight;
 
   const handleBoard = () => {
-    navigate("/createBoard", { replace: true });
+    navigate("/create-Board");
   };
 
   const handleTitle = useCallback((newTitle, id) => {
@@ -42,7 +42,7 @@ const BoardDisplay = ({ boards, handleTitle }) => {
     setActiveMenuId(prevId => (prevId === id ? null : id));
     setTimeout(() => {
       setActiveMenuId(null);
-    }, 7000);
+    }, 10000);
   };
 
   return (

@@ -3,7 +3,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color:  #17171e !important;
+  background-color:  rgba(0, 0, 0, 0.5);
   width: 100vw;
   height: 100vh;
   z-index: 10;
@@ -30,7 +30,7 @@
   min-height: 15rem;
   background-color: #2C2C38;
   gap: 1rem;
-  z-index: 999999 !important;
+  z-index: 99999 !important;
 }
 
 .form-heading {
@@ -72,8 +72,15 @@
   background-color: transparent;
 }
 
+.input-field:focus , .input-field:hover {
+border-color: #a2a2ff;
+  outline: none;
+  background-color: transparent;
+}
+
 .submit-btn {
-  border: 1px solid white;
+  outline: none;
+  border: none;
   font-size: 1rem;
   text-transform: capitalize;
   width: 100%;
@@ -103,11 +110,12 @@
 
 .close-icon {
   position: absolute;
-  top: 3px;
-  right: 7px;
+  top: .5rem;
+
+  right: .5rem;
   color: white;
   cursor: pointer;
-  font-size: larger;
+  font-size: 1.5rem;
   font-weight: lighter;
   padding: 3px;
 }

@@ -6,9 +6,8 @@
   color: white;
 }
 .Toastify__toast-container {
-background: transparent !important;
-  }
-
+  background: transparent !important;
+}
 
 .Toastify__toast-icon {
   background: transparent !important;
@@ -22,7 +21,7 @@ background: transparent !important;
   color: white !important; /* or any color you prefer */
 }
 
-.loader-logo{
+.loader-logo {
   font-size: 5rem;
   font-weight: bold;
   background: linear-gradient(45deg, #7c73f1, #cbc7ff, #f0f0f3);
@@ -38,7 +37,8 @@ background: transparent !important;
   border-radius: 10px;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   background-color: transparent;
   height: 100%;
@@ -73,7 +73,6 @@ html, body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-
 }
 
 /* Optional: Animate Loader */
@@ -81,8 +80,6 @@ html, body {
   animation-duration: 2s !important;
 }
 
-.Task-block{
+.Task-block {
   background-color: #2c2c38 !important;
 }
-
-

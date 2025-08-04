@@ -12,9 +12,7 @@
   background-color: #2c2c38 ;
   width: 100%;
   position: relative;
-  z-index: 9999 !important;
   text-transform: capitalize;
-
 }
 
 .task-container-details{

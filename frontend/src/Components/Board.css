@@ -25,19 +25,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  color: black;
   gap: 1rem;
-  transition: background 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   cursor: pointer;
 }
-
-.boards-panel-create-btn:hover {
-  background-color: #01edda;
-}
-
 .boards-panel-create-icon {
   font-size: 1.4rem;
-  color: black;
+  color: black !important;
+  outline: none;
+  border: none;
 }
+
+
+.boards-panel-create-icon  > *{
+  color: black !important;
+  outline: none;
+  border: none;
+}
+
 
 .boards-panel-scrollable {
   width: 100%;
@@ -75,7 +81,7 @@
   padding: 0.5rem;
   border-radius: 6px;
   position: relative;
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .boards-panel-card:hover {

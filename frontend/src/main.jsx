@@ -14,7 +14,7 @@ import DeleteBoard from "./Components/pages/DeleteBoard.jsx";
 import Boarddata from "./Components/pages/boarddata.jsx";
 import CreateTask from "./Components/Tasks/create-task.jsx";
 import TaskDetailsModal from "./Components/Tasks/viewtask.jsx";
-import LogoutConfirmation from "./Components/pages/LogoutConfirmation.jsx";
+import Logout from "./Components/pages/LogoutC.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -39,10 +39,11 @@ const router = createBrowserRouter([
           { path: "homepage", element: <Homepage /> },
           { path: "update-Board", element: <UpdateBoard /> },
           { path: "delete-Board", element: <DeleteBoard /> },
-          { path: "createBoard", element: <Boarddata /> },
+          { path: "create-Board", element: <Boarddata /> },
+        
           { path: "create-Task", element: <CreateTask /> },
           { path: "task-Details", element: <TaskDetailsModal /> },
-          { path: "logout", element: <LogoutConfirmation /> },
+          { path: "logout", element: <Logout/> },
         ],
       },
     ],

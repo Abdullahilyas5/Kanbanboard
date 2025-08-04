@@ -4,20 +4,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(20, 20, 20, 0.65);
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
 }
 
 .modal-box {
-  background-color: #1e1e2e;
+ background: #2c2c38;
   padding: 2rem;
   max-width: 24rem;
   width: 90%;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  box-shadow: 0 0 20px rgba(124, 115, 241, 0.2);
 }
 
 .modal-title {

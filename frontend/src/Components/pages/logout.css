@@ -1,30 +1,49 @@
-/* Logout.module.css */
 .logout__overlay {
   position: fixed;
   inset: 0;
-  background: rgba(8,8,8,0.5);
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 1000;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 .logout__dialog {
   background: #2c2c38;
-  border-radius: 10px;
-  padding: 1.5rem;
-  text-align: center;
-  color: #fff;
+  padding: 2rem;
+  max-width: 24rem;
+  width: 90%;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .logout__title {
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   font-weight: bold;
-  margin-bottom: 1rem;
+  text-align: center;
+  background: linear-gradient(90deg, #7c73f1, #cbc7ff, #f0f0f3, #7c73f1);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradientTextFlow 4s infinite linear;
+}
+
+@keyframes gradientTextFlow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .logout__message {
-  font-size: 0.9rem;
+  font-size: 1rem;
+  color: #f0f0f0;
+  text-align: center;
+  margin-top: 1rem;
   margin-bottom: 1.5rem;
 }
 
@@ -35,31 +54,35 @@
 }
 
 .logout__btn {
-  padding: 0.6rem 2rem;
-  border: 1px solid #fff;
-  background: transparent;
-  color: #fff;
-  border-radius: 6px;
+  flex: 1;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: color 0.3s;
-}
-
-.logout__btn::before {
-  content: "";
-  position: absolute;
-  bottom: 0; left: 0;
-  width: 100%; height: 0%;
-  background: rgba(255,255,255,0.9);
-  transition: height 0.4s;
-  z-index: -1;
-}
-
-.logout__btn:hover::before {
-  height: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .logout__btn:hover {
-  color: #000;
+  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Specific confirm and cancel button variations */
+.logout__btn:first-child {
+  background: linear-gradient(90deg, #ff4d4f, #ff7875);
+  color: white;
+}
+
+.logout__btn:last-child {
+  background: linear-gradient(90deg, #655ec3, #8370ee);
+  color: white;
+}
+
+.logout__error {
+  font-size: 0.9rem;
+  color: #ff4d4f;
+  text-align: center;
+  margin-top: 1rem;
 }

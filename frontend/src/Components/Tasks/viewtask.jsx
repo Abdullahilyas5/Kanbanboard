@@ -67,7 +67,7 @@ const TaskDetails = () => {
     mutationFn: (taskId) => api.deleteTask(taskId),
     onSuccess: () => {
       toast.success("Task deleted successfully!", {
-        position: "top-right",
+        position: "bottom-right",
         autoClose: 1200,
         theme: "dark",
       });

@@ -5,7 +5,7 @@ import { AuthContext } from "./Authcontext.jsx";
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated, isLoading, isError } = useContext(AuthContext);
 
-  if (isLoading) return null; // or a loader
+  if (isLoading) return null;
   if (isError || !isAuthenticated) return <Navigate to="/signup" replace />;
   return children;
 };

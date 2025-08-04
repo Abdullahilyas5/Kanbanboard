@@ -1,30 +1,43 @@
-/* Overlay background covering full screen */
+/* Overlay background */
 .td-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
+  z-index: 9999;
 }
 
 /* Modal container */
 .td-modal {
   background-color: #2c2c38;
-  border-radius: 1rem;
-  padding: 2rem 2.5rem;
-  width: 400px;
-  max-width: 90vw;
-  box-shadow: 0 0 15px rgba(124, 115, 241, 0.5);
+  border-radius: 1.2rem;
+  padding: 2.5rem 2rem;
+  width: 90%;
+  max-width: 30rem;
   color: white;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
   position: relative;
+  animation: fadeInUp 0.3s ease-in-out;
 }
 
-/* Header section with title and close icon */
+/* Fade-in animation */
+@keyframes fadeInUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Header with title and close icon */
 .td-header {
   display: flex;
   justify-content: space-between;
@@ -33,16 +46,16 @@
 
 .td-title {
   font-size: 1.8rem;
-  font-weight: 700;
-  background: linear-gradient(90deg, #7c73f1, #cbc7ff, #f0f0f3, #7c73f1);
+  font-weight: 600;
+  background: linear-gradient(90deg, cyan, rgb(102, 102, 228) ,white);
   background-size: 300% 300%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: td-text-gradient 4s linear infinite;
+  animation: gradientFlow 5s linear infinite;
 }
 
-@keyframes td-text-gradient {
+@keyframes gradientFlow {
   0%, 100% {
     background-position: 0% 50%;
   }
@@ -52,98 +65,121 @@
 }
 
 .td-close-icon {
+  font-size: 1.5rem;
   cursor: pointer;
-  color: #bbb;
-  transition: color 0.3s ease;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: #ccc;
+  transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .td-close-icon:hover {
-  color: #7c73f1;
+  color: #ff6b81;
+  transform: scale(1.1);
 }
 
+/* Description */
 .td-description {
-  font-size: 1rem;
-  color: #ddd;
-  line-height: 1.4;
+  font-size: 0.95rem;
+  color: #d3d3d3;
+  line-height: 1.5;
+  white-space: pre-line;
 }
 
-/* Subtasks section */
+/* Subtasks */
 .td-subtasks-heading {
   font-size: 1.1rem;
-  color: #4cc1e5;
+  color: #9ecfff;
+  font-weight: 500;
   margin-bottom: 0.5rem;
-  font-weight: 600;
 }
 
 .td-subtask-label {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background-color: #2c2c3d;
+  border-radius: 0.5rem;
   margin-bottom: 0.5rem;
   cursor: pointer;
-  color: white;
-  font-size: 0.95rem;
+  transition: background-color 0.2s ease;
 }
 
-.td-subtask-label.completed span {
-  text-decoration: line-through;
-  color: #888;
+.td-subtask-label:hover {
+  background-color: #3a3a4a;
 }
 
 .td-subtask-label input[type="checkbox"] {
-  transform: scale(1.4);
-  accent-color: #6cddac;
+  transform: scale(1.3);
+  accent-color: #00c897;
   cursor: pointer;
+}
+
+.td-subtask-title {
+  color: #f0f0f0;
+  font-size: 0.95rem;
+}
+
+.td-subtask-label.completed .td-subtask-title {
+  text-decoration: line-through;
+  color: #888;
 }
 
 /* Status dropdown */
 .td-status-select {
   width: 100%;
-  padding: 0.8rem 1rem;
-  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  border-radius: 0.6rem;
   border: none;
   font-size: 1rem;
-  background-color: #454555;
-  color: white;
-  margin-top: 1rem;
-  cursor: pointer;
-}
-
-/* Buttons container */
-.td-actions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-/* Buttons general */
-.td-btn {
-  flex: 1;
-  padding: 1rem 0;
-  border-radius: 8px;
-  border: none;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
+  background-color: #2d2d40;
+  color: #fff;
+  outline: none;
   transition: background-color 0.3s ease;
 }
 
-/* Update button style */
+.td-status-select:hover {
+  background-color: #393955;
+}
+
+/* Action buttons */
+.td-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.td-btn {
+  flex: 1;
+  padding: 0.9rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
 .td-update-btn {
-  background-color: #4cc1e5;
+  background: linear-gradient(to right, #38bdf8, #0ea5e9);
   color: white;
 }
 
 .td-update-btn:hover {
-  background-color: #3aa5d3;
+  background: linear-gradient(to right, #0ea5e9, #0284c7);
+  transform: translateY(-1px);
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.4);
 }
 
-/* Delete button style */
 .td-delete-btn {
-  background-color: #e54c4c;
+  background: linear-gradient(to right, #ef4444, #dc2626);
   color: white;
 }
 
 .td-delete-btn:hover {
-  background-color: #cd3e3e;
+  background: linear-gradient(to right, #dc2626, #b91c1c);
+  transform: translateY(-1px);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
 }
