@@ -58,6 +58,7 @@ const BoardDisplay = ({ boards, handleTitle }) => {
               >
                 {board.title}
               </button>
+              
             </div>
             <BsThreeDotsVertical className="boards-panel-menu-icon" onClick={() => handleToggle(board._id)} />
           </div>
