@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react';
+import  { useContext, useState } from 'react';;
+import "../pages/UpdatedBoardForm.css"
 import { useMutation } from 'react-query';
 import { useNavigate, useLocation } from 'react-router';
 import { MdOutlineCancel } from "react-icons/md";
@@ -6,7 +7,6 @@ import { toast } from "react-toastify";
 import api from "../../API/api";
 import { AuthContext } from '../../context/Authcontext';
 
-import "./UpadateBoardForm.css";
 
 const UpdateBoard = () => {
   const [info, setInfo] = useState({ title: '' });
