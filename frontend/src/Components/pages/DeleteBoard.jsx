@@ -48,6 +48,7 @@ const DeleteBoardModal = () => {
           <button type="submit" className="modal-btn modal-confirm">
             Yes
           </button>
+          
           <button
             type="button"
             className="modal-btn modal-cancel"

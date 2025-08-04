@@ -5,7 +5,6 @@ const Board = require('../models/Board.js');
 
 exports.homeRoute = async (req, res) => {
   try {
-    
     // 1. Get token from cookie or Authorization header
     let token = req.cookies?.token;
 
