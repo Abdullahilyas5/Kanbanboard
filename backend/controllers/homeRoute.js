@@ -1,7 +1,4 @@
-// controllers/homeRoute.js
-const jwt = require('jsonwebtoken');
-const User = require('../models/User.js');
-const Board = require('../models/Board.js');
+const Task = require('../models/Task.js'); // import Task model
 
 exports.homeRoute = async (req, res) => {
   try {
@@ -24,7 +21,16 @@ exports.homeRoute = async (req, res) => {
 
     const boards = await Board.find({ user: user._id });
 
-    return res.status(200).json({ user, boards });
+    // Populate tasks for each board
+    const boardsWithTasks = await Promise.all(
+      boards.map(async (board) => {
+        const tasks = await Task.find({ board: board._id });
+        return { ...board.toObject(), tasks };
+      })
+    );
+
+    console.log('Boards with tasks:', boardsWithTasks);
+    return res.status(200).json({ user, boards: boardsWithTasks });
   } catch (err) {
     console.error('homeRoute error:', err.message);
     return res.status(401).json({ message: 'Invalid or expired token' });
