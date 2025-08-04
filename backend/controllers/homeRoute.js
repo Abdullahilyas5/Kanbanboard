@@ -1,7 +1,11 @@
-const Task = require('../models/Task.js'); // import Task model
+// controllers/homeRoute.js
+const jwt = require('jsonwebtoken');
+const User = require('../models/User.js');
+const Board = require('../models/Board.js');
 
 exports.homeRoute = async (req, res) => {
   try {
+    // 1. Get token from cookie or Authorization header
     let token = req.cookies?.token;
 
     if (!token && req.headers.authorization?.startsWith('Bearer')) {
@@ -12,25 +16,20 @@ exports.homeRoute = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized: No token provided' });
     }
 
+    // 2. Verify JWT
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
+    // 3. Find the user (excluding password)
     const user = await User.findOne({ email: payload.email }).select('-password');
     if (!user) {
       return res.status(401).json({ message: 'Unauthorized: User not found' });
     }
 
-    const boards = await Board.find({ user: user._id });
+    // 4. Find user's boards and populate Tasks
+    const boards = await Board.find({ user: user._id }).populate('Tasks');
 
-    // Populate tasks for each board
-    const boardsWithTasks = await Promise.all(
-      boards.map(async (board) => {
-        const tasks = await Task.find({ board: board._id });
-        return { ...board.toObject(), tasks };
-      })
-    );
-
-    console.log('Boards with tasks:', boardsWithTasks);
-    return res.status(200).json({ user, boards: boardsWithTasks });
+    // 5. Send response
+    return res.status(200).json({ user, boards });
   } catch (err) {
     console.error('homeRoute error:', err.message);
     return res.status(401).json({ message: 'Invalid or expired token' });
