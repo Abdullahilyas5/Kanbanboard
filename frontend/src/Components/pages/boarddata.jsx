@@ -18,7 +18,7 @@ const Boarddata = () => {
     };
 
     const handleCancel = () => {
-        navigate('/homepage');
+        navigate('/homepage' , { replace: true });
     };
 
     const createBoardMutation = useMutation({
@@ -35,7 +35,7 @@ const Boarddata = () => {
                 },
             });
             refetchUser?.();
-            navigate('/');
+            navigate('/homepage' , { replace: true });
         },
         onError: (error) => {
             console.error("Board creation error:", error);

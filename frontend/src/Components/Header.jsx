@@ -15,10 +15,10 @@ const Header = ({ title }) => {
         <h3 className="title-text">{title}</h3>
       </div>
       <div className="btn-group">
-        <button className="btn btn-primary" onClick={() => handleNavigate('/create-Task')}>
+        <button className="btn btn-primary" onClick={() => handleNavigate('/create-Task' , { replace: true })}>
           + Add Task
         </button>
-        <button className="btn btn-danger" onClick={handleNavigate('/logout')}>
+        <button className="btn btn-danger" onClick={handleNavigate('/logout' , { replace: true })}>
           Logout
         </button>
       </div>

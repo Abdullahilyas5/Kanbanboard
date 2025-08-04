@@ -31,9 +31,9 @@
 }
 
 .btn {
-  padding: 0.2rem 1.2rem;
+  padding: 0.5rem 1.5rem;
   border-radius: 1rem;
-  min-width: 6rem;
+  min-width: 5rem;
   text-wrap: nowrap;
   cursor: pointer;
   font-weight: 500;
@@ -52,6 +52,7 @@
 .btn-primary {
   background: linear-gradient(90deg, #655EC3 60%, #8370EE 100%);
   color: #fff;
+  
 }
 
 .btn-danger {

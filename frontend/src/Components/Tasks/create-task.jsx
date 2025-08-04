@@ -34,6 +34,7 @@ const CreateTask = () => {
           autoClose: 1200,
           theme: "dark",
         });
+        console.log("Task created:", res.data.task);
         queryClient.invalidateQueries("tasks");
         setTaskData({ title: "", description: "", subtasks: [], status: "Todo" });
         setSubtasksUI([]);
@@ -46,7 +47,9 @@ const CreateTask = () => {
           autoClose: 2000,
           theme: "dark",
         });
+        console.error("Task creation error:", error.response?.data || error.message);
       },
+
     }
   );
 
