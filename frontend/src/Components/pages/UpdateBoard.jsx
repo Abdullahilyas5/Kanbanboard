@@ -5,7 +5,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import { toast } from "react-toastify";
 import api from "../../API/api";
 import { AuthContext } from '../../context/Authcontext';
-import "../pages/update-board.css";
+import "./UpdateBoard.css";
 
 const UpdateBoard = () => {
   const [info, setInfo] = useState({ title: '' });

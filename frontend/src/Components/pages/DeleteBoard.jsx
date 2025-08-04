@@ -4,7 +4,7 @@ import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../../context/Authcontext';
 import api from "../../API/api";
-import "./delete-board.css";
+import "./deleteboard.css";
 
 const DeleteBoardModal = () => {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ const DeleteBoardModal = () => {
           <button type="submit" className="modal-btn modal-confirm">
             Yes
           </button>
-          
+
           <button
             type="button"
             className="modal-btn modal-cancel"
