@@ -5,8 +5,6 @@
   width: 100%;
   padding: 1rem;
   align-items: flex-start;
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 
 .boards-panel-count {
@@ -52,6 +50,8 @@
   width: 100%;
   max-height: 85vh;
   overflow-y: auto;
+  overflow-x: hidden;
+  overflow-y: scroll ;
   overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: #c1c1c1 transparent;
