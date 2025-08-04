@@ -57,22 +57,7 @@
 }
 
 .boards-panel-scrollable::-webkit-scrollbar {
-  width: 6px;
-}
-
-.boards-panel-scrollable::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.boards-panel-scrollable::-webkit-scrollbar-thumb {
-  background-color: #c1c1c1;
-  border-radius: 4px;
-  border: 1px solid transparent;
-  background-clip: content-box;
-}
-
-.boards-panel-scrollable::-webkit-scrollbar-thumb:hover {
-  background-color: #a8a8a8;
+  display: none;
 }
 
 .boards-panel-card {
