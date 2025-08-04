@@ -35,6 +35,8 @@ const router = createBrowserRouter([
         element: <MainLayouts />,
         children: [
           // default redirect to /homepage
+          { index: true, element: <Navigate to="homepage" replace /> },
+          { path: "homepage", element: <Homepage /> },
           { path: "update-Board", element: <UpdateBoard /> },
           { path: "delete-Board", element: <DeleteBoard /> },
           { path: "createBoard", element: <Boarddata /> },
