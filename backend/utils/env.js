@@ -7,7 +7,6 @@ const cookieSettings = {
   path: '/',
 };
 
-
 module.exports = {
   isProduction: true,
   cookieSettings,
