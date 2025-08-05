@@ -16,8 +16,7 @@ import TaskDetailsModal from "./Components/Tasks/viewtask.jsx";
 import Logout from "./Components/pages/LogoutC.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import PrivateRoute from "./Components/PrivateRoute.jsx";
-
+import PrivateRoute from "./context/Privateroute.jsx";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
