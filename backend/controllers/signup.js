@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
 const User = require("../models/User.js");
 const { cookieSettings } = require("../utils/env.js");
-
 const signupMiddleware = async (req, res) => {
   try {
     const errors = validationResult(req);
