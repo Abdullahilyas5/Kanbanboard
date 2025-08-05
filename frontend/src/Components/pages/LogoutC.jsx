@@ -3,12 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import api from "../../API/api.js";
 
+import { AuthContext } from "../../context/Authcontext.jsx";
+import { useContext } from "react";
+
 const Logout = () => {
   const navigate = useNavigate();
+  const { refectchUser } = useContext(AuthContext);
   const mutation = useMutation(() => api.logout(), {
     onSuccess: () => {
       navigate("/login", { replace: true });
       localStorage.removeItem("token");
+      refectchUser?.();
       console.log("Logout successful");
     },
     onError: (error) => {
