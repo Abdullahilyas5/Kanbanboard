@@ -5,12 +5,20 @@ import { AuthContext } from '../../context/Authcontext.jsx';
 import "./HomePage.css";
 import MainComponent from "../MainComponent.jsx";
 import { toast } from "react-toastify";
+import { Navigate } from "react-router-dom";
+import { useContext } from "react";
+
 
 const Homepage = () => {
   const { boards, setSelectedBoard, selectedBoard, logostyles } = useContext(AuthContext);
   const [title, setTitle] = useState("Welcome to Kanban");
-
+const { isAuthenticated } = useContext(AuthContext);
   // Sync title with selected board
+
+   if (!isAuthenticated){
+      Navigate("/login", { replace: true });
+  }
+
   useEffect(() => {
     if (boards.length > 0 && selectedBoard) {
       const board = boards.find((b) => b._id === selectedBoard);
