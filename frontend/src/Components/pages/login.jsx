@@ -105,7 +105,7 @@ const Login = () => {
         </p>
 
         <button type="submit" className="login__submit">
-          Login
+        {mutation.isLoading ? "Loging in..." : "Login"}
         </button>
       </motion.form>
     </div>

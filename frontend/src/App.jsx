@@ -24,6 +24,9 @@ const App = () => {
 
   useEffect(() => {
     const t = setTimeout(() => setShowLoader(false), 3000);
+    if (!isAuthenticated){
+      Navigate("/login", { replace: true });
+    }
     return () => clearTimeout(t);
   }, []);
 
