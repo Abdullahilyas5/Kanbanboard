@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "./context/Authcontext.jsx";
-
 import Login from "./Components/pages/login.jsx";
 import Signup from "./Components/pages/Signup.jsx";
 import App from "./App.jsx";
@@ -17,6 +16,7 @@ import TaskDetailsModal from "./Components/Tasks/viewtask.jsx";
 import Logout from "./Components/pages/LogoutC.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PrivateRoute from "./Components/PrivateRoute.jsx";
 
 const queryClient = new QueryClient();
 
