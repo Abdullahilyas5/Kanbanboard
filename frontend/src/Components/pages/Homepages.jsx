@@ -6,7 +6,6 @@ import "./HomePage.css";
 import MainComponent from "../MainComponent.jsx";
 import { toast } from "react-toastify";
 import { Navigate } from "react-router-dom";
-import { useContext } from "react";
 
 
 const Homepage = () => {
